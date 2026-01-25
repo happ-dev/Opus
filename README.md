@@ -62,60 +62,62 @@ Please do not use it for any projects because it is very likely to be full of ho
 - README.md
 ```
 - [] CSS
- - [] _opus.css_ file copied to _public/css_:
-  > [!IMPORTANT]
-  > each time if _role_ parameter is _dev_
-  > if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
- - [] _css_ files provided in _config/global.json_ copied to _public/css_:
-  > [!IMPORTANT]
-  > regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied
- - [] added files to **<head>** in _layout.phtml_
-- [] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.js_
+	- [] _opus.css_ file copied to _public/css_:
+		> [!IMPORTANT]
+		> each time if _role_ parameter is _dev_
+		> if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
+	- [] _css_ files provided in _config/global.json_ copied to _public/css_:
+		> [!IMPORTANT]
+		> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied
+	- [] added files to **<head>** in _layout.phtml_
+	- [] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.js_
 
 - [] JS
- - [] generating _opus.js_ file from _*.js_ files located in _Opus/js_
- - [] _opus.js_ file copied to _public/js_
- - [] added file _opus.js_ to **<head>** in _layout.phtml_
- - [] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
- - [] __{{app_name}}.lib.js__ file copied to _public/js_
- - [] added file __{{app_name}}.lib.js__ to **<head>** in _layout.phtml_
- - [] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
-  > [!IMPORTANT]
-  > does not apply to _js_ files intended for subpages,
-  > whether the file belongs to a subpage will be verified based on **"sApp"**
-  > located in __apps/app_name/config/**{{app_name}}**.config.json__
- - [] __{{app_name}}.js__ file copied to _public/js_
- - [] adding a file __{{app_name}}.js__ to the end of **<body>**
- - [] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
-  > [!IMPORTANT]
-  > searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]
- - [] write your own select menu with search engine
+	- [] generating _opus.js_ file from _*.js_ files located in _Opus/js_
+	- [] _opus.js_ file copied to _public/js_
+	- [] added file _opus.js_ to **<head>** in _layout.phtml_
+	- [] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
+	- [] __{{app_name}}.lib.js__ file copied to _public/js_
+	- [] added file __{{app_name}}.lib.js__ to **<head>** in _layout.phtml_
+	- [] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
+		> [!IMPORTANT]
+		> does not apply to _js_ files intended for subpages,
+		> whether the file belongs to a subpage will be verified based on **"sApp"**
+		> located in __apps/app_name/config/**{{app_name}}**.config.json__
+	- [] __{{app_name}}.js__ file copied to _public/js_
+	- [] adding a file __{{app_name}}.js__ to the end of **<body>**
+	- [] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
+		> [!IMPORTANT]
+		> searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]
+	- [] write my own select menu with search engine
 
 - [] write a Lang class to handle messages depending on the selected language
- > [!IMPORTANT]
- > proposed function `langEcho(?string $path): string {}`
- > ?string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
+	> [!IMPORTANT]
+	> proposed function `langEcho(?string $path): string {}`
+	> ?	string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
 
 - [] subpages loaded asynchronously
- - [] asynchronous functions for loading subpage content in _global.js_
- - [] adjust *Request* class to detect subpage request
- - [] *Controller* class initiates a new Event `TYPE_SUBPAGE`
- - [] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class
- - [] new *SubpageView* view class
- - [] new *SubpageScript* class
-  > [!IMPORTANT]
-  > new Event `TYPE_SUBPAGE` initiated by __Controller__
-  > returns a complete new view consisting of HTML and JS, similar to the *View* class
+	- [] asynchronous functions for loading subpage content in _global.js_
+	- [] adjust *Request* class to detect subpage request
+	- [] *Controller* class initiates a new Event `TYPE_SUBPAGE`
+	- [] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class
+	- [] new *SubpageView* view class
+	- [] new *SubpageScript* class
+		> [!IMPORTANT]
+		> new Event `TYPE_SUBPAGE` initiated by __Controller__
+		> returns a complete new view consisting of HTML and JS, similar to the *View* class
 
 - [] new internal app: _demo_
- > [!IMPORTANT]
- > App is intended to demonstrate all the possibilities offered by the Opus Framework
+	> [!IMPORTANT]
+	> App is intended to demonstrate all the possibilities offered by the Opus Framework
 
 - [] known issues
- - [] icon in the header disappears when you click on the modal again
- - [] Form::addElement, if there is no data in text, value add the message no data
+	- [] icon in the header disappears when you click on the modal again
+	- [] Form::addElement, if there is no data in text, value add the message no data
 
 ## Hello World application
+[!IMPORTANT]
+In the future all configuration files will become true as soon as you write Hello World.
 
 Create file _public/index.php_.
 
