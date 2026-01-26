@@ -4,9 +4,10 @@ Opus is a framework used for educational purposes only, basically for me.
 Please do not use it for any projects because it is very likely to be full of holes like Swiss cheese.
 
 ## Planned upgrade to version 1.0
+> [!WARNING]
 > I'm not planning any more improvements, only bugs will be fixed.
 
-- [] adjust directory/namespace to current changes:
+- [ ] adjust directory/namespace to current changes:
 > [!IMPORTANT]
 > __{{app_name}}__.* means that this file is required
 ```
