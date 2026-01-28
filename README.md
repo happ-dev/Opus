@@ -68,39 +68,53 @@ Please do not use it for any projects because it is very likely to be full of ho
 		> if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
 	- [ ] _css_ files provided in _config/global.json_ copied to _public/css_:
 		> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied
-	- [ ] added files to **<head>** in _layout.phtml_
-	- [ ] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.js_
 
 - [ ] JS
 	- [ ] generating _opus.js_ file from _*.js_ files located in _Opus/js_
 	- [ ] _opus.js_ file copied to _public/js_
-	- [ ] added file _opus.js_ to **<head>** in _layout.phtml_
 	- [ ] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
 	- [ ] __{{app_name}}.lib.js__ file copied to _public/js_
-	- [ ] added file __{{app_name}}.lib.js__ to **<head>** in _layout.phtml_
 	- [ ] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
-		> does not apply to _js_ files intended for subpages,
-		> whether the file belongs to a subpage will be verified based on **"sApp"**
-		> located in __apps/app_name/config/**{{app_name}}**.config.json__
+		> ~~does not apply to _js_ files intended for subpages,~~
+		> ~~whether the file belongs to a subpage will be verified based on **"sApp"**~~
+		> ~~located in __apps/app_name/config/**{{app_name}}**.config.json__~~
 	- [ ] __{{app_name}}.js__ file copied to _public/js_
 	- [ ] adding a file __{{app_name}}.js__ to the end of **<body>**
 	- [ ] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
-		> searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]
-	- [ ] write my own select menu with search engine
+		> ~~searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]~~
+	- [ ] write my own select menu, proposed name __singleSelect__
+		- [ ] add the ability to get data using ajax
+			> setting a row limit
+			> search in all available options
+		- [ ] add the ability to search data
+
+- [ ] Layout class
+	- [ ] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
+	- [ ] added _opus.css_ to **<head>** section in _layout.phtml_
+	- [ ] added _opus.js_ to **<head>** section in _layout.phtml_
+	- [ ] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
+
+- [ ] Config class
+	- [ ] adapting the class to the new version of the configuration file
+	- [ ] __"role": "prod|dev"__ default is prod
+	- [ ] __"vendor:" ...__ file path validation
+		> if the path ends with '/' all files from __folder_name/__ will be copied!
 
 - [ ] write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
-	> ?	string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
+	> ?string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_
-	- [ ] adjust *Request* class to detect subpage request
-	- [ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`
-	- [ ] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class
-	- [ ] new *SubpageView* view class
-	- [ ] new *SubpageScript* class
-		> new Event `TYPE_SUBPAGE` initiated by __Controller__
-		> returns a complete new view consisting of HTML and JS, similar to the *View* class
+	- [ ] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
+	- [ ] Event class will handle the subpage loading task
+	- ~~[ ] adjust *Request* class to detect subpage request~~
+	- ~~[ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`~~
+	- ~~[ ] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class~~
+	- ~~[ ] new *SubpageView* view class~~
+	- ~~[ ] new *SubpageScript* class~~
+		~~> new Event `TYPE_SUBPAGE` initiated by __Controller__~~
+		~~> returns a complete new view consisting of HTML and JS, similar to the *View* class~~
 
 - [ ] new internal app: _demo_
 	> App is intended to demonstrate all the possibilities offered by the Opus Framework
@@ -110,8 +124,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
 
 ## Hello World application
-[!IMPORTANT]
-In the future all configuration files will become true as soon as you write Hello World.
+> [!IMPORTANT]
+> In the future all configuration files will become true as soon as you write Hello World.
 
 Create file _public/index.php_.
 
@@ -240,13 +254,13 @@ Create file _apps/app_name/config/app_name.config.json_.
 		}
 	},
 
-	"sApp": {
+	"asyncPage": {
 		"hello": {
 			"type": "spage",
-			"route": ["world"],
 			"access": 3,
 			"view": "apps/hello/view/world/world.phtml",
-			"js": "apps/hello/js/world/world.js"
+			"file": "apps/hello/src/world/World.php",
+			"class": "apps\\hello\\src\\world\\World"
 		}
 	},
 
