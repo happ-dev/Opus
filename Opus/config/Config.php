@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:29:20
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 12:58:00
+ * @Last Modified time: 2026-02-01 20:03:23
 **/
 
 namespace Opus\config;
@@ -225,13 +225,13 @@ class Config extends ValidateGlobalConfig {
 	/**
 	 * Loads and validates the shortcut icon configuration
 	 *
-	 * @param string|null $icon The icon file path relative to public directory, defaults to 'img/opus.svg'
+	 * @param string|null $icon The icon file path relative to public directory, defaults to ''vendor/opus/opus.svg'
 	 * @return void
 	 * @throws Exception If icon file doesn't exist or has unsupported format
 	 */
 	private function loadIconConfig(?string $icon = null): void
 	{
-		$icon = $icon ?? 'img/opus.svg';
+		$icon ??= 'vendor/opus/opus.svg';
 		$allowedExtensions = ['ico', 'png', 'svg', 'jpg', 'jpeg', 'gif'];
 		$fullPath = 'public/' . $icon;
 

@@ -70,6 +70,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		- opus/
 			- opus.css
 			- opus.js
+			- opus.svg
 			- __{{app_name}}.lib.js__
 			- __{{app_name}}.js__
 		- all additional libraries listed in global.json --> vendor
@@ -137,7 +138,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 - [ ] new internal app: _demo_
 	> App is intended to demonstrate all the possibilities offered by the Opus Framework
 
-- [ ] known issues
+- [ ] known issues:
 	- [ ] icon in the header disappears when you click on the modal again
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
 	- [X] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
