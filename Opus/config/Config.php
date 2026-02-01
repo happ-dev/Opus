@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:29:20
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 11:44:22
+ * @Last Modified time: 2026-02-01 12:58:00
 **/
 
 namespace Opus\config;
@@ -63,7 +63,7 @@ class Config extends ValidateGlobalConfig {
 		$config->loadRoleConfig($objGlobalConfig->role);
 
 		// load shortcut icon configuration
-		$config->loadIconConfig($objGlobalConfig->icon);
+		$config->loadIconConfig($objGlobalConfig->icon ?? null);
 
 		// load title configuration
 		$config->loadTitleConfig($objGlobalConfig->title);
@@ -92,8 +92,8 @@ class Config extends ValidateGlobalConfig {
 			// add app config to global config
 			// validate JSON and get error location
 			// exception if file not found
-
 			self::$config->{$app['app']} = Json::loadJsonFile($app['config']);
+
 			// checks the configuration for required parameters
 			// full validation takes place at a higher level
 			ValidateAppConfig::validate(self::$config->{$app['app']}, $app['config']);
@@ -108,6 +108,12 @@ class Config extends ValidateGlobalConfig {
 	 */
 	private function loadAppsConfig(array $apps): void
 	{
+		$result = $this->validateAppsNames($apps);
+
+		if ($result === false) {
+			return;
+		}
+
 		foreach ($apps as $app) {
 			array_push(self::$config->apps, $app);
 
@@ -219,12 +225,13 @@ class Config extends ValidateGlobalConfig {
 	/**
 	 * Loads and validates the shortcut icon configuration
 	 *
-	 * @param string $icon The icon file path relative to public directory
+	 * @param string|null $icon The icon file path relative to public directory, defaults to 'img/opus.svg'
 	 * @return void
 	 * @throws Exception If icon file doesn't exist or has unsupported format
 	 */
-	private function loadIconConfig(string $icon): void
+	private function loadIconConfig(?string $icon = null): void
 	{
+		$icon = $icon ?? 'img/opus.svg';
 		$allowedExtensions = ['ico', 'png', 'svg', 'jpg', 'jpeg', 'gif'];
 		$fullPath = 'public/' . $icon;
 

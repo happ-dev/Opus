@@ -56,13 +56,13 @@ abstract class ValidateGlobalConfig {
 	 * Validates app names array
 	 *
 	 * @param array $apps Array of app names to validate
-	 * @return bool True if all app names are valid
+	 * @return bool True if all app names are valid, false if array is empty
 	 * @throws Exception If validation fails
 	 */
 	final protected function validateAppsNames(array $apps): bool
 	{
 		if (empty($apps)) {
-			throw new Exception('Apps array cannot be empty');
+			return false;
 		}
 
 		foreach ($apps as $app) {

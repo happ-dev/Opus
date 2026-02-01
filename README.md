@@ -111,10 +111,10 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] added _opus.js_ to **<head>** section in _layout.phtml_
 	- [ ] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
 
-- [*] Config class
-	- [*] adapting the class to the new version of the configuration file
-	- [*] __"role": "prod|dev"__ default is prod
-	- [*] __"vendor:" ...__ file path validation
+- [x] Config class
+	- [x] adapting the class to the new version of the configuration file
+	- [x] __"role": "prod|dev"__ default is prod
+	- [x] __"vendor:" ...__ file path validation
 		> all external libraries should be in the _public/vendor/_ directory
 
 - [ ] write a Lang class to handle messages depending on the selected language
@@ -123,9 +123,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_
-	- [*] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
+	- [x] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
 	- [ ] Event class will handle the asyncpage loading task
-	- [*] Request class, new type _TYPE_ASYNC_PAGE = 'apage'
+	- [x] Request class, new type _TYPE_ASYNC_PAGE = 'apage'
 	- ~~[ ] adjust *Request* class to detect subpage request~~
 	- ~~[ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`~~
 	- ~~[ ] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class~~
@@ -140,6 +140,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 - [ ] known issues
 	- [ ] icon in the header disappears when you click on the modal again
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
+	- [X] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
+	- [x] Config::loadIconConfig, if the icon is not given it should be a standard one
 
 ## Hello World application
 > [!IMPORTANT]
