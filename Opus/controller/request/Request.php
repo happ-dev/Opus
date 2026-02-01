@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 05:41:04
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-01-27 10:36:38
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-01-31 20:23:10
 **/
 
 namespace Opus\controller\request;
@@ -19,6 +19,7 @@ class Request {
 	const TYPE_PAGE = 'page';
 	const TYPE_API = 'api';
 	const TYPE_CLI = 'cli';
+	const TYPE_ASYNC_PAGE = 'apage';
 
 	/**
 	 * Retrieves and filters a GET parameter

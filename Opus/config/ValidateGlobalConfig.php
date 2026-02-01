@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 11:06:49
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-01-27 14:04:08
+ * @Last Modified time: 2026-02-01 11:08:25
 **/
 
 namespace Opus\config;
@@ -123,6 +123,31 @@ abstract class ValidateGlobalConfig {
 		if (!empty($errors)) {
 			throw new Exception("Configuration validation failed:\n" . implode(PHP_EOL, $errors));
 		}
+
+	}
+
+	/**
+	 * Validates vendor file paths
+	 *
+	 * @param array $vendor Array of vendor file paths to validate
+	 * @return void
+	 * @throws Exception If validation fails
+	 */
+	final protected function validateVendor(array $vendor): void
+	{
+		if (empty($vendor)) {
+			throw new Exception('Vendor array cannot be empty');
+		}
+
+		foreach ($vendor as $path) {
+			match (true) {
+				!is_string($path) => throw new Exception('Vendor path must be a string'),
+				!preg_match('/^[a-z0-9_-]+\/[a-z0-9_.\/-]+\.(css|js)$/i', $path) => throw new Exception("Invalid vendor path format: '{$path}'"),
+				!file_exists('public/vendor/' . $path) => throw new Exception("Vendor file not found: 'public/vendor/{$path}'"),
+				default => true
+			};
+		}
+
 	}
 
 	/**
@@ -169,6 +194,51 @@ abstract class ValidateGlobalConfig {
 		}
 	}
 
-	
+	/**
+	 * Validates trusted hosts configuration
+	 * 
+	 * @param array $hosts Array of domain names to validate
+	 * @return void
+	 * @throws Exception if domains are invalid or empty
+	 */
+	final protected function validateTrustedHostsConfig(array &$hosts): void
+	{
+		$trustedHosts = [];
+		$options = ['flags' => FILTER_FLAG_HOSTNAME];
+		$validators = [
+			fn($host) => is_string($host)
+				?: throw new Exception(sprintf("Invalid host type: expected string, got %s", gettype($host))),
+			fn($host) => strtolower(trim($host)),
+			fn($host) => $host === 'localhost' ? null : $host,
+			fn($host) => $host && strlen($host) <= 253
+				? $host
+				: throw new Exception(sprintf("Domain name too long: '%s'", $host)),
+			fn($host) => $host && preg_match('/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i', $host)
+				? $host
+				: throw new Exception(sprintf("Invalid domain name format: '%s'", $host)),
+			fn($host) => $host && filter_var($host, FILTER_VALIDATE_DOMAIN, $options)
+				? $host
+				: throw new Exception(sprintf("Invalid domain name: '%s'", $host)),
+			fn($host) => $host && !in_array($host, $trustedHosts, true)
+				? $host
+				: throw new Exception(sprintf("Duplicate domain name: '%s'", $host))
+		];
+
+		foreach ($hosts as $host) {
+			$validHost = array_reduce(
+				$validators,
+				fn($carry, $validator) => $validator($carry),
+				$host
+			);
+
+			if ($validHost) {
+				$trustedHosts[] = $validHost;
+			} elseif ($host === 'localhost') {
+				$trustedHosts[] = 'localhost';
+			}
+		}
+
+		$hosts = sort($trustedHosts);
+	}
 
 }

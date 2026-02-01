@@ -62,23 +62,40 @@ Please do not use it for any projects because it is very likely to be full of ho
 - .gitignore
 - README.md
 ```
+
+- [ ] required _public_ directory structure
+```
+- public/
+	- vendor/
+		- opus/
+			- opus.css
+			- opus.js
+			- __{{app_name}}.lib.js__
+			- __{{app_name}}.js__
+		- all additional libraries listed in global.json --> vendor
+	- img/
+	- var/
+	- .htaccess
+	- index.php
+```
+
 - [ ] CSS
-	- [ ] _opus.css_ file copied to _public/css_:
+	- [ ] _opus.css_ file copied to _public/vendor/opus_:
 		> each time if _role_ parameter is _dev_
 		> if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
-	- [ ] _css_ files provided in _config/global.json_ copied to _public/css_:
-		> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied
+	- ~~[ ] _css_ files provided in _config/global.json_ copied to _public/css_:~~
+		~~> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied~~
 
 - [ ] JS
 	- [ ] generating _opus.js_ file from _*.js_ files located in _Opus/js_
-	- [ ] _opus.js_ file copied to _public/js_
+	- [ ] _opus.js_ file copied to _public/vendor/opus_
 	- [ ] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
-	- [ ] __{{app_name}}.lib.js__ file copied to _public/js_
+	- [ ] __{{app_name}}.lib.js__ file copied to _public/vendor/opus_
 	- [ ] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
 		> ~~does not apply to _js_ files intended for subpages,~~
 		> ~~whether the file belongs to a subpage will be verified based on **"sApp"**~~
 		> ~~located in __apps/app_name/config/**{{app_name}}**.config.json__~~
-	- [ ] __{{app_name}}.js__ file copied to _public/js_
+	- [ ] __{{app_name}}.js__ file copied to _public/vendor/opus_
 	- [ ] adding a file __{{app_name}}.js__ to the end of **<body>**
 	- [ ] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
 		> ~~searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]~~
@@ -94,11 +111,11 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] added _opus.js_ to **<head>** section in _layout.phtml_
 	- [ ] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
 
-- [ ] Config class
-	- [ ] adapting the class to the new version of the configuration file
-	- [ ] __"role": "prod|dev"__ default is prod
-	- [ ] __"vendor:" ...__ file path validation
-		> if the path ends with '/' all files from __folder_name/__ will be copied!
+- [*] Config class
+	- [*] adapting the class to the new version of the configuration file
+	- [*] __"role": "prod|dev"__ default is prod
+	- [*] __"vendor:" ...__ file path validation
+		> all external libraries should be in the _public/vendor/_ directory
 
 - [ ] write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
@@ -106,8 +123,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_
-	- [ ] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
-	- [ ] Event class will handle the subpage loading task
+	- [*] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
+	- [ ] Event class will handle the asyncpage loading task
+	- [*] Request class, new type _TYPE_ASYNC_PAGE = 'apage'
 	- ~~[ ] adjust *Request* class to detect subpage request~~
 	- ~~[ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`~~
 	- ~~[ ] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class~~
@@ -179,18 +197,23 @@ Create file _config/global.json_.
 	"role": "prod|dev",
 
 	"icon": "img/app-indicator-icon-happ.svg",
+
 	"title": "hApp",
 
-	"vendor": {
-		"js": [
-			"js/jquery/jquery.min.js",
-			"js/jquery/jquery.mask.min.js"
-		],
-		"css": [
-			"css/bootstrap/bootstrap.min.css",
-			"css/bootstrap/bootstrap-icons.min.css"
-		]
-	},
+	"vendor": [
+		"bootstrap/bootstrap.min.css",
+		"bootstrap/bootstrap-happ.css",
+		"bootstrap/bootstrap-icons.min.css",
+		"datatables/datatables.min.css",
+		"jquery/jquery.min.js",
+		"jquery/jquery.mask.min.js",
+		"popperjs/popper.min.js",
+		"bootstrap/bootstrap.min.js",
+		"datatables/datatables.min.js",
+		"moment/moment.min.js",
+		"moment/locale/pl.js",
+		"tempusdominus/tempus-dominus.min.js"
+	],
 
 	"email": "admin@opus.dev",
 
@@ -256,10 +279,9 @@ Create file _apps/app_name/config/app_name.config.json_.
 
 	"asyncPage": {
 		"hello": {
-			"type": "spage",
+			"type": "apage",
 			"access": 3,
 			"view": "apps/hello/view/world/world.phtml",
-			"file": "apps/hello/src/world/World.php",
 			"class": "apps\\hello\\src\\world\\World"
 		}
 	},
