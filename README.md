@@ -126,6 +126,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] asynchronous functions for loading subpage content in _global.js_
 	- [x] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
 	- [ ] Event class will handle the asyncpage loading task
+		- [ ] create new event for asyncAction() in the Event class
+	- [x] new asyncAction(): mixed in InterfaceController
 	- [x] Request class, new type _TYPE_ASYNC_PAGE = 'apage'
 	- ~~[ ] adjust *Request* class to detect subpage request~~
 	- ~~[ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`~~
