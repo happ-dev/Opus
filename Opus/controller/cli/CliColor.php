@@ -6,13 +6,13 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 20:04:47
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 20:09:05
-**/
+ * @Last Modified time: 2026-02-07 17:05:01
+ **/
 
 namespace Opus\controller\cli;
 
-class CliColor {
-
+class CliColor
+{
 	const COLOR_NORMAL = '0;39';
 	const COLOR_BOLD = '1';
 	const COLOR_DIM = '2';
@@ -43,20 +43,24 @@ class CliColor {
 
 	/**
 	 * Formats text with ANSI color codes for CLI output
-	 * 
+	 *
 	 * This method applies foreground color, background color, and styling to text
 	 * for display in terminal environments that support ANSI escape sequences.
-	 * 
+	 *
 	 * @param string $str The text to be colored
 	 * @param string|null $color The foreground color/style code (use class constants like COLOR_RED)
 	 * @param string|null $bgColor The background color code (use class constants like BGCOLOR_BLUE)
 	 * @param bool $newLine Whether to append a newline character to the output
 	 * @return string The formatted text with ANSI color codes
 	 */
-	final public static function write(string $str, ?string $color = self::COLOR_NORMAL, ?string $bgColor = null, bool $newLine = true): string
-	{
+	final public static function write(
+		string $str,
+		?string $color = self::COLOR_NORMAL,
+		?string $bgColor = null,
+		bool $newLine = true
+	): string {
 		// Determine color code based on provided parameters
-		$strColor = match(true) {
+		$strColor = match (true) {
 			!is_null($color) && !is_null($bgColor) => "\e[" . $color . ';' . $bgColor . "m",
 			!is_null($color) => "\e[" . $color . "m",
 			!is_null($bgColor) => "\e[" . $bgColor . "m",
@@ -66,5 +70,4 @@ class CliColor {
 		// Apply colors and optionally add newline
 		return $strColor . $str . "\e[0m" . ($newLine ? PHP_EOL : '');
 	}
-
 }

@@ -6,8 +6,8 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:29:20
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 20:03:23
-**/
+ * @Last Modified time: 2026-02-07 17:01:47
+ **/
 
 namespace Opus\config;
 
@@ -15,11 +15,12 @@ use Exception;
 use stdClass;
 use Opus\storage\json\Json;
 
-class Config extends ValidateGlobalConfig {
-	
+class Config extends ValidateGlobalConfig
+{
+
 	/**
 	 * Function returns an object with configuration
-	 * 
+	 *
 	 * @param ?string $app
 	 * @return mixed
 	 */
@@ -80,7 +81,7 @@ class Config extends ValidateGlobalConfig {
 
 	/**
 	 * Loads internal application configurations
-	 * 
+	 *
 	 * @return void
 	 * @throws Exception if there are no files or no access to them
 	 */
@@ -102,7 +103,7 @@ class Config extends ValidateGlobalConfig {
 
 	/**
 	 * Loads application configurations from global.config
-	 * 
+	 *
 	 * @return void
 	 * @throws Exception if there are no files or no access to them
 	 */
@@ -169,7 +170,7 @@ class Config extends ValidateGlobalConfig {
 
 	/**
 	 * Loads navbar configurations from global.config
-	 * 
+	 *
 	 * @param object $navbar
 	 * @return void
 	 * @throws Exception if there are no files or no access to them
@@ -188,12 +189,11 @@ class Config extends ValidateGlobalConfig {
 					sprintf("Invalid value: '%s' for parameter: '%s'", $value, $key)
 				);
 		}
-
 	}
 
 	/**
 	 * Loads languages configurations from global.config
-	 * 
+	 *
 	 * @param array $languages
 	 * @return void
 	 * @throws Exception if there are no files or no access to them
@@ -281,7 +281,7 @@ class Config extends ValidateGlobalConfig {
 
 	/**
 	 * Loads email configurations from global.config
-	 * 
+	 *
 	 * @return void
 	 * @throws Exception if there are no files or no access to them
 	 */
@@ -307,5 +307,4 @@ class Config extends ValidateGlobalConfig {
 		// validate trusted hosts configuration
 		$this->validateTrustedHostsConfig(self::$config->trustedHosts);
 	}
-
 }

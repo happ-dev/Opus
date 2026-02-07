@@ -5,17 +5,17 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 05:41:04
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-01-31 20:23:10
-**/
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-02-07 17:05:24
+ **/
 
 namespace Opus\controller\request;
 
 use Exception;
 use JsonException;
 
-class Request {
-	
+class Request
+{
 	const TYPE_PAGE = 'page';
 	const TYPE_API = 'api';
 	const TYPE_CLI = 'cli';
@@ -172,9 +172,9 @@ class Request {
 	private static function isValidUrl(string $url): bool
 	{
 		// Check for CRLF injection and other malicious patterns
-		return !preg_match('/[\r\n\0]/', $url) && 
-			!str_contains($url, '..') && 
-			!str_contains($url, '<') && 
+		return !preg_match('/[\r\n\0]/', $url) &&
+			!str_contains($url, '..') &&
+			!str_contains($url, '<') &&
 			!str_contains($url, '>');
 	}
 
@@ -185,7 +185,7 @@ class Request {
 	 * @return string The complete validated URL
 	 * @throws Exception If CRLF attack is detected
 	 */
-	public static function url(?string $url = null) : string
+	public static function url(?string $url = null): string
 	{
 		if (!is_null($url)) {
 			$fullUrl = self::homeUrl() . $url;
@@ -233,5 +233,4 @@ class Request {
 
 		return true;
 	}
-
 }

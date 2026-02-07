@@ -56,7 +56,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		- layout/
 		- navbar/
 		- login/
-			- Login.php			> moved from view/navbar/ and renamed from LoginForm.php 
+			- Login.php			> moved from view/navbar/ and renamed from LoginForm.php
 		- view/
 	- css/						> opus.css
 - .gitignore
@@ -118,6 +118,10 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [x] __"vendor:" ...__ file path validation
 		> all external libraries should be in the _public/vendor/_ directory
 
+- [ ] View class
+	- [ ] StorageException::indexAction() return a new View instead of null when the View class is ready
+	- [ ] ControllerException::indexAction() return a new View instead of null when the View class is ready
+
 - [ ] write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
 	> ?string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
@@ -128,7 +132,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] Event class will handle the asyncpage loading task
 		- [ ] create new event for asyncAction() in the Event class
 	- [x] new asyncAction(): mixed in InterfaceController
-	- [x] Request class, new type _TYPE_ASYNC_PAGE = 'apage'
+	- [x] Request class, new type _TYPE_ASYNC_PAGE = 'apage'_
 	- ~~[ ] adjust *Request* class to detect subpage request~~
 	- ~~[ ] *Controller* class initiates a new Event `TYPE_SUBPAGE`~~
 	- ~~[ ] implementation of a new request __TYPE_SUBPAGE__ type in the *Event* class~~

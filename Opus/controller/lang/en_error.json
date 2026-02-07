@@ -1,0 +1,101 @@
+{
+	"controller": {},
+
+	"storage": {
+		"db": {
+			"dbSetFetchMode": {
+				"message": "PDOStatement::setFetchMode: Invalid fetch mode:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbExec": {
+				"message": "PDO::exec: Query execution error:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbQuery": {
+				"message": "PDO::query: Query execution error:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbExecute": {
+				"validateParams": {
+					"message": "PDOStatement::execute: Query preparation error:<br>$value$",
+					"details": "$value$"
+				},
+				"message": "PDOStatement::$value$:",
+				"details": "$value$"
+			},
+
+			"dbTransactions": {
+				"determineTransactionScenarios": {
+					"message": "Each parameter set must contain 'query' or 'prepare'",
+					"details": "$value$"
+				},
+				"validateTransactionParams": {
+					"pdoTypes": {
+						"message": "Parameter set $value$:<br>pdoTypes[$value$] must be a PDO::PARAM_* integer constant",
+						"details": "$value$"
+					},
+					"message": "Parameter set $value$:<br>Invalid or missing '$value$' for scenario '$value$'",
+					"details": "$value$"
+				},
+				"transactionGetQueryType": {
+					"message": "Unsupported or invalid query type",
+					"details": "$value$"
+				},
+				"message": "Transaction error:<br>$value$",
+				"details": "$value$<br>$value$"
+			},
+
+			"dbCursor": {
+				"message": "Error fetching data using cursor:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbConnect": {
+				"message": "Database connection error:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbGetTableDetails": {
+				"message": "Error fetching table information:<br>$value$",
+				"details": "$value$"
+			},
+
+			"selectStrategy": {
+				"message": "Missing $value$ configuration in file: /config/global.json",
+				"type": {
+					"message": "Unknown database type:<br>$value$"
+				}
+			},
+
+			"dbQuote": {
+				"message": "Db::dbQuote: $value$",
+				"details": "$value$"
+			}
+		},
+
+		"curl": {
+			"url": {
+				"message": "Curl::fetch: The provided <em>url</em> does not meet the requirements!",
+				"details": "url: $value$<br>FILTER_FLAG_QUERY_REQUIRED"
+			},
+
+			"curlExec": {
+				"message": "Curl::fetch: curl_error:",
+				"details": "$value$"
+			},
+
+			"jsonDecode": {
+				"message": "Curl::fetch: JsonException:",
+				"details": "$value$"
+			},
+
+			"empty": {
+				"message": "Curl::fetch: $value$",
+				"details": "Error fetching data from:<br><em>$value$</em>"
+			}
+		}
+	}
+}

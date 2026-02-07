@@ -6,15 +6,15 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 09:44:17
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 10:52:28
-**/
+ * @Last Modified time: 2026-02-07 17:02:55
+ **/
 
 namespace Opus\config;
 
 use Exception;
 
-class ValidateAppConfig {
-
+class ValidateAppConfig
+{
 	private const REQUIRED_SECTIONS = ['app', 'route', 'view', 'js'];
 	private const APP_TYPES = ['page', 'api', 'cli'];
 	private const NAV_TYPES = ['menu', 'submenu'];
@@ -39,13 +39,13 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates application configuration against defined rules
-	 * 
+	 *
 	 * This method performs comprehensive validation of the application configuration:
 	 * 1. Creates a validator instance and runs all validation methods
 	 * 2. Checks required sections, app settings, routes, navigation, views, JS files
 	 * 3. Validates table events, inject events, and async events
 	 * 4. Throws an exception with detailed error messages if validation fails
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @param string|null $jsonFile Optional path to the JSON file being validated (for error reporting)
 	 * @return void
@@ -54,7 +54,7 @@ class ValidateAppConfig {
 	public static function validate(object &$config, ?string $jsonFile): void
 	{
 		$validator = new self();
-		$validator ->validateRequiredSections($config)
+		$validator->validateRequiredSections($config)
 			->validateAppSection($config)
 			->validateRouteSection($config)
 			->validateNavSection($config)
@@ -69,22 +69,21 @@ class ValidateAppConfig {
 		if (!empty($validator->errors)) {
 			throw new Exception(
 				"Configuration validation failed:\n" . implode(PHP_EOL, $validator->errors)
-				. PHP_EOL
-				. match (!is_null($jsonFile)) {
-					true => "In file: {$jsonFile}",
-					default => ""
-				}
+					. PHP_EOL
+					. match (!is_null($jsonFile)) {
+						true => "In file: {$jsonFile}",
+						default => ""
+					}
 			);
 		}
-
 	}
 
 	/**
 	 * Validates that all required configuration sections are present
-	 * 
+	 *
 	 * Checks for the presence of mandatory sections (app, route, view, js)
 	 * and adds error messages for any missing sections.
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -95,7 +94,6 @@ class ValidateAppConfig {
 			if (!property_exists($config, $section)) {
 				$this->errors[] = "Missing required section: {$section}";
 			}
-
 		}
 
 		return $this;
@@ -103,14 +101,14 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the app section of the configuration
-	 * 
+	 *
 	 * Checks required fields in the app section:
 	 * - type: must be 'page', 'api', or 'cli'
 	 * - class: must match the app class path pattern
 	 * - access: must be an integer between 0 and 9
 	 * - version: must be a non-empty string
 	 * - description: must be a string
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -136,7 +134,6 @@ class ValidateAppConfig {
 					default => "Invalid value for {$field}"
 				};
 			}
-
 		}
 
 		return $this;
@@ -144,12 +141,12 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the route section of the configuration
-	 * 
+	 *
 	 * Ensures that the route field exists and contains:
 	 * - A non-empty array
 	 * - All elements are strings
 	 * - All strings are non-empty
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -166,7 +163,6 @@ class ValidateAppConfig {
 			if ($validator($config->$field) === false) {
 				$this->errors[] = "Route must be an array with at least one non-empty string";
 			}
-
 		}
 
 		return $this;
@@ -174,7 +170,7 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the navigation section of the configuration
-	 * 
+	 *
 	 * This method validates the optional nav section and sets default route if needed:
 	 * - Sets nav route to last route element if not specified
 	 * - type: must be 'menu' or 'submenu'
@@ -182,7 +178,7 @@ class ValidateAppConfig {
 	 * - id: must match pattern ###_nav, ###_usr, or ###_dropdown
 	 * - name: must be a non-empty string
 	 * - icon: must be a non-empty string
-	 * 
+	 *
 	 * @param object $config The configuration object to validate (passed by reference)
 	 * @return self Returns this instance for method chaining
 	 */
@@ -220,7 +216,6 @@ class ValidateAppConfig {
 					default => "Invalid value for {$field}"
 				};
 			}
-
 		}
 
 		return $this;
@@ -228,12 +223,12 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the view section of the configuration
-	 * 
+	 *
 	 * Validates required and optional view file paths:
 	 * - index: required, must match pattern apps/name/view/name.phtml
 	 * - layout: optional, must match pattern apps/name/view/layout.phtml
 	 * - error: optional, must match pattern apps/name/view/error.phtml
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -264,7 +259,6 @@ class ValidateAppConfig {
 					default => "Invalid value for {$field}"
 				};
 			}
-
 		}
 
 		// Validate optional fields (only if they exist)
@@ -279,7 +273,6 @@ class ValidateAppConfig {
 						default => "Invalid value for {$field}"
 					};
 				}
-
 			}
 		}
 
@@ -288,12 +281,12 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the JavaScript section of the configuration
-	 * 
+	 *
 	 * Validates required and optional JavaScript file paths:
 	 * - index: required, must match pattern apps/name/js/name.js
 	 * - layout: optional, must match pattern apps/name/js/layout.js
 	 * - error: optional, must match pattern apps/name/js/error.js
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -322,10 +315,8 @@ class ValidateAppConfig {
 				$this->errors[] = match ($field) {
 					'index' => "Invalid index path format: {$config->view->$field}, must match pattern apps/name/js/name.js",
 					default => "Invalid value for {$field}"
-
 				};
 			}
-
 		}
 
 		// Validate optional fields (only if they exist)
@@ -340,9 +331,7 @@ class ValidateAppConfig {
 						default => "Invalid value for {$field}"
 					};
 				}
-
 			}
-
 		}
 
 		return $this;
@@ -350,10 +339,10 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the idTableEvent section of the configuration
-	 * 
+	 *
 	 * This optional section validates the DataTable event identifier:
 	 * - idTableEvent: must match pattern id__[alphanumeric-]+-event-dt
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -377,7 +366,6 @@ class ValidateAppConfig {
 			if ($validator($config->$field) === false) {
 				$this->errors[] = "Invalid idTableEvent format: {$config->$field}, must match pattern id__[alphanumeric-]+-event-dt";
 			}
-
 		}
 
 		return $this;
@@ -385,11 +373,11 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the injectEvent section of the configuration
-	 * 
+	 *
 	 * This optional section validates HTML injection events:
 	 * - Each event must be an object with a 'file' property
 	 * - file: must match pattern apps/name/view/inject/name.phtml
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -416,13 +404,13 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the asyncPage section of the configuration
-	 * 
+	 *
 	 * Validates async page definitions:
 	 * - type: must be 'apage'
 	 * - access: must be an integer between 0 and 9
 	 * - view: must match pattern apps/name/view/path/file.phtml
 	 * - class: must match pattern apps\name\src\path\ClassName
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -457,9 +445,7 @@ class ValidateAppConfig {
 						default => "Invalid value for {$field} in asyncPage '{$name}'"
 					};
 				}
-
 			}
-
 		}
 
 		return $this;
@@ -467,11 +453,11 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates table access configuration object
-	 * 
+	 *
 	 * Validates access levels for table operations:
 	 * - show: required, must be an integer between 0 and 9
 	 * - add, edit, delete: optional, must be integers between 0 and 9 if present
-	 * 
+	 *
 	 * @param object $access The access configuration object to validate
 	 * @return bool Returns true if valid, false otherwise
 	 */
@@ -489,11 +475,12 @@ class ValidateAppConfig {
 		// Validate optional fields if they exist
 		foreach (self::APP_TABLE_EVENT_ACCESS as $field) {
 
-			if (property_exists($access, $field) && 
-				filter_var($access->$field, FILTER_VALIDATE_INT, self::REGEX_ACCESS) === false) {
+			if (
+				property_exists($access, $field) &&
+				filter_var($access->$field, FILTER_VALIDATE_INT, self::REGEX_ACCESS) === false
+			) {
 				return false;
 			}
-
 		}
 
 		return true;
@@ -501,13 +488,13 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the tableEvent section of the configuration
-	 * 
+	 *
 	 * This optional section validates DataTable event configurations:
 	 * - primaryKey: must match pattern id__[prefix]+[suffix]
 	 * - table: must match pattern schema.table_name
 	 * - columns: must be either boolean or non-empty array
 	 * - access: must be an object with valid access levels (validated by validateTableAccess)
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
@@ -548,7 +535,6 @@ class ValidateAppConfig {
 					};
 				}
 			}
-
 		}
 
 		return $this;
@@ -556,17 +542,17 @@ class ValidateAppConfig {
 
 	/**
 	 * Validates the asyncEvent section of the configuration
-	 * 
+	 *
 	 * This optional section validates asynchronous API event configurations:
 	 * - type: must be 'api'
 	 * - access: must be an integer between 0 and 9
 	 * - file: must match pattern apps/name/src/path/name.php
 	 * - class: must match pattern apps\name\src\path\NameApi
-	 * 
+	 *
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
-	private function validateAsyncEventSection(object $config) : self
+	private function validateAsyncEventSection(object $config): self
 	{
 		if (!property_exists($config, 'asyncEvent')) {
 			return $this;
@@ -602,12 +588,9 @@ class ValidateAppConfig {
 						default => "Invalid value for asyncEvent.{$key}.{$field}"
 					};
 				}
-
 			}
-
 		}
 
 		return $this;
 	}
-
 }

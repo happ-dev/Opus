@@ -6,16 +6,16 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:25:44
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-01-27 13:28:18
-**/
+ * @Last Modified time: 2026-02-07 17:04:05
+ **/
 
 namespace Opus\config;
 
 use Exception;
 use Opus\storage\json\Json;
 
-class EncryptStorageConfig {
-	
+class EncryptStorageConfig
+{
 	const OPUS_CIPHER = 'AES-256-CBC';
 	protected string $encryptionKey;
 
@@ -28,7 +28,7 @@ class EncryptStorageConfig {
 	 * Function loads or generates and saves to a file
 	 * a key to decrypt the encrypted part of the configuration.
 	 * Uses PBKDF2 for key derivation and includes salt.
-	 * 
+	 *
 	 * @return string $secretKey
 	 * @throws Exception If file operations fail
 	 */
@@ -89,11 +89,16 @@ class EncryptStorageConfig {
 			$iv = openssl_random_pseudo_bytes($ivlen)
 				?: throw new Exception('Failed to generate IV');
 
-				$encrypted = openssl_encrypt(
-					$value, self::OPUS_CIPHER, $this->encryptionKey, OPENSSL_RAW_DATA, $iv)
-						?: throw new Exception(
-							'Encryption failed: ' . (openssl_error_string() ?: 'Unknown error')
-						);
+			$encrypted = openssl_encrypt(
+				$value,
+				self::OPUS_CIPHER,
+				$this->encryptionKey,
+				OPENSSL_RAW_DATA,
+				$iv
+			)
+				?: throw new Exception(
+					'Encryption failed: ' . (openssl_error_string() ?: 'Unknown error')
+				);
 
 			return base64_encode($iv . $encrypted);
 		} catch (Exception $event) {
@@ -103,7 +108,7 @@ class EncryptStorageConfig {
 
 	/**
 	 * Value decryption function
-	 * 
+	 *
 	 * @param ?string $value
 	 * @return string|bool
 	 * @throws Exception if the decryption attempt fails
@@ -171,7 +176,7 @@ class EncryptStorageConfig {
 
 	/**
 	 * Function checks if the value is encrypted
-	 * 
+	 *
 	 * @param ?string $value
 	 * @return bool
 	 */
@@ -188,7 +193,7 @@ class EncryptStorageConfig {
 
 	/**
 	 * Check and encrypt storage configuration parameters if not already encrypted
-	 * 
+	 *
 	 * @return bool Returns true if encryption was successful, false otherwise
 	 * @throws Exception If file operations fail or encryption errors occur
 	 */
@@ -234,7 +239,8 @@ class EncryptStorageConfig {
 			// Save changes if modifications were made
 			if ($modified) {
 				$jsonNewContent = json_encode(
-					$config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+					$config,
+					JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
 				) ?: throw new Exception('JSON encoding failed');
 
 				file_put_contents(Config::OPUS_LOCAL_CONFIG, $jsonNewContent)
@@ -247,5 +253,4 @@ class EncryptStorageConfig {
 			throw new Exception('Encryption error: ' . $event->getMessage());
 		}
 	}
-
 }

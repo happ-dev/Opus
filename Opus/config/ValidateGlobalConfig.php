@@ -6,15 +6,15 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 11:06:49
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 11:08:25
-**/
+ * @Last Modified time: 2026-02-07 17:02:20
+ **/
 
 namespace Opus\config;
 
 use Exception;
 
-abstract class ValidateGlobalConfig {
-
+abstract class ValidateGlobalConfig
+{
 	protected static object $config;
 
 	const OPUS_APPS = [
@@ -79,7 +79,7 @@ abstract class ValidateGlobalConfig {
 
 	/**
 	 * Function checks the correctness of storage configuration
-	 * 
+	 *
 	 * @param object $config
 	 * @return void
 	 * @throws Exception if the configuration is incorrect
@@ -112,7 +112,6 @@ abstract class ValidateGlobalConfig {
 					default => "Invalid value for {$field}"
 				};
 			}
-
 		}
 
 		// Optional encoding validation
@@ -123,7 +122,6 @@ abstract class ValidateGlobalConfig {
 		if (!empty($errors)) {
 			throw new Exception("Configuration validation failed:\n" . implode(PHP_EOL, $errors));
 		}
-
 	}
 
 	/**
@@ -147,7 +145,6 @@ abstract class ValidateGlobalConfig {
 				default => true
 			};
 		}
-
 	}
 
 	/**
@@ -188,15 +185,13 @@ abstract class ValidateGlobalConfig {
 						)
 					);
 				}
-
 			}
-
 		}
 	}
 
 	/**
 	 * Validates trusted hosts configuration
-	 * 
+	 *
 	 * @param array $hosts Array of domain names to validate
 	 * @return void
 	 * @throws Exception if domains are invalid or empty
@@ -240,5 +235,4 @@ abstract class ValidateGlobalConfig {
 
 		$hosts = sort($trustedHosts);
 	}
-
 }

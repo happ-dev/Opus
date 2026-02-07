@@ -6,13 +6,13 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 20:38:30
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 21:05:26
-**/
+ * @Last Modified time: 2026-02-07 17:05:53
+ **/
 
 namespace Opus\controller;
 
-interface InterfaceController {
-
+interface InterfaceController
+{
 	/**
 	 * Handles standard page requests
 	 *
@@ -40,5 +40,4 @@ interface InterfaceController {
 	 * @return mixed
 	 */
 	public function asyncAction(): mixed;
-
 }

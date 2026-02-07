@@ -6,8 +6,8 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-02 11:48:21
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-03 12:04:50
-**/
+ * @Last Modified time: 2026-02-07 14:23:56
+ **/
 
 namespace Opus\controller\exception;
 
@@ -25,8 +25,8 @@ define('EXCEPTION_LANG_FILE', 'vendor/Opus/lang/' . $_SESSION['lang'] . '_error.
  * Handles different types of exceptions (page, API, CLI, async) and formats error messages
  * according to the request type.
  */
-abstract class AbstractException extends Exception implements InterfaceController {
-
+abstract class AbstractException extends Exception implements InterfaceController
+{
 	const TYPE_PAGE_EXCEPTION = Request::TYPE_PAGE;
 	const TYPE_ASYNC_PAGE_EXCEPTION = Request::TYPE_ASYNC_PAGE;
 	const TYPE_API_EXCEPTION = Request::TYPE_API;
@@ -66,7 +66,7 @@ abstract class AbstractException extends Exception implements InterfaceControlle
 	{
 		return array_reduce(
 			explode('\\', $path),
-			function($obj, $path) {
+			function ($obj, $path) {
 				return isset($obj->$path)
 					? (object) $obj->$path
 					: throw new Exception('No path: ' . $path);
@@ -85,7 +85,8 @@ abstract class AbstractException extends Exception implements InterfaceControlle
 	 * @param string $messageType Message property name in error object
 	 * @return void
 	 */
-	protected function setStrError(?string &$exError, object $error, mixed $value, string $type, string $messageType): void {
+	protected function setStrError(?string &$exError, object $error, mixed $value, string $type, string $messageType): void
+	{
 		// Define message transformations for different types
 		$transformations = [
 			self::TYPE_ASYNC_PAGE_EXCEPTION,
@@ -132,7 +133,5 @@ abstract class AbstractException extends Exception implements InterfaceControlle
 
 			$exError = $message;
 		}
-
 	}
-
 }

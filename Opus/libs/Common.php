@@ -6,19 +6,19 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 20:27:50
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-01 20:32:33
-**/
+ * @Last Modified time: 2026-02-07 17:01:17
+ **/
 
 namespace Opus\libs;
 
 use Exception;
 use Random\RandomException;
 
-class Common {
-
+class Common
+{
 	/**
 	 * Generates a unique identifier using SHA-256 hash with additional entropy
-	 * 
+	 *
 	 * @param int $length Length of the random string before hashing (default: 7)
 	 * @throws Exception When length is less than 1
 	 * @throws RandomException When unable to generate cryptographically secure random bytes
@@ -60,12 +60,11 @@ class Common {
 				'Common::windowsUniqId: Unable to generate cryptographically secure random bytes' . PHP_EOL . $e->getMessage()
 			);
 		}
-
 	}
 
 	/**
 	 * Adds a character to the beginning of a string until it reaches specified length
-	 * 
+	 *
 	 * @param string $str Original string to pad
 	 * @param string $char Character to add at the beginning (should be single character)
 	 * @param int $newStringLength Desired final string length (default: 8)
@@ -97,14 +96,14 @@ class Common {
 
 	/**
 	 * Recursively removes duplicate values from a multi-dimensional array
-	 * 
+	 *
 	 * This function removes duplicate values from an array by serializing elements
 	 * for comparison and then recursively processes any nested arrays.
-	 * 
+	 *
 	 * @param array $array The input array to process
 	 * @return array Array with all duplicate values removed (including in nested arrays)
 	 */
-	final public static function arrayUniqueRecursive(array $array) : array
+	final public static function arrayUniqueRecursive(array $array): array
 	{
 		$result = array_map('serialize', $array);
 		$result = array_map('unserialize', array_unique($result));
@@ -114,7 +113,6 @@ class Common {
 			if (is_array($value) === true) {
 				$result[$key] = self::arrayUniqueRecursive($value);
 			}
-
 		}
 
 		return $result;
@@ -122,10 +120,10 @@ class Common {
 
 	/**
 	 * Replaces all occurrences of a specific value in an array with a replacement value
-	 * 
+	 *
 	 * This function performs a strict comparison (===) to find values that match
 	 * the search parameter and replaces them with the specified replacement.
-	 * 
+	 *
 	 * @param array $array The input array to process
 	 * @param mixed $search The value to search for in the array
 	 * @param mixed $replacement The value to replace matches with
@@ -134,11 +132,10 @@ class Common {
 	final public static function searchAndReplaceValueInArray(array $array, $search, $replacement): array
 	{
 		return array_map(
-			function($value) use ($search, $replacement) {
+			function ($value) use ($search, $replacement) {
 				return $value === $search ? $replacement : $value;
 			},
 			$array
 		);
 	}
-
 }

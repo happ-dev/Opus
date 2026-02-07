@@ -1,0 +1,101 @@
+{
+	"controller": {},
+
+	"storage": {
+		"db": {
+			"dbSetFetchMode": {
+				"message": "PDOStatement::setFetchMode: Nieprawidłowy tryb pobierania danych:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbExec": {
+				"message": "PDO::exec: Błąd wykonania zapytania:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbQuery": {
+				"message": "PDO::query: Błąd wykonania zapytania:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbExecute": {
+				"validateParams": {
+					"message": "PDOStatement::execute: Błąd przygotowania zapytania:<br>$value$",
+					"details": "$value$"
+				},
+				"message": "PDOStatement::$value$:",
+				"details": "$value$"
+			},
+
+			"dbTransactions": {
+				"determineTransactionScenarios": {
+					"message": "Każdy zestaw parametrów musi zawierać „query”, albo „prepare”",
+					"details": "$value$"
+				},
+				"validateTransactionParams": {
+					"pdoTypes": {
+						"message": "Zestaw parametrów $value$:<br>pdoTypes[$value$] musi być stałą całkowitą PDO::PARAM_*",
+						"details": "$value$"
+					},
+					"message": "Zestaw parametrów $value$:<br>Nieprawidłowy lub brakujący '$value$' dla scenariusza '$value$'",
+					"details": "$value$"
+				},
+				"transactionGetQueryType": {
+					"message": "Nieobsługiwany lub nieprawidłowy typ zapytania",
+					"details": "$value$"
+				},
+				"message": "Błąd transakcji:<br>$value$",
+				"details": "$value$<br>$value$"
+			},
+
+			"dbCursor": {
+				"message": "Błąd pobierania danych za pomocą kursora:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbConnect": {
+				"message": "Błąd połączenia z bazą danych:<br>$value$",
+				"details": "$value$"
+			},
+
+			"dbGetTableDetails": {
+				"message": "Błąd pobierania informacji o tabeli:<br>$value$",
+				"details": "$value$"
+			},
+
+			"selectStrategy": {
+				"message": "Brak konfiguracji $value$ w pliku: /config/global.json",
+				"type": {
+					"message": "Nieznany typ bazy danych:<br>$value$"
+				}
+			},
+
+			"dbQuote": {
+				"message": "Db::dbQuote: $value$",
+				"details": "$value$"
+			}
+		},
+
+		"curl": {
+			"url": {
+				"message": "Curl::fetch: Podany <em>url</em> nie spełnia wymagań!",
+				"details": "url: $value$<br>FILTER_FLAG_QUERY_REQUIRED"
+			},
+
+			"curlExec": {
+				"message": "Curl::fetch: curl_error:",
+				"details": "$value$"
+			},
+
+			"jsonDecode": {
+				"message": "Curl::fetch: JsonException:",
+				"details": "$value$"
+			},
+
+			"empty": {
+				"message": "Curl::fetch: $value$",
+				"details": "Błąd pobierania danych z:<br><em>$value$</em>"
+			}
+		}
+	}
+}

@@ -6,19 +6,19 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:20:39
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-01-27 13:22:02
-**/
+ * @Last Modified time: 2026-02-07 17:00:51
+ **/
 
 namespace Opus\storage\json;
 
 use Exception;
 use JsonException;
 
-class Json {
-
+class Json
+{
 	/**
 	 * Function loads json file, throws Exception if any
-	 * 
+	 *
 	 * @param string $filePath
 	 * @return object Returns an object with the json data
 	 * @throws Exception
@@ -74,7 +74,6 @@ class Json {
 				$position = $i;
 				break;
 			}
-
 		}
 
 		// Get context around the error
@@ -100,5 +99,4 @@ class Json {
 			)
 		);
 	}
-
 }
