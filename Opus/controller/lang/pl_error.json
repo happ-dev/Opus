@@ -1,5 +1,130 @@
 {
-	"controller": {},
+	"controller": {
+		"authorization": {
+			"access": {
+				"message": "Brak uprawnień do uruchomienia aplikacji: $value$.",
+				"details": "Proszę o kontakt pod adresem: $value$",
+
+				"param": {
+					"message": "Brak parametru $value$ w deklaracji obiektu Authorization::access()"
+				},
+
+				"asyncTableParam": {
+					"message": "Brak parametru 'show' w pliku konfiguracji:",
+					"details": "$value$."
+				},
+
+				"asyncPageParam": {
+					"message": "Brak parametru 'access' w pliku konfiguracji:",
+					"details": "$value$."
+				},
+
+				"asyncEventParam": {
+					"message": "Brak parametru 'access' w pliku konfiguracji:",
+					"details": "$value$."
+				}
+			}
+		},
+
+		"cli": {
+			"table": {
+				"head": {
+					"lack": {
+						"message": "CliTable::head: Brak elementu 'head' w konfiguracji."
+					},
+
+					"empty": {
+						"message": "CliTable::head: Element 'head' nie może być pusty."
+					}
+				},
+
+				"str": {
+					"message": "Elementy tablicy muszą być konwertowalne na ciągi znaków: $value$"
+				},
+
+				"position": {
+					"message": "Nieprawidłowa pozycja w 'head': $value$"
+				},
+
+				"color": {
+					"message": "Nieprawidłowy format koloru: $value$"
+				}
+			}
+		},
+
+		"tableEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "TableEvent::doTableEvent: Niepoprawny parametr: '$value$': '$value$'",
+					"details": "w konfiguracji: $value$\\tableEvent\\$value$."
+				}
+			},
+
+			"selectConfig": {
+				"param": {
+					"message": "TableEvent::doTableEvent: Nieprawidowy parametr '$value$'.",
+					"details": "$value$"
+				}
+			},
+
+			"query": {
+				"type": {
+					"message": "TableEvent::doTableEvent::tableQuery: Nieprawidowy parametr: '$value$': '$value$'."
+				},
+
+				"csrf": {
+					"message": "TableEvent::doTableEvent::tableQuery: $value$."
+				}
+			}
+		},
+
+		"login": {
+			"getUserLogin": {
+				"message": "Podana nazwa użytkownika: $value$ zawiera niedozwolone znaki."
+			},
+
+			"findUser": {
+				"message": "Konto użytkownika: $value$ nie istnieje.",
+				"details": "Proszę o kontakt pod adresem:<br>$value$"
+			},
+
+			"isUserAccountEnabled": {
+				"message": "Konto użytkownika: $value$ jest nieaktywne.",
+				"details": "Proszę o kontakt pod adresem:<br>$value$"
+			},
+
+			"isPasswordMatches": {
+				"message": "Twoje haso jest nieprawidłowe!!!"
+			},
+
+			"reloadUserConfig": {
+				"message": "Wystąpił błąd podczas wczytywania konfiguracji użytkownika."
+			},
+
+			"login": {
+				"message": "Wystąpił błąd podczas logowania, nieprawidowy typ: $value$"
+			}
+		},
+
+		"request": {
+			"route": {
+				"message": "Strona:<br>&emsp;$value$<br> nie istnieje!"
+			},
+
+			"file": {
+				"message": "Nie można odnaleźć pliku:",
+				"details": "$value$"
+			},
+
+			"async": {
+				"message": "Brak parametru \"$value$\" w $value$."
+			},
+
+			"apage": {
+				"message": "Brak parametru \"$value$\" w $value$ uniemożliwia wyświetlenie strony."
+			}
+		}
+	},
 
 	"storage": {
 		"db": {

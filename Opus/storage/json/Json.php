@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:20:39
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:00:51
+ * @Last Modified time: 2026-02-13 11:36:18
  **/
 
 namespace Opus\storage\json;
@@ -20,10 +20,11 @@ class Json
 	 * Function loads json file, throws Exception if any
 	 *
 	 * @param string $filePath
-	 * @return object Returns an object with the json data
+	 * @param bool $associative If true, returns associative array instead of object
+	 * @return mixed Returns an object|array with the json data
 	 * @throws Exception
 	 */
-	final public static function loadJsonFile(string $filePath): object
+	final public static function loadJsonFile(string $filePath, ?bool $associative = false): mixed
 	{
 		try {
 			$json = new self();
@@ -41,7 +42,7 @@ class Json
 			$json->validateJsonString($jsonContent, $filePath);
 
 			// If valid, decode it
-			return json_decode($jsonContent, false, 512, JSON_THROW_ON_ERROR);
+			return json_decode($jsonContent, $associative, 512, JSON_THROW_ON_ERROR);
 		} catch (JsonException $error) {
 			throw new Exception('JSON error in: ' . $error->getMessage());
 		}

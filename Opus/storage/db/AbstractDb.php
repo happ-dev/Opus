@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-06 15:37:17
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:00:16
+ * @Last Modified time: 2026-02-14 08:31:33
  **/
 
 namespace Opus\storage\db;
@@ -253,7 +253,7 @@ abstract class AbstractDb implements InterfaceDb
 	 * @return bool Returns true if valid
 	 * @throws StorageException If validation fails
 	 */
-	private function validateTransactionParams(array $params, array $scenarios): bool
+	private function validateTransactionParams(array &$params, array $scenarios): bool
 	{
 		$validationRules = [
 			'query' => [
@@ -284,9 +284,20 @@ abstract class AbstractDb implements InterfaceDb
 
 				// Additional validation for prepare scenario
 				if ($scenario === 'prepare') {
+					// Auto-extract params if not provided
+					if (!isset($params[$index]['params'])) {
+						preg_match_all('/(:\w+)/', $params[$index]['prepare'], $matches);
+						$params[$index]['params'] = array_unique($matches[1]);
+					}
+
+					// Set default pdoTypes if not provided
+					if (!isset($params[$index]['pdoTypes'])) {
+						$params[$index]['pdoTypes'] = array_fill(0, count($params[$index]['params']), PDO::PARAM_STR);
+					}
+
 					// Validate pdoTypes if present
 					match (true) {
-						isset($params[$index]['pdoTypes']) && !is_array($params[$index]['pdoTypes']) => throw new StorageException(
+						!is_array($params[$index]['pdoTypes']) => throw new StorageException(
 							'storage\db\dbTransaction\validateTransactionParams',
 							[
 								'message' => [$index, 'pdoTypes', $scenario],
@@ -294,7 +305,7 @@ abstract class AbstractDb implements InterfaceDb
 							],
 							$this->storageException
 						),
-						isset($params[$index]['pdoTypes']) && (count($params[$index]['pdoTypes']) !== count($params[$index]['params'])) => throw new StorageException(
+						count($params[$index]['pdoTypes']) !== count($params[$index]['params']) => throw new StorageException(
 							'storage\db\dbTransaction\validateTransactionParams',
 							[
 								'message' => [$index, 'pdoTypes', $scenario],
@@ -305,44 +316,32 @@ abstract class AbstractDb implements InterfaceDb
 						default => null
 					};
 
-					// Validate PDO types if present
-					isset($params[$index]['pdoTypes']) && array_walk(
+					// Validate PDO types
+					array_walk(
 						$params[$index]['pdoTypes'],
-						fn($type, $typeIndex) => match (true) {
-							!is_int($type) => throw new StorageException(
+						fn($type, $typeIndex) => is_int($type)
+							?: throw new StorageException(
 								'storage\db\dbTransaction\validateTransactionParams\pdoTypes',
 								[
 									'message' => [$index, $typeIndex],
 									'details' => print_r($params, true),
 								],
 								$this->storageException
-							),
-							default => null
-						}
+							)
 					);
 
-					// Validate params and their values
+					// Validate parameter values exist
 					array_walk(
 						$params[$index]['params'],
-						fn($param) => match (true) {
-							!is_string($param) || !str_starts_with($param, ':') => throw new StorageException(
+						fn($param) => array_key_exists($param, $params[$index])
+							?: throw new StorageException(
 								'storage\db\dbTransaction\validateTransactionParams',
 								[
 									'message' => [$index, $param, $scenario],
-									'details' => print_r($params, true),
+									'details' => 'Missing parameter value'
 								],
 								$this->storageException
-							),
-							!isset($params[$index][$param]) => throw new StorageException(
-								'storage\db\dbTransaction\validateTransactionParams',
-								[
-									'message' => [$index, $param, $scenario],
-									'details' => print_r($params, true),
-								],
-								$this->storageException
-							),
-							default => null
-						}
+							)
 					);
 				}
 			}

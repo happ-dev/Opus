@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 14:21:00
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 14:52:53
+ * @Last Modified time: 2026-02-14 08:22:31
  **/
 
 namespace Opus\controller\exception;
@@ -37,7 +37,11 @@ class LogHandlerException
 		string $logType
 	): array {
 		return [
-			'prepare' => 'INSERT INTO logs.logs(logTime, logType, logPath, logMessage, logDetails) VALUES ((SELECT now()), :logType, :logPath, :logMessage, :logDetails)',
+			'prepare' => <<<SQL
+				INSERT INTO
+					logs.logs(logTime, logType, logPath, logMessage, logDetails)
+				VALUES ((SELECT now()), :logType, :logPath, :logMessage, :logDetails)
+			SQL,
 			'params' => [':logType', ':logPath', ':logMessage', ':logDetails'],
 			':logType' => [$logType],
 			':logPath' => [$errorPath],

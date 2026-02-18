@@ -1,5 +1,130 @@
 {
-	"controller": {},
+	"controller": {
+		"authorization": {
+			"access": {
+				"message": "Insufficient permissions to run application: $value$.",
+				"details": "Please contact: $value$",
+
+				"param": {
+					"message": "Missing parameter $value$ in Authorization::access() object declaration"
+				},
+
+				"asyncTableParam": {
+					"message": "Missing 'show' parameter in configuration file:",
+					"details": "$value$."
+				},
+
+				"asyncPageParam": {
+					"message": "Missing 'access' parameter in configuration file:",
+					"details": "$value$."
+				},
+
+				"asyncEventParam": {
+					"message": "Missing 'access' parameter in configuration file:",
+					"details": "$value$."
+				}
+			}
+		},
+
+		"cli": {
+			"table": {
+				"head": {
+					"lack": {
+						"message": "CliTable::head: Missing 'head' element in configuration."
+					},
+
+					"empty": {
+						"message": "CliTable::head: 'head' element cannot be empty."
+					}
+				},
+
+				"str": {
+					"message": "Array elements must be convertible to strings: $value$"
+				},
+
+				"position": {
+					"message": "Invalid position in 'head': $value$"
+				},
+
+				"color": {
+					"message": "Invalid color format: $value$"
+				}
+			}
+		},
+
+		"request": {
+			"route": {
+				"message": "Page:<br>&emsp;$value$<br> does not exist!"
+			},
+
+			"file": {
+				"message": "Cannot find file:",
+				"details": "$value$"
+			},
+
+			"async": {
+				"message": "Missing parameter \"$value$\" in $value$."
+			},
+
+			"apage": {
+				"message": "Missing \"$value$\" parameter in $value$ prevents the page from being displayed."
+			}
+		},
+
+		"tableEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "TableEvent::doTableEvent: Invalid parameter: '$value$': '$value$'",
+					"details": "in configuration: $value$\\tableEvent\\$value$."
+				}
+			},
+
+			"selectConfig": {
+				"param": {
+					"message": "TableEvent::doTableEvent: Invalid parameter '$value$'.",
+					"details": "$value$"
+				}
+			},
+
+			"query": {
+				"type": {
+					"message": "TableEvent::doTableEvent::tableQuery: Invalid parameter: '$value$': '$value$'."
+				},
+
+				"csrf": {
+					"message": "TableEvent::doTableEvent::tableQuery: $value$."
+				}
+			}
+		},
+
+		"login": {
+			"getUserLogin": {
+				"message": "The provided username: $value$ contains invalid characters."
+			},
+
+			"findUser": {
+				"message": "User account: $value$ does not exist.",
+				"details": "Please contact:<br>$value$"
+			},
+
+			"isUserAccountEnabled": {
+				"message": "User account: $value$ is inactive.",
+				"details": "Please contact:<br>$value$"
+			},
+
+			"isPasswordMatches": {
+				"message": "Your password is incorrect!!!"
+			},
+
+			"reloadUserConfig": {
+				"message": "An error occurred while loading user configuration."
+			},
+
+			"login": {
+				"message": "An error occurred during login, invalid type: $value$"
+			}
+		}
+	},
 
 	"storage": {
 		"db": {

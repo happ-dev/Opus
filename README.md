@@ -98,7 +98,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		> ~~located in __apps/app_name/config/**{{app_name}}**.config.json__~~
 	- [ ] __{{app_name}}.js__ file copied to _public/vendor/opus_
 	- [ ] adding a file __{{app_name}}.js__ to the end of **<body>**
-	- [ ] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
+	- [x] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
 		> ~~searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]~~
 	- [ ] write my own select menu, proposed name __singleSelect__
 		- [ ] add the ability to get data using ajax
@@ -122,9 +122,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] StorageException::indexAction() return a new View instead of null when the View class is ready
 	- [ ] ControllerException::indexAction() return a new View instead of null when the View class is ready
 
-- [ ] write a Lang class to handle messages depending on the selected language
+- [x] write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
-	> ?string $path: path to the message in the file __{{lang}}.opus.json__ or __{{lang}}.app.json__
+	> ?string $path: path to the message in the file __{{lang}}_opus.json__ or __{{lang}}_app.json__
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_
@@ -147,7 +147,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 - [ ] known issues:
 	- [ ] icon in the header disappears when you click on the modal again
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
-	- [X] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
+	- [x] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
 	- [x] Config::loadIconConfig, if the icon is not given it should be a standard one
 
 ## Hello World application
@@ -169,6 +169,9 @@ try {
 
 	// load configuration
 	Opus\config\Config::loadConfiguration();
+
+	// session start
+	Opus\controller\Controller::session();
 
 	// start application
 	Opus\controller\Controller::run();
