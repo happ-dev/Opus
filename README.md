@@ -88,9 +88,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 		~~> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied~~
 
 - [ ] JS
-	- [ ] generating _opus.js_ file from _*.js_ files located in _Opus/js_
-	- [ ] _opus.js_ file copied to _public/vendor/opus_
-	- [ ] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
+	- [x] generating _opus.js_ file from _*.js_ files located in _Opus/js_
+	- [x] _opus.js_ file copied to _public/vendor/opus_
+	- [x] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
 	- [ ] __{{app_name}}.lib.js__ file copied to _public/vendor/opus_
 	- [ ] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
 		> ~~does not apply to _js_ files intended for subpages,~~
@@ -107,7 +107,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		- [ ] add the ability to search data
 
 - [ ] Layout class
-	- [ ] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
+	- [x] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
 	- [ ] added _opus.css_ to **<head>** section in _layout.phtml_
 	- [ ] added _opus.js_ to **<head>** section in _layout.phtml_
 	- [ ] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_

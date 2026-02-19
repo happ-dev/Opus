@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 17:25:15
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-18 12:14:58
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-02-19 17:25:57
  **/
 
 namespace Opus\controller;
@@ -14,7 +14,7 @@ namespace Opus\controller;
 use stdClass;
 use Exception;
 use Opus\config\Config;
-use \Opus\config\ValidateGlobalConfig;
+use Opus\config\ValidateGlobalConfig;
 use Opus\controller\exception\ControllerException;
 use Opus\controller\request\Request;
 use Opus\controller\event\Event;
@@ -23,6 +23,8 @@ use Opus\controller\login\Login;
 
 abstract class AbstractController
 {
+	use TraitController;
+
 	/**
 	 * Function starts the application according to the given parameters,
 	 * selects whether it should be page, api or cli
@@ -256,6 +258,9 @@ abstract class AbstractController
 		};
 		self::$layout->title = Config::getConfig()->title;
 		self::$layout->icon = Config::getConfig()->icon;
+		self::$layout->vendor = Config::getConfig()->vendor;
+		self::$layout->opusLib = $this->createJsLib(true);
+		self::$layout->appLib = $this->createJsLib(false);
 	}
 
 	/**
@@ -351,6 +356,93 @@ abstract class AbstractController
 		self::scanFiles(self::$index->indexesModals, self::$index->app, '/view/modals', 'phtml');
 		self::scanFiles(self::$index->indexesOffcanvas, self::$index->app, '/view/offcanvas', 'phtml');
 		self::scanFiles(self::$libs->js, self::$index->app, '/libs', 'js');
+	}
+
+	/**
+	 * Aggregates JavaScript library files into a single output string.
+	 *
+	 * Includes multiple JavaScript library files, captures their output, removes comments,
+	 * and prepends a language configuration variable.
+	 *
+	 * @param array $libs Array of file paths to JavaScript library files to be aggregated
+	 *
+	 * @return string|null The aggregated JavaScript content with comments removed and language
+	 *                     configuration prepended, or null if the libs array is empty or
+	 *                     the resulting content is empty after processing
+	 */
+	private function agregateJsLibs(array $libs): ?string
+	{
+		if (empty($libs)) {
+			return null;
+		}
+
+		// Start output buffering to capture included content
+		ob_start();
+
+		// Include each library file if it exists
+		foreach ($libs as $lib) {
+			file_exists($lib) ? include $lib : null;
+		}
+
+		// Get captured content and clean up
+		$content = trim(ob_get_clean());
+
+		return empty($content)
+			? null
+			: trim(preg_replace(
+				self::JS_PATTERN_COMMENTS,
+				self::JS_REPLACEMENT_COMMENTS,
+				$content
+			));
+	}
+
+	private function createJsLib(bool $opus = false): ?string
+	{
+		$libFile = new stdClass();
+		$libFile->dir = __DIR__ . '/../../../public/vendor/opus/';
+		$libFile->name = $opus === true
+			? 'opus.js'
+			: self::$app . '.lib.js';
+		$libFile->headPath = 'vendor/opus/' . $libFile->name;
+		$libFile->fullPath = $libFile->dir . $libFile->name;
+		$libFile->success = false;
+
+		// Ensure the directory exists
+		if (!is_dir($libFile->dir)) {
+			mkdir($libFile->dir, 0777, true);
+		}
+
+		// Create or overwrite the library file
+		match (Config::getConfig()->role) {
+			'dev' => (function () use (&$libFile, $opus) {
+				@unlink($libFile->fullPath);
+				$content = $this->agregateJsLibs($opus === true ? self::JS_OPUS_LIBS : self::$libs->js);
+
+				if (!is_null($content)) {
+					file_put_contents($libFile->fullPath, $content);
+					$libFile->success = true;
+				}
+			})(),
+
+			default => (function () use (&$libFile, $opus) {
+				$oneWeekAgo = time() - 7 * 24 * 60 * 60;
+				if (!file_exists($libFile->fullPath) || filemtime($libFile->fullPath) < $oneWeekAgo) {
+					@unlink($libFile->fullPath);
+					$content = $this->agregateJsLibs($opus === true ? self::JS_OPUS_LIBS : self::$libs->js);
+
+					if (!is_null($content)) {
+						file_put_contents($libFile->fullPath, $content);
+						$libFile->success = true;
+					}
+				}
+			})()
+		};
+
+		if ($libFile->success === true && !file_exists($libFile->fullPath)) {
+			throw new Exception('Controller::createJsLib: File could not be found: ' . $libFile->fullPath);
+		}
+
+		return $libFile->success === true ? $libFile->headPath : null;
 	}
 
 	/**

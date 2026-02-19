@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 
 <html lang="<?= $this->layout->lang ?>" data-bs-theme="opus">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?= $this->layout->title ?></title>
 
-		<link rel="shortcut icon" href="<?= $this->layout->icon ?>">
-	</head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?= $this->layout->title ?></title>
+
+	<link rel="shortcut icon" href="<?= $this->layout->icon ?>">
+
+	<?= $this->layout->stylesheets ?>
+
+	<?= $this->layout->scripts ?>
+</head>
 
 </html>
