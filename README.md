@@ -80,8 +80,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- index.php
 ```
 
-- [ ] CSS
-	- [ ] _opus.css_ file copied to _public/vendor/opus_:
+- [x] CSS
+	- [x] _opus.css_ file copied to _public/vendor/opus_:
 		> each time if _role_ parameter is _dev_
 		> if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
 	- ~~[ ] _css_ files provided in _config/global.json_ copied to _public/css_:~~
@@ -91,13 +91,18 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [x] generating _opus.js_ file from _*.js_ files located in _Opus/js_
 	- [x] _opus.js_ file copied to _public/vendor/opus_
 	- [x] files from _/apps/libs/*.js_ directory will be compiled into one __{{app_name}}.lib.js__ file
-	- [ ] __{{app_name}}.lib.js__ file copied to _public/vendor/opus_
-	- [ ] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file
+	- [x] __{{app_name}}.lib.js__ file copied to _public/vendor/opus_
+		> All classes that will be used in the file from the js directory will be placed here, it will be the only
+		> file added to the main index.php
+	- ~~[ ] files from _/apps/js/*.js_ directory will be compiled into one __{{app_name}}.js__ file~~
 		> ~~does not apply to _js_ files intended for subpages,~~
 		> ~~whether the file belongs to a subpage will be verified based on **"sApp"**~~
 		> ~~located in __apps/app_name/config/**{{app_name}}**.config.json__~~
-	- [ ] __{{app_name}}.js__ file copied to _public/vendor/opus_
-	- [ ] adding a file __{{app_name}}.js__ to the end of **<body>**
+	- [x] js files defined in __apps/app_name/config/**{{app_name}}**.config.json__ as
+		> "index": "vendor/Opus/apps/skeleton/js/index.js"
+		> will be added at the end of **<body>**
+	- ~~[ ] __{{app_name}}.js__ file copied to _public/vendor/opus_~~
+	- ~~[ ] adding a file __{{app_name}}.js__ to the end of **<body>**~~
 	- [x] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
 		> ~~searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]~~
 	- [ ] write my own select menu, proposed name __singleSelect__
@@ -109,8 +114,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 - [ ] Layout class
 	- [x] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
 	- [ ] added _opus.css_ to **<head>** section in _layout.phtml_
-	- [ ] added _opus.js_ to **<head>** section in _layout.phtml_
-	- [ ] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
+	- [x] added _opus.js_ to **<head>** section in _layout.phtml_
+	- [x] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
 
 - [x] Config class
 	- [x] adapting the class to the new version of the configuration file

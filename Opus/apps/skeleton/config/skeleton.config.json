@@ -1,0 +1,20 @@
+{
+	"app": {
+		"type": "page",
+		"access": 0,
+		"class": "Opus\\apps\\skeleton\\src\\SkeletonController",
+		"version": "0.9",
+		"description": "Opus framework - Skeleton application"
+	},
+	"route": ["/", "main"],
+	"view": {
+		"index": "vendor/Opus/apps/skeleton/view/index.phtml",
+		"layout": "vendor/Opus/apps/skeleton/view/layout.phtml",
+		"error": "vendor/Opus/apps/skeleton/view/error.phtml"
+	},
+	"js": {
+		"index": "vendor/Opus/apps/skeleton/js/index.js",
+		"layout": "vendor/Opus/apps/skeleton/js/layout.js",
+		"error": "vendor/Opus/apps/skeleton/js/error.js"
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"app": {
+		"type": "page",
+		"access": 3,
+		"class": "Opus\\apps\\settings\\src\\SettingsController",
+		"version": "1.0",
+		"description": "Opus framework - Settings application"
+	},
+	"route": ["settings"],
+	"view": {
+		"index": "vendor/Opus/apps/settings/view/settings.phtml"
+	},
+	"js": {
+		"index": "vendor/Opus/apps/settings/js/settings.js"
+	}
+}

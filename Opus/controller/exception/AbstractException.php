@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-02 11:48:21
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 14:23:56
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-03-24 11:32:32
  **/
 
 namespace Opus\controller\exception;
@@ -17,7 +17,7 @@ use Opus\controller\cli\CliColor;
 use Opus\controller\request\Request;
 use Opus\storage\json\Json;
 
-define('EXCEPTION_LANG_FILE', 'vendor/Opus/lang/' . $_SESSION['lang'] . '_error.json');
+define('EXCEPTION_LANG_FILE', 'vendor/Opus/controller/lang/' . $_SESSION['lang'] . '_error.json');
 
 /**
  * Abstract exception handler for Opus framework

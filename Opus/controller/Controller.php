@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 09:54:34
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-18 11:39:25
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-03-27 18:36:57
  **/
 
 namespace Opus\controller;
@@ -39,7 +39,8 @@ class Controller extends AbstractController
 		$controller = new self();
 
 		// Handle CLI requests
-		if (!is_null($argvCli)) {
+		// if (!is_null($argvCli)) { // zamienic po testach klasy Config
+		if (!is_null($argvCli) && count($argvCli) > 1) {
 			$app = $argvCli[1];
 			$config = Config::getConfig($app);
 

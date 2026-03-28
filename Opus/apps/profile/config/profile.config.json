@@ -1,0 +1,16 @@
+{
+	"app": {
+		"type": "page",
+		"access": 3,
+		"class": "Opus\\apps\\profile\\src\\ProfileController",
+		"version": "1.0",
+		"description": "Opus framework - Profile application"
+	},
+	"route": ["profile"],
+	"view": {
+		"index": "vendor/Opus/apps/profile/view/profile.phtml"
+	},
+	"js":{
+		"index": "vendor/Opus/apps/profile/js/profile.js"
+	}
+}

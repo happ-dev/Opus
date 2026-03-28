@@ -1,0 +1,16 @@
+{
+	"app": {
+		"type": "page",
+		"access": 3,
+		"class": "Opus\\apps\\logs\\src\\LogsController",
+		"version": "1.0",
+		"description": "Opus framework - Logs application"
+	},
+	"route": ["logs"],
+	"view": {
+		"index": "vendor/Opus/apps/logs/view/logs.phtml"
+	},
+	"js": {
+		"index": "vendor/Opus/apps/logs/js/logs.js"
+	}
+}

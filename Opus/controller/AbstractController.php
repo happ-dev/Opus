@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 17:25:15
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-02-19 17:25:57
+ * @Last Modified time: 2026-03-28 17:08:39
  **/
 
 namespace Opus\controller;
@@ -260,7 +260,9 @@ abstract class AbstractController
 		self::$layout->icon = Config::getConfig()->icon;
 		self::$layout->vendor = Config::getConfig()->vendor;
 		self::$layout->opusLib = $this->createJsLib(true);
+		self::$layout->opusCss = $this->copyCssFile();
 		self::$layout->appLib = $this->createJsLib(false);
+		self::$layout->appJs = self::$index->js;
 	}
 
 	/**
@@ -396,6 +398,17 @@ abstract class AbstractController
 			));
 	}
 
+	/**
+	 * Creates a JavaScript library file in the public vendor directory
+	 *
+	 * Aggregates JS source files into a single output file (either opus.js or {app}.lib.js).
+	 * In 'dev' mode, the file is recreated on every request.
+	 * In 'prod' mode, the file is regenerated only if missing or older than one week.
+	 *
+	 * @param bool $opus If true, creates opus.js from core JS libs; otherwise creates {app}.lib.js from app libs
+	 * @return string|null The relative path for the <head> section or null if no content was generated
+	 * @throws Exception If the file was expected to be created but does not exist
+	 */
 	private function createJsLib(bool $opus = false): ?string
 	{
 		$libFile = new stdClass();
@@ -426,6 +439,7 @@ abstract class AbstractController
 
 			default => (function () use (&$libFile, $opus) {
 				$oneWeekAgo = time() - 7 * 24 * 60 * 60;
+
 				if (!file_exists($libFile->fullPath) || filemtime($libFile->fullPath) < $oneWeekAgo) {
 					@unlink($libFile->fullPath);
 					$content = $this->agregateJsLibs($opus === true ? self::JS_OPUS_LIBS : self::$libs->js);
@@ -443,6 +457,66 @@ abstract class AbstractController
 		}
 
 		return $libFile->success === true ? $libFile->headPath : null;
+	}
+
+	/**
+	 * Copies the opus.css file to the public vendor directory with comment removal
+	 *
+	 * Reads the source CSS file, strips comments using JS_PATTERN_COMMENTS,
+	 * and writes the cleaned content to public/vendor/opus/.
+	 * In 'dev' mode, the file is recreated on every request.
+	 * In 'prod' mode, the file is regenerated only if missing or older than one week.
+	 *
+	 * @return string|null The relative path for the <head> section or null if the file could not be created
+	 * @throws Exception If the file was expected to be created but does not exist
+	 */
+	private function copyCssFile(): ?string
+	{
+		$cssFile = new stdClass();
+		$cssFile->css = 'opus.css';
+		$cssFile->opusDir = __DIR__ . '/../../../vendor/Opus/css/';
+		$cssFile->publicDir = __DIR__ . '/../../../public/vendor/opus/';
+		$cssFile->fullPath = $cssFile->publicDir . $cssFile->css;
+		$cssFile->headPath = 'vendor/opus/' . $cssFile->css;
+		$cssFile->success = false;
+
+		// Ensure the directory exists
+		if (!is_dir($cssFile->publicDir)) {
+			mkdir($cssFile->publicDir, 0777, true);
+		}
+
+		// Closure: read source CSS, strip comments, write to public dir
+		$processAndWrite = function () use (&$cssFile): void {
+			@unlink($cssFile->fullPath);
+			$content = @file_get_contents($cssFile->opusDir . $cssFile->css);
+
+			if ($content !== false) {
+				$content = trim(preg_replace(self::JS_PATTERN_COMMENTS, self::JS_REPLACEMENT_COMMENTS, $content));
+
+				if (!empty($content)) {
+					file_put_contents($cssFile->fullPath, $content);
+					$cssFile->success = true;
+				}
+			}
+		};
+
+		// Create or overwrite the opus.css file
+		match (Config::getConfig()->role) {
+			'dev' => $processAndWrite(),
+			default => (function () use (&$cssFile, $processAndWrite) {
+				$oneWeekAgo = time() - 7 * 24 * 60 * 60;
+
+				if (!file_exists($cssFile->fullPath) || filemtime($cssFile->fullPath) < $oneWeekAgo) {
+					$processAndWrite();
+				}
+			})()
+		};
+
+		if ($cssFile->success === true && !file_exists($cssFile->fullPath)) {
+			throw new Exception('Controller::copyCssFile: File could not be found: ' . $cssFile->fullPath);
+		}
+
+		return $cssFile->success === true ? $cssFile->headPath : null;
 	}
 
 	/**

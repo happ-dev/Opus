@@ -1,0 +1,16 @@
+{
+	"app": {
+		"type": "page",
+		"access": 3,
+		"class": "Opus\\apps\\demo\\src\\DemoController",
+		"version": "1.0",
+		"description": "Opus framework - Demo application"
+	},
+	"route": ["demo"],
+	"view": {
+		"index": "vendor/Opus/apps/demo/view/demo.phtml"
+	},
+	"js": {
+		"index": "vendor/Opus/apps/demo/js/demo.js"
+	}
+}
