@@ -126,6 +126,125 @@
 		}
 	},
 
+	"html": {
+		"form": {
+			"setAttribute": {
+				"message": "Form::setAttribute: $value$ nie jest prawidłowym atrybutem HTML::form"
+			},
+
+			"validateElement": {
+				"isset": {
+					"message": "Form::addElement: Parametr $value$ jest wymagany!"
+				},
+
+				"empty": {
+					"message": "Form::addElement: Parametr $value$ nie może być null!"
+				},
+
+				"parametr": {
+					"message": "Form::addElement: $value$"
+				}
+			},
+
+			"getElement": {
+				"message": "Form::getElement: Brak elementu o podanym identyfikatorze: $value$."
+			},
+
+			"csrf": {
+				"message": "Form::csrfToken:: $value$."
+			}
+		},
+
+		"table": {
+			"addTable": {
+				"validateAttributes": {
+					"message": "Table::addTable: Parametr $value$ jest wymagany!",
+					"parametr": {
+						"message": "Table::addTable: $value$"
+					}
+				},
+
+				"validateStructure": {
+					"message": "$value$"
+				},
+
+				"validateTbodyStructure": {
+					"message": "Table::addTable: Każdy wiersz w tbody musi być tablicą o indeksie: $value$.",
+					"row": {
+						"message": "Table::addTable: Brak kolumny $value$ w wierszu tbody o indeksie $value$."
+					}
+				}
+			},
+
+			"getTableById": {
+				"message": "TableParamsValidate::getTableById: Brak tablicy o podanym ID $value$.",
+
+				"indexKey": {
+					"message": "Znaleziono wiele tabel o ID $value$: $value$."
+				}
+			}
+		},
+
+		"collapses": {
+			"duplicate": {
+				"message": "Collapse o podanej nazwie: \"$value$\" już istnieje."
+			},
+
+			"lack": {
+				"message": "Collapse o podanej nazwie: \"$value$\" nie istnieje!"
+			}
+		},
+
+		"modals": {
+			"size": {
+				"message": "Nieprawidłowy rozmiar modalu: \"$value$\"",
+				"details": "Dozwolone rozmiary: sm | lg | xl | fullscreen <br>https://getbootstrap.com/docs/5.3/components/modal/"
+			},
+
+			"duplicate": {
+				"message": "Modal o podanej nazwie: \"$value$\" już istnieje."
+			},
+
+			"lack": {
+				"message": "Modal o podanej nazwie: \"$value$\" nie istnieje!"
+			}
+		},
+
+		"offcanvas": {
+			"duplicate": {
+				"message": "Offcanvas o podanej nazwie: \"$value$\" już istnieje."
+			},
+
+			"placement": {
+				"message": "Nieprawidłowe miejsce offcanvas: \"$value$\"",
+				"details": "Dozwolone miejsca: top | bottom | start | end <br>https://getbootstrap.com/docs/5.3/components/offcanvas/"
+			},
+
+			"size": {
+				"message": "Nieprawidłowy rozmiar offcanvas: \"$value$\"",
+				"details": "Dozwolone rozmiary: sm | md | lg | xl | xxl <br>https://getbootstrap.com/docs/5.3/components/offcanvas/"
+			},
+
+			"lack": {
+				"message": "Offcanvas o podanej nazwie: \"$value$\" nie istnieje!"
+			}
+		},
+
+		"sidebar": {
+			"duplicate": {
+				"message": "Sidebar o podanej nazwie: \"$value$\" już istnieje."
+			},
+
+			"lack": {
+				"message": "Sidebar o podanej nazwie: \"$value$\" nie istnieje!"
+			},
+
+			"incomplete": {
+				"message": "Deklaracja sidebar o nazwie: \"$value$\" jest niekompletna!"
+			}
+		}
+	},
+
 	"storage": {
 		"db": {
 			"dbSetFetchMode": {

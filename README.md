@@ -111,9 +111,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 			> search in all available options
 		- [ ] add the ability to search data
 
-- [ ] Layout class
+- [x] Layout class
 	- [x] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
-	- [ ] added _opus.css_ to **<head>** section in _layout.phtml_
+	- [x] added _opus.css_ to **<head>** section in _layout.phtml_
 	- [x] added _opus.js_ to **<head>** section in _layout.phtml_
 	- [x] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
 

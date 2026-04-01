@@ -126,6 +126,10 @@
 		}
 	},
 
+	"html": {
+		"form": {}
+	},
+
 	"storage": {
 		"db": {
 			"dbSetFetchMode": {

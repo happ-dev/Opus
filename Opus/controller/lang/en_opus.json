@@ -1,4 +1,9 @@
 {
 	"controller.login.user": "Username:",
-	"controller.login.password": "Password:"
+	"controller.login.password": "Password:",
+	"html.buttons.cancel": "Cancel",
+	"html.buttons.close": "Close",
+	"html.buttons.submit": "Submit",
+	"html.buttons.save": "Save",
+	"html.buttons.login": "Login"
 }

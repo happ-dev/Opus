@@ -1,4 +1,9 @@
 {
 	"controller.login.user": "Nazwa użytkownika:",
-	"controller.login.password": "Hasło:"
+	"controller.login.password": "Hasło:",
+	"html.buttons.cancel": "Anuluj",
+	"html.buttons.close": "Zamknij",
+	"html.buttons.submit": "Wyślij",
+	"html.buttons.save": "Zapisz",
+	"html.buttons.login": "Zaloguj"
 }
