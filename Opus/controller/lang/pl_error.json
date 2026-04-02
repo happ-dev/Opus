@@ -241,6 +241,20 @@
 
 			"incomplete": {
 				"message": "Deklaracja sidebar o nazwie: \"$value$\" jest niekompletna!"
+			},
+
+			"validateItems": {
+				"empty": {
+					"message": "ValidateSidebarItems::validateItems: Tablica elementów nie może być pusta!"
+				},
+
+				"isset": {
+					"message": "ValidateSidebarItems::validateItems: Parametr '$value$' jest wymagany w elemencie o indeksie $value$."
+				},
+
+				"parametr": {
+					"message": "ValidateSidebarItems::validateItems: $value$"
+				}
 			}
 		}
 	},

@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 18:13:37
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 20:28:27
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-04-02 12:51:06
  **/
 
 namespace Opus\html\sidebar;
@@ -320,6 +320,9 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 				['message' => $name]
 			);
 		}
+
+		// Validate items
+		ValidateSidebarItems::validateItems($items);
 
 		// Set default values for options
 		$options->asidePadding ??= 'pe-0 pt-3 pb-3';

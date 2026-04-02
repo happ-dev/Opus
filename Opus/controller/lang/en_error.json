@@ -127,7 +127,136 @@
 	},
 
 	"html": {
-		"form": {}
+		"form": {
+			"setAttribute": {
+				"message": "Form::setAttribute: $value$ is not a valid HTML::form attribute"
+			},
+
+			"validateElement": {
+				"isset": {
+					"message": "Form::addElement: Parameter $value$ is required!"
+				},
+
+				"empty": {
+					"message": "Form::addElement: Parameter $value$ cannot be null!"
+				},
+
+				"parametr": {
+					"message": "Form::addElement: $value$"
+				}
+			},
+
+			"getElement": {
+				"message": "Form::getElement: No element found with the given identifier: $value$."
+			},
+
+			"csrf": {
+				"message": "Form::csrfToken:: $value$."
+			}
+		},
+
+		"table": {
+			"addTable": {
+				"validateAttributes": {
+					"message": "Table::addTable: Parameter $value$ is required!",
+					"parametr": {
+						"message": "Table::addTable: $value$"
+					}
+				},
+
+				"validateStructure": {
+					"message": "$value$"
+				},
+
+				"validateTbodyStructure": {
+					"message": "Table::addTable: Each row in tbody must be an array with index: $value$.",
+					"row": {
+						"message": "Table::addTable: Missing column $value$ in tbody row with index $value$."
+					}
+				}
+			},
+
+			"getTableById": {
+				"message": "TableParamsValidate::getTableById: No table found with the given ID $value$.",
+
+				"indexKey": {
+					"message": "Multiple tables found with ID $value$: $value$."
+				}
+			}
+		},
+
+		"collapses": {
+			"duplicate": {
+				"message": "Collapse with the given name: \"$value$\" already exists."
+			},
+
+			"lack": {
+				"message": "Collapse with the given name: \"$value$\" does not exist!"
+			}
+		},
+
+		"modals": {
+			"size": {
+				"message": "Invalid modal size: \"$value$\"",
+				"details": "Allowed sizes: sm | lg | xl | fullscreen <br>https://getbootstrap.com/docs/5.3/components/modal/"
+			},
+
+			"duplicate": {
+				"message": "Modal with the given name: \"$value$\" already exists."
+			},
+
+			"lack": {
+				"message": "Modal with the given name: \"$value$\" does not exist!"
+			}
+		},
+
+		"offcanvas": {
+			"duplicate": {
+				"message": "Offcanvas with the given name: \"$value$\" already exists."
+			},
+
+			"placement": {
+				"message": "Invalid offcanvas placement: \"$value$\"",
+				"details": "Allowed placements: top | bottom | start | end <br>https://getbootstrap.com/docs/5.3/components/offcanvas/"
+			},
+
+			"size": {
+				"message": "Invalid offcanvas size: \"$value$\"",
+				"details": "Allowed sizes: sm | md | lg | xl | xxl <br>https://getbootstrap.com/docs/5.3/components/offcanvas/"
+			},
+
+			"lack": {
+				"message": "Offcanvas with the given name: \"$value$\" does not exist!"
+			}
+		},
+
+		"sidebar": {
+			"duplicate": {
+				"message": "Sidebar with the given name: \"$value$\" already exists."
+			},
+
+			"lack": {
+				"message": "Sidebar with the given name: \"$value$\" does not exist!"
+			},
+
+			"incomplete": {
+				"message": "Sidebar declaration with the name: \"$value$\" is incomplete!"
+			},
+
+			"validateItems": {
+				"empty": {
+					"message": "ValidateSidebarItems::validateItems: Items array cannot be empty!"
+				},
+
+				"isset": {
+					"message": "ValidateSidebarItems::validateItems: Parameter '$value$' is required in element at index $value$."
+				},
+
+				"parametr": {
+					"message": "ValidateSidebarItems::validateItems: $value$"
+				}
+			}
+		}
 	},
 
 	"storage": {
