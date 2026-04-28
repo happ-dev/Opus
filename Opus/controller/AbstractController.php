@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 17:25:15
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-03-28 17:08:39
+ * @Last Modified time: 2026-04-19 14:17:13
  **/
 
 namespace Opus\controller;
@@ -259,6 +259,9 @@ abstract class AbstractController
 		self::$layout->title = Config::getConfig()->title;
 		self::$layout->icon = Config::getConfig()->icon;
 		self::$layout->vendor = Config::getConfig()->vendor;
+		self::$layout->navbar ??= new stdClass();
+		self::$layout->navbar->brandIcon = Config::getConfig('navbar')->brand_icon;
+		self::$layout->navbar->brandText = Config::getConfig('navbar')->brand_text;
 		self::$layout->opusLib = $this->createJsLib(true);
 		self::$layout->opusCss = $this->copyCssFile();
 		self::$layout->appLib = $this->createJsLib(false);

@@ -6,12 +6,16 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-18 11:33:40
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-03-28 17:09:32
+ * @Last Modified time: 2026-04-28 10:43:01
  **/
 
 namespace Opus\view\layout;
 
 use Opus\config\Config;
+use Opus\html\form\Form;
+use Opus\html\buttons\Buttons;
+use Opus\view\navbar\Navbar;
+use Opus\view\login\Login;
 use Opus\controller\TraitController;
 
 class Layout
@@ -20,6 +24,8 @@ class Layout
 
 	public ?string $opusMainAppScript;
 	public ?string $appScript;
+	protected ?object $navbar;
+	protected ?string $loginForm;
 
 	public function __construct(protected mixed $content = null, protected object $layout)
 	{
@@ -32,6 +38,16 @@ class Layout
 			$this->layout->appJs,
 			fn($c) => "$(document).ready(function () {\n{$c}\n\t\t});"
 		);
+		$this->layout->navbar->closeButtonX = $this->offcanvasCloseButton();
+		$this->navbar = Navbar::getInstance()->appsNavbar()->userNavbar();
+		$this->loginForm = match (Config::getConfig('navbar')->login_form === true && $_SESSION['logged'] === false) {
+			true => (function () {
+				$login = new Login();
+				return $login->modal->getModalByName('nav-opus-login');
+			})(),
+			false => null
+		};
+
 		return require_once $layout->index;
 	}
 
@@ -126,4 +142,18 @@ class Layout
 		return $wrapper ? $wrapper($content) : $content;
 	}
 
+	private function offcanvasCloseButton(): string
+	{
+		$form = new Form();
+		$form->addElement(Buttons::closeButtonX(
+			'opus-nav-offcanvas',
+			[
+				'data-bs-dismiss' => 'offcanvas',
+				'aria-label' => 'Close',
+				'data-bs-target' => '#id__opus-nav-offcanvas'
+			]
+		));
+
+		return $form->getElement('close-btn-opus-nav-offcanvas');
+	}
 }

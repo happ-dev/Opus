@@ -6,12 +6,14 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 17:53:49
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 18:10:45
+ * @Last Modified time: 2026-04-27 10:43:52
  **/
 
 namespace Opus\html\modal;
 
 use Opus\controller\exception\ControllerException;
+use Opus\html\form\Form;
+use Opus\html\buttons\Buttons;
 
 class Modal		// all CSS class are to be improved as soon as they are created!!!
 {
@@ -30,14 +32,14 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 	 *        - size: (string|null) Modal size - 'sm', 'lg', 'xl', 'fullscreen', or null for default
 	 *        - centered: (bool) Whether to vertically center the modal (default: false)
 	 *        - scrollable: (bool) Whether the modal body should be scrollable (default: false)
-	 *        - shadow: (string) CSS class for shadow effects (default: 'bs-happ-lime-3d')
+	 *        - shadow: (string) CSS class for shadow effects (default: 'bs-opus-lime-3d')
 	 *        - ajax: (bool) Whether to include AJAX support with alerts and loader (default: true)
 	 *        - form: (bool) Whether to wrap modal content in a form element (default: false)
 	 *        - method: (string) HTTP method for form submission (default: 'post')
 	 *        - action: (string|null) Form action URL (default: null)
 	 *        - static: (bool|array) Static backdrop configuration (default: ['data-bs-backdrop' => 'static'])
 	 *        - header: (string|null) Additional HTML content for the header section
-	 *        - headerClass: (string) CSS classes for header styling (default: 'modal-header-happ-lime bs-happ-lime')
+	 *        - headerClass: (string) CSS classes for header styling (default: 'modal-header-opus-lime bs-opus-lime')
 	 *        - headerIcon: (string|null) Bootstrap icon class for header icon
 	 *        - headerText: (string|null) Text content for header title
 	 *        - body: (string|null) HTML content for the modal body
@@ -60,7 +62,7 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 		$options->size ??= null;
 		$options->centered ??= false;
 		$options->scrollable ??= false;
-		$options->shadow ??= 'bs-happ-green-3d';
+		$options->shadow ??= 'bs-opus-green-3d';
 		$options->ajax ??= true;
 		$options->form ??= false;
 		$options->formId ??= 'id__' . $name . '-form';
@@ -71,9 +73,17 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 		$options->static ??= ['data-bs-backdrop' => 'static'];
 		$options->keyboard ??= ['data-bs-keyboard' => 'true'];
 		$options->header ??= null;
-		$options->headerClass ??= 'modal-header-happ-green bs-happ-green';
+		$options->headerClass ??= 'modal-header-opus-green bs-opus-green';
 		$options->headerIcon ??= null;
 		$options->headerText ??= null;
+		$options->headerCloseX ??= (function () use ($name) {
+			$form = new Form();
+			$form->addElement(Buttons::closeButtonX(
+				'modal-' . $name,
+				['data-bs-dismiss' => 'modal']
+			));
+			return $form->getElement('close-btn-modal-' . $name);
+		})();
 		$options->body ??= null;
 		$options->footer ??= null;
 
@@ -141,11 +151,12 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 		// Create modal header
 		$this->modals[$name]['header'] = <<<HTML
 		<div class="modal-header {$name}-header {$options->headerClass}">
+			<div class="position-absolute btn-close-x">{$options->headerCloseX}</div>
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<h5 id="{$options->id}-label">
-							<span class="me-1 ms-2 badge bg-happ-black bs-happ-black fs-5">
+							<span class="me-1 ms-0 badge bg-opus-black bs-opus-black fs-5">
 								<i id="id_{$name}-icon-header" class="bi {$options->headerIcon}"></i>
 							</span>
 							<span id="id_{$name}-text-header" class="me-2">{$options->headerText}</span>
@@ -165,8 +176,8 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 			<!-- alerts -->
 			<div class="row {$name}-alerts">
 				<div class="col">
-					<div class="alert alert-danger bs-happ-red-3d" style="word-break: normal"></div>
-					<div class="alert alert-success bs-happ-lime-3d" style="word-break: normal"></div>
+					<div class="alert alert-danger bs-opus-red-3d" style="word-break: normal"></div>
+					<div class="alert alert-success bs-opus-lime-3d" style="word-break: normal"></div>
 				</div>
 			</div>
 
@@ -181,7 +192,7 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 
 		// Create modal body
 		$this->modals[$name]['body'] = <<<HTML
-		<div class="modal-body modal-body-happ {$name}-body">
+		<div class="modal-body modal-body-opus {$name}-body">
 			<div class="container">
 
 				{$this->modals[$name]['ajax']}
@@ -198,7 +209,7 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 
 		// Create modal footer
 		$this->modals[$name]['footer'] = <<<HTML
-		<div class="modal-footer modal-footer-happ justify-content-center {$name}-footer">{$options->footer}</div>
+		<div class="modal-footer modal-footer-opus justify-content-center {$name}-footer">{$options->footer}</div>
 		HTML;
 
 		// Store options for later reference

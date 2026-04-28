@@ -1,9 +1,14 @@
 {
 	"controller.login.user": "Nazwa użytkownika:",
 	"controller.login.password": "Hasło:",
+	"controller.login.lang": "Język profilu",
 	"html.buttons.cancel": "Anuluj",
 	"html.buttons.close": "Zamknij",
 	"html.buttons.submit": "Wyślij",
 	"html.buttons.save": "Zapisz",
-	"html.buttons.login": "Zaloguj"
+	"html.buttons.login": "Zaloguj",
+	"navbar.default.item.settings": "Ustawienia",
+	"navbar.default.item.logs": "Logi",
+	"navbar.default.item.profile": "Profil",
+	"navbar.default.item.logout": "Wyloguj"
 }

@@ -6,10 +6,10 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 17:14:44
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 17:35:30
+ * @Last Modified time: 2026-04-28 09:41:37
  **/
 
-namespace Opus\html\form;
+namespace Opus\html\buttons;
 
 use Opus\html\form\Form;
 use Opus\controller\lang\Lang;
@@ -42,7 +42,7 @@ class Buttons
 			'text' => '<i class="me-1 bi bi-file-earmark-x"></i><em>' . Lang::getInstance()->get('html.buttons.cancel') . '</em>',
 			'attributes' => [
 				'type' => 'button',
-				'class' => 'btn btn-primary btn-sm'
+				'class' => 'btn btn-primary btn-sm bs-opus-black-3d'
 			]
 		];
 
@@ -78,11 +78,32 @@ class Buttons
 			'text' => '<i class="me-1 bi bi-file-earmark-check"></i><em>' . Lang::getInstance()->get('html.buttons.close') . '</em>',
 			'attributes' => [
 				'type' => 'button',
-				'class' => 'btn btn-dark btn-sm'
+				'class' => 'btn btn-dark btn-sm bs-opus-black-3d'
 			]
 		];
 
-		// Add modal dismiss attribute if specified
+		// Add attribute if specified
+		return match ($options) {
+			null => $button,
+			default => array_merge_recursive($button, ['attributes' => $options])
+		};
+	}
+
+	public static function closeButtonX(string $name, ?array $options = null): array
+	{
+		// Create base button configuration
+		$button = [
+			'name' => 'close-btn-' . $name,
+			'id' => 'id_close-btn-' . $name,
+			'tag' => 'button',
+			'text' => '<i class="bi bi-x-lg"></i>',
+			'attributes' => [
+				'type' => 'button',
+				'class' => 'btn btn-dark btn-sm bs-opus-black'
+			]
+		];
+
+		// Add attribute if specified
 		return match ($options) {
 			null => $button,
 			default => array_merge_recursive($button, ['attributes' => $options])
@@ -113,7 +134,7 @@ class Buttons
 			'text' => '<span></span><i class="me-1 bi bi-file-earmark-arrow-up"></i><em>' . Lang::getInstance()->get('html.buttons.submit') . '</em>',
 			'attributes' => [
 				'type' => 'submit',
-				'class' => 'btn btn-danger btn-sm'
+				'class' => 'btn btn-danger btn-sm bs-opus-black-3d'
 			]
 		];
 	}
@@ -142,7 +163,7 @@ class Buttons
 			'text' => '<span></span><i class="me-1 bi bi-file-earmark-arrow-down"></i><em>' . Lang::getInstance()->get('html.buttons.save') . '</em>',
 			'attributes' => [
 				'type' => 'submit',
-				'class' => 'btn btn-danger btn-sm'
+				'class' => 'btn btn-danger btn-sm bs-opus-black-3d'
 			]
 		];
 	}
@@ -171,7 +192,7 @@ class Buttons
 			'text' => '<i class="me-1 bi bi-person-up"></i><em>' . Lang::getInstance()->get('html.buttons.login') . '</em>',
 			'attributes' => [
 				'type' => 'submit',
-				'class' => 'btn btn-success btn-sm'
+				'class' => 'btn btn-success btn-sm bs-opus-black-3d'
 			]
 		];
 	}

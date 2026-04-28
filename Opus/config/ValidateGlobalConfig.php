@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 11:06:49
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:02:20
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-04-25 19:38:56
  **/
 
 namespace Opus\config;
@@ -51,6 +51,8 @@ abstract class ValidateGlobalConfig
 		'en' => ['US', 'GB', 'AU'],		// English variants
 		'pl' => ['PL']					// Polish variants
 	];
+	public const ALLOWED_LANGUAGES_TEXT = ['English', 'Polski'];
+	public const ALLOWED_ICON_EXTENSIONS = ['ico', 'png', 'svg', 'jpg', 'jpeg', 'gif'];
 
 	/**
 	 * Validates app names array
@@ -117,6 +119,41 @@ abstract class ValidateGlobalConfig
 		// Optional encoding validation
 		if ((property_exists($config, 'encoding')) && (!filter_var($config->encoding, FILTER_VALIDATE_REGEXP, self::REGEX_DB_ENCODING))) {
 			$errors[] = "Invalid encoding format: {$config->encoding}";
+		}
+
+		if (!empty($errors)) {
+			throw new Exception("Configuration validation failed:\n" . implode(PHP_EOL, $errors));
+		}
+	}
+
+	final protected function validateNavbarConfig(object &$config): void
+	{
+		$errors = [];
+		$required = [
+			'brand_icon' => fn($v) => preg_match('/^[a-z0-9_-]+\/[a-z0-9_.\/-]+\.(' . implode('|', self::ALLOWED_ICON_EXTENSIONS) . ')$/i', $v),
+			'brand_text' => fn($v) => is_string($v) && preg_match('/^(?=.{2,50}$)[\p{L}0-9_]+( [\p{L}0-9_]+)*$/u', $v),
+			'login_form' => fn($v) => (function ($v) use (&$config) {
+				$bool = filter_var($v, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+				$config->login_form = $bool ?? false;
+				return $bool !== null;
+			})($v)
+		];
+
+		foreach ($required as $field => $validator) {
+
+			if (!property_exists($config, $field)) {
+				$errors[] = "Missing required field: {$field}.";
+				continue;
+			}
+
+			if ($validator($config->$field) === false) {
+				$errors[] = match ($field) {
+					'brand_icon' => "Unsupported icon format: '{$field}'. Allowed: " . implode('|', self::ALLOWED_ICON_EXTENSIONS),
+					'brand_text' => 'Unsupported brand text',
+					'login_form' => "Invalid value for {$field}, allowed values: yes|true|no|false",
+					default => "Invalid value for {$field}."
+				};
+			}
 		}
 
 		if (!empty($errors)) {

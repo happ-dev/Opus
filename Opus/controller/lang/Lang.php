@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-13 09:45:59
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-13 11:36:43
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-04-19 21:26:40
  **/
 
 namespace Opus\controller\lang;
@@ -36,10 +36,7 @@ class Lang
 	 */
 	public static function getInstance(): Lang
 	{
-		if (self::$instance === null) {
-			self::$instance = new Lang();
-		}
-		return self::$instance;
+		return self::$instance ??= new Lang();
 	}
 
 	/**
@@ -64,12 +61,19 @@ class Lang
 	private function load(): void
 	{
 		// main Opus lang file
-		$opus = __DIR__ . '/../../../vendor/Opus/controller/lang/' . $_SESSION['lang'] . '_opus.json';
+		$opus = __DIR__ . '/' . $_SESSION['lang'] . '_opus.json';
 		self::$translations = Json::loadJsonFile($opus, true);
 
 		// Search through all configured applications
 		foreach (Config::getConfig()->apps as $app) {
-			$file = __DIR__ . '/../../../apps/' . $app . '/lang/' . $_SESSION['lang'] . '_' . $app . '.json';
+			// Opus app
+			$file = __DIR__ . '/../../apps/' . $app . '/lang/' . $_SESSION['lang'] . '_' . $app . '.json';
+
+			if (file_exists($file) === false) {
+				// User app
+				$file = __DIR__ . '/../../../apps/' . $app . '/lang/' . $_SESSION['lang'] . '_' . $app . '.json';
+			}
+
 			$appTranslations = Json::loadJsonFile($file, true);
 
 			if (is_array($appTranslations)) {

@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 13:29:20
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:01:47
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-04-19 13:59:53
  **/
 
 namespace Opus\config;
@@ -177,18 +177,12 @@ class Config extends ValidateGlobalConfig
 	 */
 	private function loadNavbarConfig(object $navbar): void
 	{
-		// test input $navbar parameter
-		$navbar ?: throw new Exception('Requaired parameter $navbar not found');
-
 		// Initialize navbar object
-		self::$config->navbar = new stdClass();
+		self::$config->navbar = $navbar
+			?: throw new Exception('Requaired parameter $navbar not found');
 
-		foreach ((array) $navbar as $key => $value) {
-			self::$config->navbar->{$key} = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
-				?: throw new Exception(
-					sprintf("Invalid value: '%s' for parameter: '%s'", $value, $key)
-				);
-		}
+		// validate navbar configuration
+		$this->validateNavbarConfig(self::$config->navbar);
 	}
 
 	/**
@@ -232,7 +226,6 @@ class Config extends ValidateGlobalConfig
 	private function loadIconConfig(?string $icon = null): void
 	{
 		$icon ??= 'vendor/opus/opus.svg';
-		$allowedExtensions = ['ico', 'png', 'svg', 'jpg', 'jpeg', 'gif'];
 		$fullPath = 'public/' . $icon;
 
 		if (!file_exists($fullPath)) {
@@ -241,8 +234,8 @@ class Config extends ValidateGlobalConfig
 
 		$extension = strtolower(pathinfo($icon, PATHINFO_EXTENSION));
 
-		if (!in_array($extension, $allowedExtensions)) {
-			throw new Exception("Unsupported icon format: '{$extension}'. Allowed: " . implode(', ', $allowedExtensions));
+		if (!in_array($extension, self::ALLOWED_ICON_EXTENSIONS)) {
+			throw new Exception("Unsupported icon format: '{$extension}'. Allowed: " . implode(', ', self::ALLOWED_ICON_EXTENSIONS));
 		}
 
 		self::$config->icon = $icon;

@@ -52,7 +52,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		- exception/
 		- json/
 	- view/
-		- script/
+		- script/				> all code moved to Layout Class
 		- layout/
 		- navbar/
 		- login/
@@ -204,6 +204,8 @@ Create file _config/global.json_.
 	],
 
 	"navbar": {
+		"brand_icon": "img/app-indicator-icon-happ.svg",
+		"brand_text": "Opus",
 		"login_form": "yes|true|no|false"
 	},
 
