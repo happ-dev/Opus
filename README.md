@@ -7,7 +7,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 > [!WARNING]
 > I'm not planning any more improvements, only bugs will be fixed.
 
-- [ ] adjust directory/namespace to current changes:
+- [X] adjust directory/namespace to current changes:
 > [!IMPORTANT]
 > __{{app_name}}__.* means that this file is required
 ```
@@ -127,9 +127,12 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] StorageException::indexAction() return a new View instead of null when the View class is ready
 	- [ ] ControllerException::indexAction() return a new View instead of null when the View class is ready
 
-- [x] write a Lang class to handle messages depending on the selected language
+- [x] Write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
 	> ?string $path: path to the message in the file __{{lang}}_opus.json__ or __{{lang}}_app.json__
+
+- [X] Query class, since Db::dbExecute changed the input values ​​and Db::dbPrepare was deprecated, the Query class can now generate an array of parameters to this function, similar to Db::dbTransactions:
+	- [X] Select
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_

@@ -97,6 +97,34 @@
 			}
 		},
 
+		"query": {
+			"validate": {
+				"param": {
+					"message": "Query::createQuery: Invalid parameter: \"$value$\" => \"$value$\"."
+				},
+
+				"data": {
+					"message": "Query::createQuery: Missing data for column: \"$value$\"."
+				},
+
+				"columns": {
+					"queryType": {
+						"message": "Query::createQuery: Invalid query type: \"$value$\""
+					},
+
+					"name": {
+						"message": "Query::createQuery: Column name: \"$value$\"::\"$value$\" contains invalid characters.",
+						"details": "Query type: $value$."
+					},
+
+					"type": {
+						"message": "Query::createQuery: Invalid column type: \"$value$\"::\"$value$\"",
+						"details": "Query type: $value$."
+					}
+				}
+			}
+		},
+
 		"login": {
 			"getUserLogin": {
 				"message": "The provided username: $value$ contains invalid characters."

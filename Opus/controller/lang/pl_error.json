@@ -123,6 +123,34 @@
 			"apage": {
 				"message": "Brak parametru \"$value$\" w $value$ uniemożliwia wyświetlenie strony."
 			}
+		},
+
+		"query": {
+			"validate": {
+				"param": {
+					"message": "Query::createQuery: Nieprawidłowy parametr: \"$value$\" => \"$value$\"."
+				},
+
+				"data": {
+					"message": "Query::createQuery: Brak danych dla kolumny: \"$value$\"."
+				},
+
+				"columns": {
+					"queryType": {
+						"message": "Query::createQuery: Nieprawidłowy typ zapytania: \"$value$\""
+					},
+
+					"name": {
+						"message": "Query::createQuery: Nazwa kolumny: \"$value$\"::\"$value$\" zawiera niedozwolone znaki.",
+						"details": "Rodzaj zapytania: $value$."
+					},
+
+					"type": {
+						"message": "Query::createQuery: Nieprawidłowy typ kolumny: \"$value$\"::\"$value$\"",
+						"details": "Rodzaj zapytania: $value$."
+					}
+				}
+			}
 		}
 	},
 
