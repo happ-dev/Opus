@@ -20,6 +20,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 			- sql/
 			- src/				> __{{App_name}}__Controller.php
 			- view/				> __{{app_name}}__Controller.phtml
+			- files/
+				- public/
+				- private/
 		- skeleton/
 		- settings/
 		- profile/
@@ -303,7 +306,7 @@ Create file _apps/app_name/config/app_name.config.json_.
 		"hello": {
 			"type": "apage",
 			"access": 3,
-			"view": "apps/hello/view/world/world.phtml",
+			"file": "apps/hello/view/world/WorldPage.php",
 			"class": "apps\\hello\\src\\world\\World"
 		}
 	},

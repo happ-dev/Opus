@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-14 09:08:34
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-14 09:26:49
+ * @Last Modified time: 2026-05-16 08:04:18
  **/
 
 namespace Opus\controller\login;
@@ -18,21 +18,6 @@ use Opus\storage\exception\StorageException;
 
 class Login extends AbstractLogin
 {
-	/**
-	 * Handles different types of login processes based on the login type
-	 *
-	 * @param string $loginType Type of login to process:
-	 * 					- TYPE_LOGIN_PAGE: Web page login
-	 * 					- TYPE_LOGIN_CLI: Command line interface login
-	 * 					- TYPE_LOGIN_API: API login
-	 *
-	 * @throws ControllerException When invalid login type is provided
-	 * @return void
-	 *
-	 * @see Login::TYPE_LOGIN_PAGE
-	 * @see Login::TYPE_LOGIN_CLI
-	 * @see Login::TYPE_LOGIN_API
-	 */
 	public static function login(string $loginType): void
 	{
 		$login = new Login();
@@ -55,22 +40,7 @@ class Login extends AbstractLogin
 		}
 	}
 
-	/**
-	 * Logs out the current user and destroys their session
-	 *
-	 * This method:
-	 * - Clears all session data
-	 * - Destroys the session
-	 * - Resets session variables to default values
-	 * - Redirects to the main page
-	 *
-	 * @return void
-	 *
-	 * @see session_unset()
-	 * @see session_destroy()
-	 * @see Request::url()
-	 */
-	public static function logout(): void
+	public static function logout(string $logoutType): void
 	{
 		session_unset();
 		session_destroy();
@@ -79,7 +49,11 @@ class Login extends AbstractLogin
 		$_SESSION['level'] = '0';
 		$_SESSION['lang'] = Config::getConfig()->langs[0];
 		$_SESSION['csrf'] = bin2hex(random_bytes(32));
-		header('Location: ' . Request::url('index.php?page=main'));
+
+		if ($logoutType === self::TYPE_LOGIN_PAGE) {
+			header('Location: ' . Request::url('index.php?page=api'));
+			exit;
+		}
 	}
 
 	/**

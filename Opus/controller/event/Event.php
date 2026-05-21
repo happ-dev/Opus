@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 13:24:42
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-09 13:29:15
+ * @Last Modified time: 2026-05-21 21:33:29
  **/
 
 namespace Opus\controller\event;
@@ -16,16 +16,28 @@ use Opus\controller\request\Request;
 
 class Event
 {
-
 	const TYPE_PAGE = Request::TYPE_PAGE;
 	const TYPE_ASYNC_PAGE = Request::TYPE_ASYNC_PAGE;
 	const TYPE_API = Request::TYPE_API;
 	const TYPE_CLI = Request::TYPE_CLI;
 
+	// Restricted applications by type
+	// Do not put your application names here
 	const TYPE_APPS = [
-		self::TYPE_PAGE => ['login', 'logout', 'download', 'upload'],
-		self::TYPE_ASYNC_PAGE => [],
-		self::TYPE_API => ['asyncevent', 'tableevent', 'injectevent'],
+		self::TYPE_PAGE => [
+			'login',		// EventException -> Login::login(Login::TYPE_LOGIN_PAGE)
+			'logout',		// EventException -> Login::logout()
+			'download'		// EventException -> Download::downloadFile()
+		],
+		self::TYPE_API => [
+			'asyncevent',	// EventException -> AsyncEvent::doAsyncEvent()
+			'tableevent',	// EventException -> TableEvent::doTableEvent()
+			'injectevent',	// EventException -> InjectEvent::doInjectEvent()
+			'uploadevent'	// EventException -> UploadEvent::doUploadEvent()
+		],
+		self::TYPE_ASYNC_PAGE => [
+			'asyncpage'		// EventException -> AsyncPage::doAsyncPage()
+		],
 		self::TYPE_CLI => []
 	];
 
@@ -49,17 +61,19 @@ class Event
 	 *
 	 * Factory method that handles three types of events:
 	 * - PAGE and API events: validates the request parameter against TYPE_APPS
+	 * - ASYNC_PAGE events: validates the request parameter against TYPE_APPS
 	 * - CLI events: validates the app parameter against TYPE_APPS
 	 *
-	 * @param string $type Event type (TYPE_PAGE, TYPE_API, or TYPE_CLI)
+	 * @param string $type Event type (TYPE_PAGE, TYPE_ASYNC_PAGE, TYPE_API, or TYPE_CLI)
 	 * @param string|null $app Application identifier to be validated for CLI events
-	 * @param string|null $request Request identifier to be validated for PAGE/API events
+	 * @param string|null $request Request identifier to be validated for PAGE/ASYNC_PAGE/API events
 	 *
 	 * @throws EventException When:
 	 *      - PAGE/API: request matches restricted types in TYPE_APPS
+	 * 		- ASYNC_PAGE: request matches restricted types in TYPE_APPS
 	 *      - CLI: app matches restricted types in TYPE_APPS
 	 * @return mixed Returns the result of:
-	 *      - Normal flow: indexAction(), apiAction(), or cliAction() from app object
+	 *      - Normal flow: indexAction(), apiAction(), asyncAction() or cliAction() from app object
 	 *      - Exception flow: corresponding action from EventException handler
 	 *
 	 * @see Event::TYPE_APPS
@@ -68,6 +82,30 @@ class Event
 	public static function newEvent(string $type, ?string $app, ?string $request): mixed
 	{
 		$event = new self();
-		return null;
+
+		try {
+
+			if ($type !== self::TYPE_CLI && in_array($request, self::TYPE_APPS[$type])) {
+				throw new EventException($request);
+			} elseif ($type === self::TYPE_CLI && in_array($app, self::TYPE_APPS[$type])) {
+				throw new EventException($app);
+			}
+
+			$obj = $event->createAppObject($app);
+
+			return match ($type) {
+				self::TYPE_PAGE => $obj->indexAction(),
+				self::TYPE_API => $obj->apiAction(),
+				self::TYPE_CLI => $obj->cliAction(),
+				self::TYPE_ASYNC_PAGE => $obj->asyncAction()
+			};
+		} catch (EventException $eventException) {
+			return match ($type) {
+				self::TYPE_PAGE => $eventException->indexAction(),
+				self::TYPE_API => $eventException->apiAction(),
+				self::TYPE_CLI => $eventException->cliAction(),
+				self::TYPE_ASYNC_PAGE => $eventException->asyncAction()
+			};
+		}
 	}
 }

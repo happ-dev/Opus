@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-13 08:31:06
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-14 09:07:25
+ * @Last Modified time: 2026-05-16 08:03:15
  **/
 
 namespace Opus\controller\login;
@@ -42,6 +42,11 @@ abstract class AbstractLogin
 	/**
 	 * Logs out the current user and destroys their session
 	 *
+	 * @param string $logoutType Type of login to process:
+	 * 					- TYPE_LOGIN_PAGE: Web page login
+	 * 					- TYPE_LOGIN_CLI: Command line interface login
+	 * 					- TYPE_LOGIN_API: API login
+	 *
 	 * This method:
 	 * - Clears all session data
 	 * - Destroys the session
@@ -54,7 +59,7 @@ abstract class AbstractLogin
 	 * @see session_destroy()
 	 * @see Request::url()
 	 */
-	abstract public static function logout();
+	abstract public static function logout(string $logoutType);
 
 	/**
 	 * Reloads user configuration settings
@@ -324,6 +329,7 @@ abstract class AbstractLogin
 
 		$this->setLogged($user, $pass);
 		header('Location: ' . Request::url('index.php?page=main'));
+		exit;
 	}
 
 	/**

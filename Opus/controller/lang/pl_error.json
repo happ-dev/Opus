@@ -52,6 +52,103 @@
 			}
 		},
 
+		"event": {
+			"download": {
+				"param": {
+					"message": "Event::downloadFile: Brak parametru '$value$'."
+				},
+
+				"paramInvalid": {
+					"message": "Event::downloadFile: Nazwa pliku: '$value$' nie spełnia wymagań."
+				},
+
+				"fileExists": {
+					"message": "Event::downloadFile: Plik o podaniej nazwie nie istnieje!",
+					"details": "$value$"
+				},
+
+				"fileReadable": {
+					"message": "Event::downloadFile: Brak dostępu do pliku!",
+					"details": "$value$"
+				}
+			},
+
+			"upload": {
+				"param": {
+					"message": "Event::uploadFile: Brak parametru '$value$'."
+				},
+
+				"paramInvalid": {
+					"message": "Event::uploadFile: Nazwa pliku: '$value$' nie spełnia wymagań."
+				},
+
+				"noFile": {
+					"message": "Event::uploadFile: Nie przesłano żadnego pliku!"
+				},
+
+				"uploadError": {
+					"message": "Event::uploadFile: Błąd przesyłania pliku, kod: $value$."
+				},
+
+				"mkdir": {
+					"message": "Event::uploadFile: Nie można utworzyć katalogu docelowego!",
+					"details": "$value$"
+				},
+
+				"dirWritable": {
+					"message": "Event::uploadFile: Katalog docelowy nie jest zapisywalny!",
+					"details": "$value$"
+				},
+
+				"moveFailed": {
+					"message": "Event::uploadFile: Nie można przenieść pliku do katalogu docelowego!",
+					"details": "$value$"
+				}
+			}
+		},
+
+		"asyncEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "AsyncEvent::doAsyncEvent: Niepoprawny parametr: '$value$': '$value$'",
+					"details": "w konfiguracji: $value$\\asyncEvent\\$value$."
+				},
+
+				"file": {
+					"message": "AsyncEvent::doAsyncEvent: Plik: '$value$' nie istnieje!."
+				},
+
+				"class": {
+					"message": "AsyncEvent::doAsyncEvent: Brak deklaracji obiektu w pliku: '$value$'",
+					"details": "w konfiguracji: $value$\\asyncEvent\\$value$."
+				}
+			},
+
+			"validateForm": {
+				"empty": {
+					"message": "AsyncEvent::doAsyncEvent::$value$: Pusta wartość $value$ w formularzu."
+				}
+			}
+		},
+
+		"asyncPage": {
+			"validateConfig": {
+				"param": {
+					"message": "AsyncPage::doAsyncPage: Niepoprawny parametr: '$value$': '$value$'",
+					"details": "w konfiguracji: $value$\\asyncPage\\$value$."
+				},
+
+				"file": {
+					"message": "AsyncPage::doAsyncPage: Plik: '$value$' nie istnieje!."
+				},
+
+				"class": {
+					"message": "AsyncPage::AsyncPage: Brak deklaracji obiektu w pliku: '$value$'",
+					"details": "w konfiguracji: $value$\\AsyncPage\\$value$."
+				}
+			}
+		},
+
 		"tableEvent": {
 			"validateConfig": {
 				"param": {
@@ -74,6 +171,19 @@
 
 				"csrf": {
 					"message": "TableEvent::doTableEvent::tableQuery: $value$."
+				}
+			}
+		},
+
+		"injectEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "InjectEventHtml::doInjectEvent: Niepoprawny parametr: '$value$': '$value$'",
+					"details": "w konfiguracji: $value$\\injectEvent\\$value$."
+				},
+
+				"file": {
+					"message": "InjectEventHtml::doInjectEvent: Plik: '$value$' nie istnieje!."
 				}
 			}
 		},

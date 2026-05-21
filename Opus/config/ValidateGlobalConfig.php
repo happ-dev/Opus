@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 11:06:49
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-25 19:38:56
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-05-16 11:00:04
  **/
 
 namespace Opus\config;

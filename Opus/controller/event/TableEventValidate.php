@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 13:45:47
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-09 15:16:39
+ * @Last Modified time: 2026-05-19 20:09:29
  **/
 
 namespace Opus\controller\event;
@@ -33,7 +33,17 @@ class TableEventValidate
 	const VALID_TABLE_BUTTON_SHOW = 'data-show';
 	const VALID_TABLE_BUTTON_DELETE = 'data-delete';
 
-	public function __construct(public object $config) {}
+	public function __construct(public object $config)
+	{
+		$this->validateDb();
+		$this->validateColumns();
+		$this->validateJoin();
+		$this->validateSelect();
+		$this->validateButtons();
+		$this->validateDisabled();
+		$this->validateSearchBy();
+		$this->validateAccess();
+	}
 
 	/**
 	 * Validates and sets the database configuration
@@ -41,7 +51,7 @@ class TableEventValidate
 	 * If database is not specified in table configuration,
 	 * assigns the default database from storage configuration.
 	 *
-	 * @throws ConfigException When storage configuration is not available
+	 * @throws ControllerException When storage configuration is not available
 	 * @return void
 	 *
 	 * @see Config::getConfig()

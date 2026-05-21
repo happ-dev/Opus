@@ -52,6 +52,116 @@
 			}
 		},
 
+		"event": {
+			"download": {
+				"param": {
+					"message": "Event::downloadFile: Missing parameter '$value$'."
+				},
+
+				"paramInvalid": {
+					"message": "Event::downloadFile: File name: '$value$' does not meet the requirements."
+				},
+
+				"fileExists": {
+					"message": "Event::downloadFile: File with the given name does not exist!",
+					"details": "$value$"
+				},
+
+				"fileReadable": {
+					"message": "Event::downloadFile: No access to the file!",
+					"details": "$value$"
+				}
+			},
+
+			"upload": {
+				"param": {
+					"message": "Event::uploadFile: Missing parameter '$value$'."
+				},
+
+				"paramInvalid": {
+					"message": "Event::uploadFile: File name: '$value$' does not meet the requirements."
+				},
+
+				"noFile": {
+					"message": "Event::uploadFile: No file was uploaded!"
+				},
+
+				"uploadError": {
+					"message": "Event::uploadFile: File upload error, code: $value$."
+				},
+
+				"mkdir": {
+					"message": "Event::uploadFile: Cannot create target directory!",
+					"details": "$value$"
+				},
+
+				"dirWritable": {
+					"message": "Event::uploadFile: Target directory is not writable!",
+					"details": "$value$"
+				},
+
+				"moveFailed": {
+					"message": "Event::uploadFile: Cannot move file to target directory!",
+					"details": "$value$"
+				}
+			}
+		},
+
+		"asyncEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "AsyncEvent::doAsyncEvent: Invalid parameter: '$value$': '$value$'",
+					"details": "in configuration: $value$\\asyncEvent\\$value$."
+				},
+
+				"file": {
+					"message": "AsyncEvent::doAsyncEvent: File: '$value$' does not exist!."
+				},
+
+				"class": {
+					"message": "AsyncEvent::doAsyncEvent: Missing object declaration in file: '$value$'",
+					"details": "in configuration: $value$\\asyncEvent\\$value$."
+				}
+			},
+
+			"validateForm": {
+				"empty": {
+					"message": "AsyncEvent::doAsyncEvent::$value$: Empty value $value$ in form."
+				}
+			}
+		},
+
+		"asyncPage": {
+			"validateConfig": {
+				"param": {
+					"message": "AsyncPage::doAsyncPage: Invalid parameter: '$value$': '$value$'",
+					"details": "in configuration: $value$\\asyncPage\\$value$."
+				},
+
+				"file": {
+					"message": "AsyncPage::doAsyncPage: File: '$value$' does not exist!."
+				},
+
+				"class": {
+					"message": "AsyncPage::AsyncPage: Missing object declaration in file: '$value$'",
+					"details": "in configuration: $value$\\AsyncPage\\$value$."
+				}
+			}
+		},
+
+		"injectEvent": {
+			"validateConfig": {
+				"param": {
+					"message": "InjectEventHtml::doInjectEvent: Invalid parameter: '$value$': '$value$'",
+					"details": "in configuration: $value$\\injectEvent\\$value$."
+				},
+
+				"file": {
+					"message": "InjectEventHtml::doInjectEvent: File: '$value$' does not exist!."
+				}
+			}
+		},
+
 		"request": {
 			"route": {
 				"message": "Page:<br>&emsp;$value$<br> does not exist!"

@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-01-27 05:41:04
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:05:24
+ * @Last Modified time: 2026-05-16 12:21:18
  **/
 
 namespace Opus\controller\request;
@@ -25,11 +25,11 @@ class Request
 	 * Retrieves and filters a GET parameter
 	 *
 	 * @param string|null $key The name of the GET parameter to retrieve
-	 * @param int $filter The filter to apply (default: FILTER_DEFAULT)
+	 * @param int $filter The filter to apply (default: FILTER_UNSAFE_RAW)
 	 * @param array|int $options Additional options or flags for the filter
 	 * @return mixed The filtered value or null if the parameter doesn't exist
 	 */
-	public static function get(?string $key, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
+	public static function get(?string $key, int $filter = FILTER_UNSAFE_RAW, array|int $options = 0): mixed
 	{
 		return filter_input(INPUT_GET, $key, $filter, $options);
 	}
@@ -42,7 +42,7 @@ class Request
 	 * @param array|int $options Additional options or flags for the filter
 	 * @return mixed The filtered value or null if the parameter doesn't exist
 	 */
-	public static function post(?string $key, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
+	public static function post(?string $key, int $filter = FILTER_UNSAFE_RAW, array|int $options = 0): mixed
 	{
 		return filter_input(INPUT_POST, $key, $filter, $options);
 	}
@@ -55,7 +55,7 @@ class Request
 	 * @param array|int $options Additional options or flags for the filter
 	 * @return mixed The filtered value from GET, or POST if GET is null
 	 */
-	public static function filterInput(string $key, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
+	public static function filterInput(string $key, int $filter = FILTER_UNSAFE_RAW, array|int $options = 0): mixed
 	{
 		$inputGet = self::get($key, $filter, $options);
 		$inputPost = self::post($key, $filter, $options);
