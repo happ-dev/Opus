@@ -80,11 +80,9 @@ class LogHandlerException
 		string $exceptionType
 	): void {
 		Db::dbTransactions(
-			[
-				self::createLogTransactionParams($errorPath, $exMessage, $exDetails, $logType),
-				null,
-				$exceptionType
-			]
+			[self::createLogTransactionParams($errorPath, $exMessage, $exDetails, $logType)],
+			null,
+			$exceptionType
 		);
 	}
 

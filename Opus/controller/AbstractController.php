@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 17:25:15
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-19 14:17:13
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-05-24 13:11:37
  **/
 
 namespace Opus\controller;
@@ -363,6 +363,11 @@ abstract class AbstractController
 		self::scanFiles(self::$libs->js, self::$index->app, '/libs', 'js');
 	}
 
+	public static function getAppIndex(): object
+	{
+		return self::$index;
+	}
+
 	/**
 	 * Aggregates JavaScript library files into a single output string.
 	 *
@@ -414,6 +419,9 @@ abstract class AbstractController
 	 */
 	private function createJsLib(bool $opus = false): ?string
 	{
+		self::$libs ??= new stdClass();
+		self::$libs->js ??= [];
+
 		$libFile = new stdClass();
 		$libFile->dir = __DIR__ . '/../../../public/vendor/opus/';
 		$libFile->name = $opus === true
@@ -562,8 +570,9 @@ abstract class AbstractController
 	{
 		// Determine the request scenario
 		$scenario = match (true) {
-			self::$app === Config::OPUS_MAIN_APP && in_array($request, Event::TYPE_APPS['page']) => 'main_app',
-			!in_array($request, Config::getConfig(self::$app)->route) => 'invalid_route',
+			self::$app === Config::OPUS_MAIN_APP => 'main_app',
+			in_array($request, Event::TYPE_APPS['page']) => 'internal_app',
+			is_null(self::$app) || !in_array($request, Config::getConfig(self::$app)->route) => 'invalid_route',
 			default => 'standard_app'
 		};
 
@@ -577,6 +586,7 @@ abstract class AbstractController
 			if (!file_exists(self::$index->js)) {
 				throw new Exception('Controller::js->index: File could not be found: ' . PHP_EOL . self::$index->js);
 			}
+		} elseif ($scenario === 'internal_app') {	// don't load anything - login/logout/download end with exit
 		} elseif ($scenario === 'invalid_route') {	// Handle invalid routes
 			self::setErrorIndex();
 

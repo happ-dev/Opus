@@ -5,6 +5,7 @@
 	"event.message.save": "Data saved.",
 	"event.message.true": "True",
 	"event.message.false": "False",
+	"event.modal.message.head": "Error",
 	"event.table.editor.header.show": "Show entry",
 	"event.table.editor.header.add": "New entry",
 	"event.table.editor.header.edit": "Edit entry",

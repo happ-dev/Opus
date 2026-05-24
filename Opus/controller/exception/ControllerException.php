@@ -6,12 +6,13 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 15:46:44
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 15:58:36
+ * @Last Modified time: 2026-05-24 13:45:32
  **/
 
 namespace Opus\controller\exception;
 
 use Exception;
+use Opus\view\view\View;
 
 class ControllerException extends AbstractException
 {
@@ -67,7 +68,11 @@ class ControllerException extends AbstractException
 			LogHandlerException::LOG_TYPE_ERROR,
 			self::TYPE_PAGE_EXCEPTION
 		);
-		return null;
+
+		return new View([
+			'message' => $this->exMessage,
+			'details' => $this->exDetails
+		]);
 	}
 
 	public function asyncAction(): mixed

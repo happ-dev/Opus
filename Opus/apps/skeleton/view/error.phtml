@@ -1,0 +1,31 @@
+<!-- id__opus-error-message -->
+<?php
+$message = (isset($this->sview->message)) ? $this->sview->message : $this->message;
+$details = (isset($this->sview->details)) ? $this->sview->details : $this->details;
+
+$form = new \Opus\html\form\Form();
+$form->addElement(\Opus\html\buttons\Buttons::closeButton(
+	'opus-error',
+	['data-bs-dismiss' => 'modal']
+));
+
+$options = new stdClass();
+$options->centered = true;
+$options->shadow = 'bs-opus-red-3d';
+$options->ajax = false;
+$options->keyboard ??= ['data-bs-keyboard' => 'false'];
+$options->headerClass ??= 'modal-header-opus-red bs-opus-red';
+$options->headerIcon = 'bi-exclamation-triangle';
+$options->headerText = \Opus\controller\lang\Lang::getInstance()->get('event.modal.message.head');
+$options->body = <<<HTML
+<h6><span style="font-weight: bold;">{$message}</span></h6>
+<br>
+<span style="font-style: oblique;">{$details}</span>
+HTML;
+$options->footer = $form->getElement('close-btn-opus-error');
+
+$modal = new \Opus\html\modal\Modal();
+$modal->addModal('opus-error-message', $options);
+echo $modal->getModalByName('opus-error-message');
+?>
+<!-- id__opus-error-message -->

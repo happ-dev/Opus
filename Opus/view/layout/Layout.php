@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-18 11:33:40
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-28 10:43:01
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-05-24 12:03:00
  **/
 
 namespace Opus\view\layout;

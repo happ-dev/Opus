@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 09:54:34
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-03 17:18:41
+ * @Last Modified time: 2026-05-24 13:31:35
  **/
 
 namespace Opus\controller;
@@ -18,7 +18,6 @@ use Opus\controller\cli\CliColor;
 use Opus\controller\cli\CliArguments;
 use Opus\controller\event\Event;
 use Opus\controller\exception\ControllerException;
-use Opus\controller\query\Query;
 use Opus\storage\exception\StorageException;
 use Opus\view\layout\Layout;
 

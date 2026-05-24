@@ -66,7 +66,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 - README.md
 ```
 
-- [ ] required _public_ directory structure
+- [x] required _public_ directory structure
 ```
 - public/
 	- vendor/
@@ -89,6 +89,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		> if **"role"** parameter is _prod_ it will only check if the file exists, if not, it will be copied
 	- ~~[ ] _css_ files provided in _config/global.json_ copied to _public/css_:~~
 		~~> regardless of _role_ parameter, it will only check if the file exists in _public/css_ if it is not copied~~
+	- [ ] design a light/dark view
 
 - [ ] JS
 	- [x] generating _opus.js_ file from _*.js_ files located in _Opus/js_
@@ -113,6 +114,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 			> setting a row limit
 			> search in all available options
 		- [ ] add the ability to search data
+	- [ ] add the ability to change the light/dark view from the navbar
 
 - [x] Layout class
 	- [x] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
@@ -127,8 +129,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 		> all external libraries should be in the _public/vendor/_ directory
 
 - [ ] View class
-	- [ ] StorageException::indexAction() return a new View instead of null when the View class is ready
-	- [ ] ControllerException::indexAction() return a new View instead of null when the View class is ready
+	- [x] StorageException::indexAction() return a new View instead of null when the View class is ready
+	- [x] ControllerException::indexAction() return a new View instead of null when the View class is ready
+	- [ ] finish while writing the __Demo__ application
 
 - [x] Write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
@@ -160,6 +163,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
 	- [x] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
 	- [x] Config::loadIconConfig, if the icon is not given it should be a standard one
+	- [ ] navbar incorrectly displays icons in resolutions other than the default browser resolution
 
 ## Hello World application
 > [!IMPORTANT]

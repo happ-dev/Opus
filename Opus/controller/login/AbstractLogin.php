@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-13 08:31:06
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-16 08:03:15
+ * @Last Modified time: 2026-05-24 13:24:16
  **/
 
 namespace Opus\controller\login;
@@ -295,7 +295,6 @@ abstract class AbstractLogin
 		$findResult = $this->findUser($user);
 
 		if ($findResult === false) {
-
 			throw new ControllerException(
 				'controller\login\findUser',
 				[

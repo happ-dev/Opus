@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-25 12:58:29
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-28 10:42:50
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-05-24 15:08:19
  **/
 
 namespace Opus\view\login;
@@ -42,7 +42,6 @@ class Login
 				'placeholder' => $opusLoginInputLabel
 			]
 		]);
-
 		$form->addElement([
 			'name' => 'opus-login-password',
 			'id' => 'id_opus-login-password',

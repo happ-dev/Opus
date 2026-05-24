@@ -195,12 +195,12 @@
 
 			"findUser": {
 				"message": "Konto użytkownika: $value$ nie istnieje.",
-				"details": "Proszę o kontakt pod adresem:<br>$value$"
+				"details": "Proszę o kontakt pod z: $value$"
 			},
 
 			"isUserAccountEnabled": {
 				"message": "Konto użytkownika: $value$ jest nieaktywne.",
-				"details": "Proszę o kontakt pod adresem:<br>$value$"
+				"details": "Proszę o kontakt pod z: $value$"
 			},
 
 			"isPasswordMatches": {

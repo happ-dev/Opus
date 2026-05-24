@@ -242,12 +242,12 @@
 
 			"findUser": {
 				"message": "User account: $value$ does not exist.",
-				"details": "Please contact:<br>$value$"
+				"details": "Please contact with: $value$"
 			},
 
 			"isUserAccountEnabled": {
 				"message": "User account: $value$ is inactive.",
-				"details": "Please contact:<br>$value$"
+				"details": "Please contact with: $value$"
 			},
 
 			"isPasswordMatches": {

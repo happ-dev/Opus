@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-14 09:08:34
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-16 08:04:18
+ * @Last Modified time: 2026-05-22 19:43:23
  **/
 
 namespace Opus\controller\login;
@@ -51,7 +51,7 @@ class Login extends AbstractLogin
 		$_SESSION['csrf'] = bin2hex(random_bytes(32));
 
 		if ($logoutType === self::TYPE_LOGIN_PAGE) {
-			header('Location: ' . Request::url('index.php?page=api'));
+			header('Location: ' . Request::url('index.php?page=main'));
 			exit;
 		}
 	}

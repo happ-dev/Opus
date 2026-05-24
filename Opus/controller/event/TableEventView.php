@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-21 19:27:54
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 19:46:05
+ * @Last Modified time: 2026-05-22 20:39:01
  **/
 
 namespace Opus\controller\event;
@@ -61,6 +61,33 @@ class TableEventView extends ArrayObject
 		$form->addElement(Buttons::cancelButton('table-event', 'modal'));							// id_cancel-btn-table-event
 		$form->addElement(Buttons::closeButton('table-event', ['data-bs-dismiss' => 'modal']));		// id_close-btn-table-event
 		$form->addElement(Buttons::saveButton('table-event'));										// id_save-btn-table-event
+
+		$options = new stdClass();
+		$options->id = $this->id;
+		$options->size = 'xl';
+		$options->scrollable = false;		// if form is true, value must be false because bootstrap issue
+		$options->form = true;
+		$options->body = <<<HTML
+			<div class="table-responsive pt-2 pb-2" id="id_body-table-event"></div>
+		HTML;
+		$options->footer = $form->getElement('close-btn-table-event')
+			. $form->getElement('save-btn-table-event')
+			. $form->getElement('cancel-btn-table-event');
+
+		$modal = new Modal();
+		$modal->addModal('table-event', $options);
+
+		ob_start();
+		echo <<<HTML
+		{$modal->getModalByName('table-event')}
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+			});
+		</script>
+		HTML;
+
+		$this->indexAction = ob_get_clean();
 	}
 
 	public function __toString()

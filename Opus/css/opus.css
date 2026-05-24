@@ -2,8 +2,8 @@
 /**
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-28 15:47:02
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-28 09:44:51
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-05-24 15:58:46
  */
 
 :root,
@@ -30,6 +30,10 @@
 	--bi-opus-black: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 1%, rgba(25, 25, 25, 0.9));
 	--bs-opus-black: 0 0 20px rgba(0, 0, 0, 0.9);
 	--bs-opus-black-3d: 0 2px 4px rgba(100, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.2), 0 16px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	--bs-opus-focus-ring-color: rgba(50, 205, 50, 0.25);
+	--bs-opus-focus-ring-shadow: 0 0 0 0.25rem rgba(50, 205, 50, 0.5);
+	--bs-opus-bg-sm-hover: rgba(25, 135, 86, 0.9);
+	--bs-opus-bg-sm-selected: rgba(12, 65, 40, 0.9);
 }
 
 .bg-opus-box-theme {
@@ -259,9 +263,7 @@
 }
 
 .modal-footer-opus {
-/*	border: none !important;
-	background-color: var(--bs-gray-200);
-*/	box-shadow: 0 -2px 6px -2px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 -2px 6px -2px rgba(0, 0, 0, 0.15);
 }
 
 .modal-login-form-text {
@@ -271,4 +273,20 @@
 
 .modal-login-form-img {
 	filter: brightness(0) saturate(100%) invert(1) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.8));
+}
+
+/*
+ * Modified values ​​from Bootstrap
+*/
+.form-select:focus, .form-control:focus {
+	border-color: var(--bs-opus-focus-ring-color) !important;
+	box-shadow: var(--bs-opus-focus-ring-shadow) !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+	color: var(--bs-white) !important;
+	background: var(--bs-opus-bg-sm-hover);
+	border-radius: none;
+	box-shadow: var(--bs-opus-black);
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
