@@ -6,7 +6,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-19 17:56:36
  * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-21 20:56:36
+ * @Last Modified time: 2026-05-25 21:09:07
  **/
 
 namespace Opus\view\navbar;
@@ -333,19 +333,24 @@ class Navbar
 	public function userNavbarHtml(): ?string
 	{
 		if ($_SESSION['logged'] === false && Config::getConfig('navbar')->login_form === false) {
-			return '';
+			return <<<HTML
+			<ul class="navbar-nav flex-row flex-wrap ms-xxl-auto">
+				{$this->themeNavbarHtml()}
+			</ul>
+			HTML;
 		}
 
 		if ($_SESSION['logged'] === false && Config::getConfig('navbar')->login_form === true) {
 			$loginText = Lang::getInstance()->get('html.buttons.login');
 			return <<<HTML
-				<ul class="navbar-nav flex-row flex-wrap ms-xxl-auto">
-					<li class="nav-item col-6 col-xxl-auto">
-						<a class="nav-link nav-link-opus py-1 px-0 m-auto px-xxl-2" href="#" data-bs-toggle="modal" data-bs-target="#id__nav-opus-login">
-							<i class="bi bi-person-up me-1"></i>{$loginText}
-						</a>
-					</li>
-				</ul>
+			<ul class="navbar-nav flex-row flex-wrap ms-xxl-auto">
+				<li class="nav-item col-6 col-xxl-auto">
+					<a class="nav-link nav-link-opus py-1 px-0 m-auto px-xxl-2" href="#" data-bs-toggle="modal" data-bs-target="#id__nav-opus-login">
+						<i class="bi bi-person-up me-1"></i>{$loginText}
+					</a>
+				</li>
+				{$this->themeNavbarHtml()}
+			</ul>
 			HTML;
 		}
 
@@ -370,6 +375,59 @@ class Navbar
 			HTML;
 		}
 
+		$html .= $this->themeNavbarHtml();
 		return $html . '</ul>';
+	}
+
+	private function themeNavbarHtml(): ?string
+	{
+		$autoText = Lang::getInstance()->get('navbar.theme.item.auto');
+		$lightText = Lang::getInstance()->get('navbar.theme.item.light');
+		$darkText = Lang::getInstance()->get('navbar.theme.item.dark');
+		return <<<HTML
+		<li class="nav-item py-1 py-xxl-0 col-12 col-xxl-auto">
+			<div class="vr d-none d-xxl-flex h-100 mx-xxl-2 text-white"></div>
+			<hr class="d-xxl-none my-2 text-white-50">
+		</li>
+		<li class="nav-item col-6 col-xxl-auto dropdown">
+			<button class="btn btn-default nav-link nav-link-opus py-1 px-0 m-auto px-xxl-2 dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				<i class="bi bi-display"></i>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-end bs-opus-black-3d mode-switch">
+				<li>
+					<button title="{$lightText}"
+						class="dropdown-item d-flex align-items-center btn btn-default"
+						data-bs-theme-value="light"
+						aria-pressed="false"
+					>
+						<i class="me-1 bi bi-sun"></i>{$lightText}
+					</button>
+				</li>
+				<li>
+					<button title="{$darkText}"
+						class="dropdown-item d-flex align-items-center btn btn-default"
+						data-bs-theme-value="dark"
+						aria-pressed="false"
+					>
+						<i class="me-1 bi bi-moon"></i>{$darkText}
+					</button>
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li>
+					<button title="{$autoText}"
+						class="dropdown-item d-flex align-items-center btn btn-default"
+						data-bs-theme-value="auto"
+						aria-pressed="true"
+					>
+						<i class="me-1 bi bi-circle-half"></i>{$autoText}
+					</button>
+				</li>
+			</ul>
+		</li>
+		HTML;
 	}
 }

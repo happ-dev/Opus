@@ -18,5 +18,8 @@
 	"navbar.default.item.settings": "Ustawienia",
 	"navbar.default.item.logs": "Logi",
 	"navbar.default.item.profile": "Profil",
-	"navbar.default.item.logout": "Wyloguj"
+	"navbar.default.item.logout": "Wyloguj",
+	"navbar.theme.item.auto": "Automatyczny",
+	"navbar.theme.item.light": "Jasny",
+	"navbar.theme.item.dark": "Ciemny"
 }
