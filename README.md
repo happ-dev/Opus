@@ -109,11 +109,12 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- ~~[ ] adding a file __{{app_name}}.js__ to the end of **<body>**~~
 	- [x] adjust **function scanFiles(array &$indexes, string $app, string $scanDir, string $fileType): void**
 		> ~~searching for files according to their intended purpose [TYPE_PAGE|TYPE_SUBPAGE]~~
-	- [ ] write my own select menu, proposed name __singleSelect__
+	- [ ] write my own select menu, proposed name __OpusSingleSelect__
 		- [ ] add the ability to get data using ajax
 			> setting a row limit
 			> search in all available options
 		- [ ] add the ability to search data
+	- [ ] write my own DatePicker proposed name __OpusDatePicker__
 	- [ ] add the ability to change the light/dark view from the navbar
 
 - [x] Layout class
@@ -138,7 +139,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 	> ?string $path: path to the message in the file __{{lang}}_opus.json__ or __{{lang}}_app.json__
 
 - [X] Query class, since Db::dbExecute changed the input values ​​and Db::dbPrepare was deprecated, the Query class can now generate an array of parameters to this function, similar to Db::dbTransactions:
-	- [X] Select
+	- [X] SELECT
 
 - [ ] subpages loaded asynchronously
 	- [ ] asynchronous functions for loading subpage content in _global.js_
@@ -156,7 +157,20 @@ Please do not use it for any projects because it is very likely to be full of ho
 		~~> returns a complete new view consisting of HTML and JS, similar to the *View* class~~
 
 - [ ] new internal app: _demo_
-	> App is intended to demonstrate all the possibilities offered by the Opus Framework
+	> App is intended to demonstrate all the possibilities offered by the Opus Framework.
+	> All subpages loaded asynchronously, via asyncPage event, all links selected via sidebar.
+	- [ ] Sidebar (
+		modal, offcanvas, collapse, buttons, table with asyncTable,
+		__OpusMultipleSelect__, __OpusSingleSelect__, __OpusDatePicker__
+	)
+	- [ ] Modal
+	- [ ] Offcanvas
+	- [ ] Collapse
+	- [ ] Buttons
+	- [ ] Table with asyncTable event
+	- [ ] __OpusMultipleSelect__
+	- [ ] __OpusSingleSelect__ - write your own interpretation replacing Select2
+	- [ ] __OpusDatePicker__ - write your own interpretation replacing TempusDominus
 
 - [ ] known issues:
 	- [ ] icon in the header disappears when you click on the modal again
