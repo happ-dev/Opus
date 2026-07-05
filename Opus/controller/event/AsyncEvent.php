@@ -60,16 +60,27 @@ class AsyncEvent
 	 * Processes and executes the async event
 	 *
 	 * This method:
-	 * 1. Initializes and validates the configuration
-	 * 2. Includes the specified file
-	 * 3. Instantiates the event class
-	 * 4. Executes the apiAction method
+	 * 1. Validates CSRF token
+	 * 2. Initializes and validates the configuration
+	 * 3. Includes the specified file
+	 * 4. Instantiates the event class
+	 * 5. Executes the apiAction method
 	 *
 	 * @return mixed Result from the apiAction method
-	 * @throws ControllerException If configuration validation fails
+	 * @throws ControllerException If CSRF validation fails or configuration validation fails
 	 */
 	public static function doAsyncEvent(): mixed
 	{
+		$csrf = Request::validateCsrfToken();
+
+		if ($csrf !== true) {
+			throw new ControllerException(
+				'controller\asyncEvent\csrf',
+				['message' => $csrf],
+				ControllerException::TYPE_API_EXCEPTION
+			);
+		}
+
 		self::selectConfig();
 		require_once self::$config->async->file;
 		$objEvent = new self::$config->async->class;

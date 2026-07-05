@@ -6,12 +6,13 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 18:13:37
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-04-02 12:51:06
+ * @Last Modified time: 2026-07-05 15:25:20
  **/
 
 namespace Opus\html\sidebar;
 
 use stdClass;
+use Opus\html\TraitHTML;
 use Opus\libs\Common;
 use Opus\html\form\Form;
 use Opus\controller\request\Request;
@@ -34,7 +35,7 @@ use Opus\controller\exception\ControllerException;
  *        - dropdown: (array, optional) Array of dropdown items with same structure as main items
  *        - Custom HTML attributes can be added (e.g., 'data-bs-toggle', 'data-bs-target')
  * @param object $options Configuration options for the sidebar:
- *        - asidePadding: (string) CSS classes for aside element padding (default: 'pe-0 pt-3 pb-3')
+ *        - asideClasses: (string) CSS classes for aside element
  *        - id: (string) Unique ID for the sidebar (auto-generated as 'id_{name}-sidebar')
  *        - additionalClasses: (string) Additional CSS classes for sidebar container (default: 'sidebar-body-happ')
  *        - additionalHtmlTags: (array|false) Custom HTML attributes for aside element (default: false)
@@ -48,9 +49,7 @@ use Opus\controller\exception\ControllerException;
  */
 class Sidebar		// all CSS class are to be improved as soon as they are created!!!
 {
-	const VALID_LANG_KEY = ['options' => ['regexp' => '/^[a-zA-Z]+(\.[a-zA-Z]+)*$/']];
-	const VALID_HREF = ['options' => ['regexp' => '/^page=(\w+)(?:&spage=(\w+))?$/']];
-	const EXCLUDED_KEYS = ['href', 'icon', 'text', 'dropdown'];
+	use TraitHTML;
 
 	private array $sidebars;
 
@@ -97,7 +96,11 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 	 */
 	private function span(string $key, string $size): string
 	{
-		$text = Lang::getInstance()->get($key);
+		$text = match (filter_var($key, FILTER_VALIDATE_REGEXP, self::VALID_LANG_KEY) !== false) {
+			true => Lang::getInstance()->get($key),
+			false => $key
+		};
+
 		return <<<HTML
 		<span style="font-size: {$size};">{$text}</span>
 		HTML;
@@ -117,12 +120,12 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 	{
 		return (!isset($item['dropdown']))
 			? <<<HTML
-			<i class="is-happ-black {$size} bi {$item['icon']}"></i>
+			<i class="is-opus-black {$size} bi {$item['icon']}"></i>
 			HTML
 			: <<<HTML
 			<div class="d-flex align-items-center justify-content-end">
-				<i class="is-happ-black {$size} bi {$item['icon']}"></i>
-				<i class="is-happ-black bi bi-chevron-compact-right"></i>
+				<i class="is-opus-black {$size} bi {$item['icon']}"></i>
+				<i class="is-opus-black bi bi-chevron-compact-right"></i>
 			</div>
 			HTML;
 	}
@@ -180,14 +183,17 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 
 		// Add dropdown or regular navigation attributes
 		$element['attributes'] = match (isset($item['dropdown'])) {
-			true => array_merge_recursive(
-				$element['attributes'],
-				[
-					'data-bs-toggle' => 'dropdown',
-					'aria-expanded' => 'false',
-					'role' => 'button'
-				]
-			),
+			true => (function () use (&$element) {
+				$element['attributes']['class'] .= ' dropdown-toggle-opus';
+				return array_merge_recursive(
+					$element['attributes'],
+					[
+						'data-bs-toggle' => 'dropdown',
+						'aria-expanded' => 'false',
+						'role' => 'button'
+					]
+				);
+			})(),
 			false => array_merge_recursive(
 				$element['attributes'],
 				[
@@ -324,13 +330,13 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 		// Validate items
 		ValidateSidebarItems::validateItems($items);
 
-		// Set default values for options
-		$options->asidePadding ??= 'pe-0 pt-3 pb-3';
+		// Set default values for options overflow-hidden overflow-auto
+		$options->asideClasses ??= 'sidebar-opus flex-shrink-0';
 		$options->id = 'id_' . $name . '-sidebar';
-		$options->additionalClasses ??= 'sidebar-body-happ';
+		$options->additionalClasses ??= 'sidebar-body-opus';
 		$options->additionalHtmlTags ??= false;		// [key => value]
 		$options->itemPadding ??= 'pt-2';
-		$options->itemAdditionalClasses ??= 'nav-link-happ';
+		$options->itemAdditionalClasses ??= 'nav-link-opus align-items-center';
 		$options->itemIconSize ??= 'fs-1';
 		$options->itemTextSize ??= 'var(--bs-body-font-size-sm)';
 
@@ -338,7 +344,7 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 
 		// Create base sidebar structure
 		$this->sidebars[$name] = [
-			'class' => 'col-auto ' . $options->asidePadding
+			'class' => $options->asideClasses
 		];
 
 		if ($options->additionalHtmlTags !== false) {
@@ -351,7 +357,7 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 		// Configure child sidebar dialog classes
 		$this->sidebars[$name]['child-div'] = [
 			'id' => $options->id,
-			'class' => 'nav nav-pills text-center ' . $options->additionalClasses
+			'class' => 'nav nav-pills d-flex flex-column ' . $options->additionalClasses
 		];
 
 		// Items
@@ -361,13 +367,11 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 			$this->sidebars[$name]['items'][$key] = match (true) {
 				isset($item['dropdown']) => (function () use (&$form, $item, $el, $options) {
 					return <<<HTML
-					<li class="nav-item {$options->itemPadding}">
-						<div class="dropend">
-							{$form->getElement($el)}
-							<ul class="dropdown-menu">
-								{$this->dropdownMenuHtml($form,$item['dropdown'])}
-							</ul>
-						</div>
+					<li class="nav-item dropdown {$options->itemPadding}">
+						{$form->getElement($el)}
+						<ul class="dropdown-menu bs-opus-black-3d">
+							{$this->dropdownMenuHtml($form,$item['dropdown'])}
+						</ul>
 					</li>
 					HTML;
 				})(),
@@ -384,7 +388,6 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 
 		// Store options for later reference
 		$this->sidebars[$name]['options'] = $options;
-
 		return $this;
 	}
 

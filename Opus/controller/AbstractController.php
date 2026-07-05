@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 17:25:15
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 13:11:37
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-07-02 19:45:52
  **/
 
 namespace Opus\controller;
@@ -117,6 +117,7 @@ abstract class AbstractController
 			$_SESSION['logged'] = false;
 			$_SESSION['level'] = '0';
 			$_SESSION['lang'] = 'en';
+			$_SESSION['csrf'] = bin2hex(random_bytes(32));
 		}
 	}
 
@@ -259,6 +260,7 @@ abstract class AbstractController
 		self::$layout->title = Config::getConfig()->title;
 		self::$layout->icon = Config::getConfig()->icon;
 		self::$layout->vendor = Config::getConfig()->vendor;
+		self::$layout->appVendor = self::$index->vendor;
 		self::$layout->navbar ??= new stdClass();
 		self::$layout->navbar->brandIcon = Config::getConfig('navbar')->brand_icon;
 		self::$layout->navbar->brandText = Config::getConfig('navbar')->brand_text;
@@ -351,6 +353,7 @@ abstract class AbstractController
 		self::$index->app = $mainApp === true ? Config::OPUS_MAIN_APP : self::$app;
 		self::$index->index = Config::getConfig(self::$index->app)->view->index;
 		self::$index->js = Config::getConfig(self::$index->app)->js->index;
+		self::$index->vendor = Config::getConfig(self::$index->app)->vendor;
 		self::$index->classes = [];
 		self::$index->indexesModals = [];
 		self::$index->indexesOffcanvas = [];
@@ -427,7 +430,7 @@ abstract class AbstractController
 		$libFile->name = $opus === true
 			? 'opus.js'
 			: self::$app . '.lib.js';
-		$libFile->headPath = 'vendor/opus/' . $libFile->name;
+		$libFile->headPath = 'opus/' . $libFile->name;
 		$libFile->fullPath = $libFile->dir . $libFile->name;
 		$libFile->success = false;
 
@@ -488,7 +491,7 @@ abstract class AbstractController
 		$cssFile->opusDir = __DIR__ . '/../../../vendor/Opus/css/';
 		$cssFile->publicDir = __DIR__ . '/../../../public/vendor/opus/';
 		$cssFile->fullPath = $cssFile->publicDir . $cssFile->css;
-		$cssFile->headPath = 'vendor/opus/' . $cssFile->css;
+		$cssFile->headPath = 'opus/' . $cssFile->css;
 		$cssFile->success = false;
 
 		// Ensure the directory exists
@@ -703,7 +706,7 @@ abstract class AbstractController
 	protected function asyncRequest(string $request): string
 	{
 		$accessObj = new stdClass();
-		$accessObj->asyncPage = $request;
+		$accessObj->asyncPage = Request::fromUrl('event');
 		$app = Request::fromUrl('app');
 
 		// Handle direct async page calls (no app specified in URL)

@@ -213,8 +213,10 @@ class Request
 	 *
 	 * @return bool|string True if valid, error message otherwise
 	 */
-	final public static function validateCsrfToken(): bool
+	final public static function validateCsrfToken(): bool|string
 	{
+		if (php_sapi_name() === 'cli') return true;
+
 		// Check for token in header
 		$token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 

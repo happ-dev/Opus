@@ -1,1 +1,11 @@
-DemoController
+<!-- sidebar -->
+<?= $this->sidebar->getSidebarByName('demo') ?>
+
+<!-- main -->
+<main class="flex-grow-1 overflow-auto p-2"></main>
+
+<!-- id__opus-demo-static-modal -->
+<?= $this->staticModal->getModalByName("opus-demo-static-modal") ?>
+
+<!-- id__opus-demo-dynamic-modal -->
+<?= $this->dynamicModal->getModalByName("opus-demo-dynamic-modal") ?>

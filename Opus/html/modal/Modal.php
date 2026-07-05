@@ -5,18 +5,22 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 17:53:49
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-27 10:43:52
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-07-05 15:22:44
  **/
 
 namespace Opus\html\modal;
 
+use Opus\html\TraitHTML;
+use Opus\controller\lang\Lang;
 use Opus\controller\exception\ControllerException;
 use Opus\html\form\Form;
 use Opus\html\buttons\Buttons;
 
-class Modal		// all CSS class are to be improved as soon as they are created!!!
+class Modal
 {
+	use TraitHTML;
+
 	private array $modals;
 
 	/**
@@ -147,6 +151,13 @@ class Modal		// all CSS class are to be improved as soon as they are created!!!
 				'value' => $_SESSION['csrf']
 			];
 		}
+
+		// Header Text
+		$options->headerText = match (true) {
+			is_null($options->headerText) => null,
+			filter_var($options->headerText, FILTER_VALIDATE_REGEXP, self::VALID_LANG_KEY) !== false => Lang::getInstance()->get($options->headerText),
+			default => $options->headerText
+		};
 
 		// Create modal header
 		$this->modals[$name]['header'] = <<<HTML

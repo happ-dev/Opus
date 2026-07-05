@@ -30,11 +30,25 @@ class View extends ArrayObject
 
 	public function __toString()
 	{
-		return preg_replace(
+		$content = $this->indexAction . $this->indexModals . $this->indexOffcanvas;
+
+		// Preserve content inside <code> blocks from comment removal
+		$preserved = [];
+		$content = preg_replace_callback('/<code[^>]*>[\s\S]*?<\/code>/i', function ($match) use (&$preserved) {
+			$key = '<!--PRESERVED_' . count($preserved) . '-->';
+			$preserved[$key] = $match[0];
+			return $key;
+		}, $content);
+
+		// Remove comments from remaining content
+		$content = preg_replace(
 			'/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/',
 			'',
-			$this->indexAction . $this->indexModals . $this->indexOffcanvas
+			$content
 		);
+
+		// Restore preserved <code> blocks
+		return str_replace(array_keys($preserved), array_values($preserved), $content);
 	}
 
 	/**

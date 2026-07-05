@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-24 16:24:39
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 16:25:38
+ * @Last Modified time: 2026-06-06 15:38:32
  **/
 
 namespace Opus\apps\demo\src;
@@ -18,6 +18,10 @@ class DemoController implements InterfaceIndexController
 {
 	public function indexAction()
 	{
-		return new View();
+		return new View([
+			'sidebar' => DemoSidebar::getSidebar(),
+			'staticModal' => modal\DemoStaticModal::demoModal(),
+			'dynamicModal' => modal\DemoDynamicModal::demoModal(),
+		]);
 	}
 }

@@ -2,50 +2,55 @@
 
 <html lang="<?= $this->layout->lang ?>" data-bs-theme="dark">
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?= $this->layout->title ?></title>
-		<link rel="shortcut icon" href="<?= $this->layout->icon ?>">
-		<?= $this->layout->stylesheets ?>
-		<?= $this->layout->scripts ?>
-		<script type="text/javascript"><?= $this->opusMainAppScript ?></script>
-	</head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?= $this->layout->title ?></title>
+	<link rel="shortcut icon" href="<?= $this->layout->icon ?>">
+	<meta name="csrf-token" content="<?= $_SESSION['csrf'] ?>">
+	<?= $this->layout->stylesheets ?>
+	<?= $this->layout->scripts ?>
+	<script type="text/javascript">
+		<?= $this->opusMainAppScript ?>
+	</script>
+</head>
 
-	<body>
-		<header class="navbar navbar-expand-lg sticky-top bg-opus-green bs-opus-green-3d">
-			<nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+<body class="vh-100 d-flex flex-column">
+	<header class="navbar navbar-expand-lg sticky-top bg-opus-green bs-opus-green-3d">
+		<nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
 
-				<a class="navbar-brand-opus" href="<?= \Opus\controller\request\Request::url('index.php') ?>">
-					<img src="<?= $this->layout->navbar->brandIcon ?>" alt="<?= $this->layout->navbar->brandText ?>" class="navbar-brand-opus-icon">
-					<span class="navbar-brand-opus-text d-inline-block align-text-top"><?= $this->layout->navbar->brandText ?></span>
-				</a>
+			<a class="navbar-brand-opus" href="<?= \Opus\controller\request\Request::url('index.php') ?>">
+				<img src="<?= $this->layout->navbar->brandIcon ?>" alt="<?= $this->layout->navbar->brandText ?>" class="navbar-brand-opus-icon">
+				<span class="navbar-brand-opus-text d-inline-block align-text-top"><?= $this->layout->navbar->brandText ?></span>
+			</a>
 
-				<button class="navbar-toggler navbar-toggler-opus d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#id__opus-nav-offcanvas" aria-controls="id__opus-nav-offcanvas" aria-expanded="false" aria-label="Toggle navigation">
-					<i class="bi bi-list"></i>
-				</button>
+			<button class="navbar-toggler navbar-toggler-opus d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#id__opus-nav-offcanvas" aria-controls="id__opus-nav-offcanvas" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="bi bi-list"></i>
+			</button>
 
-				<div class="offcanvas offcanvas-end flex-grow-1" tabindex="-1" id="id__opus-nav-offcanvas" aria-labelledby="id__opus-nav-offcanvas-label" data-bs-scroll="true">
-					<div class="offcanvas-header bg-opus-green bs-opus-green-3d mb-4 px-4 d-flex justify-content-between align-items-center d-lg-none">
-						<h5 class="offcanvas-title offcanvas-brand-opus" id="id__nav-opus-offcanvas-label">
-							<img src="<?= $this->layout->navbar->brandIcon ?>" alt="<?= $this->layout->navbar->brandText ?>" class="offcanvas-brand-opus-icon">
-							<span class="offcanvas-brand-opus-text"><?= $this->layout->navbar->brandText ?></span>
-						</h5>
-						<?= $this->layout->navbar->closeButtonX ?>
-					</div>
-					<div class="offcanvas-body p-4 pt-0 p-lg-0">
-						<?= $this->navbar->appsNavbarHtml() ?>
-						<?= $this->navbar->userNavbarHtml() ?>
-					</div>
+			<div class="offcanvas offcanvas-end flex-grow-1" tabindex="-1" id="id__opus-nav-offcanvas" aria-labelledby="id__opus-nav-offcanvas-label" data-bs-scroll="true">
+				<div class="offcanvas-header bg-opus-green bs-opus-green-3d mb-4 px-4 d-flex justify-content-between align-items-center d-lg-none">
+					<h5 class="offcanvas-title offcanvas-brand-opus" id="id__nav-opus-offcanvas-label">
+						<img src="<?= $this->layout->navbar->brandIcon ?>" alt="<?= $this->layout->navbar->brandText ?>" class="offcanvas-brand-opus-icon">
+						<span class="offcanvas-brand-opus-text"><?= $this->layout->navbar->brandText ?></span>
+					</h5>
+					<?= $this->layout->navbar->closeButtonX ?>
 				</div>
+				<div class="offcanvas-body p-4 pt-0 p-lg-0">
+					<?= $this->navbar->appsNavbarHtml() ?>
+					<?= $this->navbar->userNavbarHtml() ?>
+				</div>
+			</div>
 
-			</nav>
-		</header>
-		<div class="container-fluid">
-			<?= $this->content ?>
-			<?= $this->loginForm ?>
-		</div>
-		<script type="text/javascript"><?= $this->appScript ?></script>
-	</body>
+		</nav>
+	</header>
+	<div class="d-flex flex-grow-1 overflow-hidden">
+		<?= $this->content ?>
+		<?= $this->loginForm ?>
+	</div>
+	<script type="text/javascript">
+		<?= $this->appScript ?>
+	</script>
+</body>
 
 </html>

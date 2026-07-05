@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 09:44:17
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:02:55
+ * @Last Modified time: 2026-06-28 18:23:49
  **/
 
 namespace Opus\config;
@@ -34,6 +34,8 @@ class ValidateAppConfig
 	private const REGEX_TABLE_NAME = ['options' => ['regexp' => '/^[a-z_]+\.[a-z_]+$/']];
 	private const REGEX_ASYNC_FILE = ['options' => ['regexp' => '/^(vendor\/Opus\/)?apps\/[a-z]+\/src\/[a-zA-Z0-9\/_-]+\.php$/']];
 	private const REGEX_ASYNC_CLASS = ['options' => ['regexp' => '/^(Opus\\\\)?apps\\\\[a-z]+\\\\src\\\\([a-z]+\\\\)?[a-zA-Z]+Api$/']];
+	private const REGEX_ASYNC_PAGE_VIEW = ['options' => ['regexp' => '/^(vendor\/Opus\/)?apps\/[a-z]+\/src\/[a-zA-Z0-9\/_-]+\.php$/']];
+	private const REGEX_ASYNC_PAGE_CLASS = ['options' => ['regexp' => '/^(Opus\\\\)?apps\\\\[a-z]+\\\\src\\\\([a-z]+\\\\)?[a-zA-Z]+$/']];
 
 	protected array $errors = [];
 
@@ -62,9 +64,10 @@ class ValidateAppConfig
 			->validateJsSection($config)
 			->validateIdTableEventSection($config)
 			->validateInjectEventSection($config)
-			->validateAsyncPage($config)
+			->validateAsyncPageSection($config)
 			->validateTableEventSection($config)
-			->validateAsyncEventSection($config);
+			->validateAsyncEventSection($config)
+			->validateVendor($config);
 
 		if (!empty($validator->errors)) {
 			throw new Exception(
@@ -414,7 +417,7 @@ class ValidateAppConfig
 	 * @param object $config The configuration object to validate
 	 * @return self Returns this instance for method chaining
 	 */
-	private function validateAsyncPage(object $config): self
+	private function validateAsyncPageSection(object $config): self
 	{
 		if (!property_exists($config, 'asyncPage')) {
 			return $this;
@@ -423,8 +426,8 @@ class ValidateAppConfig
 		$required = [
 			'type' => fn($v) => $v === 'apage',
 			'access' => fn($v) => filter_var($v, FILTER_VALIDATE_INT, self::REGEX_ACCESS),
-			'view' => fn($v) => filter_var($v, FILTER_VALIDATE_REGEXP, self::REGEX_VIEW_INDEX),
-			'class' => fn($v) => filter_var($v, FILTER_VALIDATE_REGEXP, self::REGEX_APP_CLASS)
+			'view' => fn($v) => filter_var($v, FILTER_VALIDATE_REGEXP, self::REGEX_ASYNC_PAGE_VIEW),
+			'class' => fn($v) => filter_var($v, FILTER_VALIDATE_REGEXP, self::REGEX_ASYNC_PAGE_CLASS)
 		];
 
 		foreach ($config->asyncPage as $name => $page) {
@@ -589,6 +592,36 @@ class ValidateAppConfig
 					};
 				}
 			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Validates the vendor section of the configuration
+	 *
+	 * This optional section validates vendor library file paths:
+	 * - Each path must be a string
+	 * - Must match pattern directory/filename.(css|js)
+	 * - File must exist in public/vendor/ directory
+	 *
+	 * @param object $config The configuration object to validate (passed by reference)
+	 * @return self Returns this instance for method chaining
+	 */
+	private function validateVendor(object &$config): self
+	{
+		if (!property_exists($config, 'vendor')) {
+			$config->vendor = [];
+			return $this;
+		}
+
+		foreach ($config->vendor as $path) {
+			match (true) {
+				!is_string($path) => $this->errors[] = "Vendor path must be a string",
+				!preg_match('/^[a-z0-9_-]+\/[a-z0-9_.\/-]+\.(css|js)$/i', $path) => $this->errors[] = "Invalid vendor path format: '{$path}'",
+				!file_exists('public/vendor/' . $path) => $this->errors[] = "Vendor file not found: 'public/vendor/{$path}'",
+				default => true
+			};
 		}
 
 		return $this;

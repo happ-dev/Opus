@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 20:13:07
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 20:41:39
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-06-28 18:34:57
  **/
 
 namespace Opus\html\sidebar;
@@ -89,7 +89,12 @@ class ValidateSidebarItems
 		}
 
 		// Validate dropdown
-		if ($item['href'] === '#' && !$isDropdown) {
+		if (
+			$item['href'] === '#'
+			&& !$isDropdown
+			&& !isset($item['data-bs-toggle'])
+			&& !isset($item['data-apage'])
+		) {
 			if (!isset($item['dropdown']) || !is_array($item['dropdown']) || empty($item['dropdown'])) {
 				throw new ControllerException(
 					'html\sidebar\validateItems\isset',

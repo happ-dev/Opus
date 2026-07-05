@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-21 19:53:05
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 21:46:42
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-07-01 13:50:07
  **/
 
 namespace Opus\controller\event;
@@ -21,7 +21,7 @@ class AsyncPageValidate
 	{
 		$this->config->async->type ??= ControllerException::TYPE_ASYNC_PAGE_EXCEPTION;
 		$this->validateAccessLevel();
-		$this->validateFile();
+		$this->validateView();
 		$this->validateClass();
 	}
 
@@ -49,34 +49,34 @@ class AsyncPageValidate
 	}
 
 	/**
-	 * Validates the file configuration parameter
+	 * Validates the view configuration parameter
 	 *
 	 * This method:
-	 * 1. Ensures the file parameter is defined in configuration
+	 * 1. Ensures the view parameter is defined in configuration
 	 * 2. Verifies that the specified file exists on the filesystem
 	 *
 	 * @return void
 	 * @throws ControllerException If file parameter is missing or file doesn't exist
 	 */
-	private function validateFile(): void
+	private function validateView(): void
 	{
-		$this->config->async->file ??= false;
+		$this->config->async->view ??= false;
 
-		if ($this->config->async->file === false) {
+		if ($this->config->async->view === false) {
 			throw new ControllerException(
 				'controller\asyncPage\validateConfig\param',
 				[
-					'message' => ['file', $this->config->async->file],
+					'message' => ['view', $this->config->async->view],
 					'details' => [$this->config->app, $this->config->event]
 				],
 				ControllerException::TYPE_ASYNC_PAGE_EXCEPTION
 			);
 		}
 
-		file_exists($this->config->async->file)
+		file_exists($this->config->async->view)
 			?: throw new ControllerException(
-				'controller\asyncPage\validateConfig\file',
-				['message' => $this->config->async->file],
+				'controller\asyncPage\validateConfig\view',
+				['message' => $this->config->async->view],
 				ControllerException::TYPE_ASYNC_PAGE_EXCEPTION
 			);
 	}
@@ -95,7 +95,7 @@ class AsyncPageValidate
 	{
 		$this->config->async->class ??= false;
 
-		if ($this->config->async->file === false) {
+		if ($this->config->async->view === false) {
 			throw new ControllerException(
 				'controller\asyncPage\validateConfig\param',
 				[
@@ -110,14 +110,14 @@ class AsyncPageValidate
 		$className = substr(strrchr($this->config->async->class, '\\'), 1);
 
 		// Read the file content
-		$fileContent = file_get_contents($this->config->async->file);
+		$fileContent = file_get_contents($this->config->async->view);
 
 		// Check if the class is declared in the file
 		if (!preg_match('/class\s+' . preg_quote($className) . '\s+/i', $fileContent)) {
 			throw new ControllerException(
 				'controller\asyncPage\validateConfig\param',
 				[
-					'message' => $this->config->async->file,
+					'message' => $this->config->async->view,
 					'details' => [$this->config->app, $this->config->event]
 				],
 				ControllerException::TYPE_ASYNC_PAGE_EXCEPTION

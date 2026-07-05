@@ -12,5 +12,40 @@
 	},
 	"js": {
 		"index": "vendor/Opus/apps/demo/js/demo.js"
+	},
+	"vendor": ["highlight/hljs.opus.css", "highlight/highlight.min.js"],
+	"asyncEvent": {
+		"demoDynamicModal": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/demo/src/modal/DemoDynamicModalApi.php",
+			"class": "Opus\\apps\\demo\\src\\modal\\DemoDynamicModalApi"
+		},
+		"demoDynamicOffcanvas": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/demo/src/offcanvas/DemoDynamicOffcanvasApi.php",
+			"class": "Opus\\apps\\demo\\src\\offcanvas\\DemoDynamicOffcanvasApi"
+		},
+		"demoDynamicCollapse": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/demo/src/collapse/DemoDynamicCollapseApi.php",
+			"class": "Opus\\apps\\demo\\src\\collapse\\DemoDynamicCollapseApi"
+		}
+	},
+	"asyncPage": {
+		"demoOffcanvas": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/offcanvas/DemoOffcanvas.php",
+			"class": "Opus\\apps\\demo\\src\\offcanvas\\DemoOffcanvas"
+		},
+		"demoCollapse": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/collapse/DemoCollapse.php",
+			"class": "Opus\\apps\\demo\\src\\collapse\\DemoCollapse"
+		}
 	}
 }

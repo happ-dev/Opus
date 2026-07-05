@@ -38,6 +38,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 		- query/
 		- request/
 	- html/
+		- asyncpage/
 		- form/					> moved from controller/
 		- table/				> moved from controller/
 		- buttons/				> moved from view/
@@ -117,11 +118,12 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] write my own DatePicker proposed name __OpusDatePicker__
 	- [x] add the ability to change the light/dark view from the navbar
 
-- [x] Layout class
+- [ ] Layout class
 	- [x] moving **"shortcut icon"** and **<title>** from _layout.phtml_ to _config/global.json_
 	- [x] added _opus.css_ to **<head>** section in _layout.phtml_
 	- [x] added _opus.js_ to **<head>** section in _layout.phtml_
 	- [x] added __{{app_name}}.lib.js__ to **<head>** section in _layout.phtml_
+	- [ ] rewrite offcanvas html in layout.phtml according to _Opus\html\offcanvas\Offcanvas_ class
 
 - [x] Config class
 	- [x] adapting the class to the new version of the configuration file
@@ -132,7 +134,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 - [ ] View class
 	- [x] StorageException::indexAction() return a new View instead of null when the View class is ready
 	- [x] ControllerException::indexAction() return a new View instead of null when the View class is ready
-	- [ ] finish while writing the __Demo__ application
+	- [ ] Finish while writing the __Demo__ application
 
 - [x] Write a Lang class to handle messages depending on the selected language
 	> proposed function `langEcho(?string $path): string {}`
@@ -142,10 +144,11 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [X] SELECT
 
 - [ ] subpages loaded asynchronously
-	- [ ] asynchronous functions for loading subpage content in _global.js_
+	- [x] new *AsyncPage* class, a template for asynchronous pages
+	- [x] asynchronous functions for loading subpage content in _global.js_
 	- [x] renamed _sApp_ to _asyncPage_ in __app_name.config.json__ file
-	- [ ] Event class will handle the asyncpage loading task
-		- [ ] create new event for asyncAction() in the Event class
+	- [x] Event class will handle the asyncpage loading task
+		- [x] create new event for asyncAction() in the Event class
 	- [x] new asyncAction(): mixed in InterfaceController
 	- [x] Request class, new type _TYPE_ASYNC_PAGE = 'apage'_
 	- ~~[ ] adjust *Request* class to detect subpage request~~
@@ -163,9 +166,9 @@ Please do not use it for any projects because it is very likely to be full of ho
 		modal, offcanvas, collapse, buttons, table with asyncTable,
 		__OpusMultipleSelect__, __OpusSingleSelect__, __OpusDatePicker__
 	)
-	- [ ] Modal
-	- [ ] Offcanvas
-	- [ ] Collapse
+	- [x] Modal
+	- [x] Offcanvas
+	- [x] Collapse
 	- [ ] Buttons
 	- [ ] Table with asyncTable event
 	- [ ] __OpusMultipleSelect__
@@ -173,11 +176,12 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [ ] __OpusDatePicker__ - write your own interpretation replacing TempusDominus
 
 - [ ] known issues:
-	- [ ] icon in the header disappears when you click on the modal again
+	- [x] icon in the header disappears when you click on the modal again
 	- [ ] Form::addElement, if there is no data in text, value add the message no data
 	- [x] ValidateGlobalConfig::validateAppsNames, config/global.json apps arrary it may be empty
 	- [x] Config::loadIconConfig, if the icon is not given it should be a standard one
 	- [ ] navbar incorrectly displays icons in resolutions other than the default browser resolution
+	- [ ] offcanvas-header - after changing the theme to dark, the text color remains black
 
 ## Hello World application
 > [!IMPORTANT]
@@ -312,6 +316,11 @@ Create file _apps/app_name/config/app_name.config.json_.
 		"index": "apps/hello/js/hello.js"
 	},
 
+	"vendor": [
+		"highlight/hljs.opus.css",
+		"highlight/highlight.min.js"
+	],
+
 	"idTableEvent": "id__hello-event-dt",
 
 	"injectEvent": {
@@ -324,7 +333,7 @@ Create file _apps/app_name/config/app_name.config.json_.
 		"hello": {
 			"type": "apage",
 			"access": 3,
-			"file": "apps/hello/view/world/WorldPage.php",
+			"view": "apps/hello/view/world/WorldPage.php",
 			"class": "apps\\hello\\src\\world\\World"
 		}
 	},

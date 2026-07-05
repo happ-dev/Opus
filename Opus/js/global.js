@@ -3,8 +3,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-27 18:51:03
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-05-25 22:00:05
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-06-28 00:17:03
  **/
 
 "use strict";
@@ -14,6 +14,10 @@ const http500 = `
 	Internal server error – the server encountered unexpected difficulties
 	that prevented the request from being fulfilled
 `;
+
+$.ajaxSetup({
+	headers: { "X-CSRF-Token": $("meta[name='csrf-token']").attr("content") },
+});
 
 document.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -80,14 +84,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	window.addEventListener("DOMContentLoaded", () => {
-		document.querySelectorAll("[data-bs-theme-value]").forEach((toggle) => {
-			toggle.addEventListener("click", () => {
-				const theme = toggle.getAttribute("data-bs-theme-value");
-				setStoredTheme(theme);
-				setTheme(theme);
-				showActiveTheme(theme);
-			});
+	document.querySelectorAll("[data-bs-theme-value]").forEach((toggle) => {
+		toggle.addEventListener("click", () => {
+			const theme = toggle.getAttribute("data-bs-theme-value");
+			setStoredTheme(theme);
+			setTheme(theme);
+			showActiveTheme(theme);
 		});
 	});
+
+	// Sidebar dropdown with fixed positioning
+	document.querySelectorAll(".sidebar-body-opus .dropdown-toggle-opus").forEach((toggle) => {
+		new bootstrap.Dropdown(toggle, {
+			popperConfig: {
+				strategy: "fixed",
+				placement: "right-start",
+				modifiers: [
+					{
+						name: "preventOverflow",
+						options: { boundary: "viewport" },
+					},
+				],
+			},
+		});
+	});
+
+	// Async page loading (event delegation, active link)
+	new OpusAsyncPage();
 });

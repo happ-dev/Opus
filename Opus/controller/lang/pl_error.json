@@ -108,6 +108,10 @@
 		},
 
 		"asyncEvent": {
+			"csrf": {
+				"message": "AsyncEvent::doAsyncEvent: $value$."
+			},
+
 			"validateConfig": {
 				"param": {
 					"message": "AsyncEvent::doAsyncEvent: Niepoprawny parametr: '$value$': '$value$'",
@@ -132,13 +136,17 @@
 		},
 
 		"asyncPage": {
+			"csrf": {
+				"message": "AsyncPage::doAsyncPage: $value$."
+			},
+
 			"validateConfig": {
 				"param": {
 					"message": "AsyncPage::doAsyncPage: Niepoprawny parametr: '$value$': '$value$'",
 					"details": "w konfiguracji: $value$\\asyncPage\\$value$."
 				},
 
-				"file": {
+				"view": {
 					"message": "AsyncPage::doAsyncPage: Plik: '$value$' nie istnieje!."
 				},
 
@@ -393,6 +401,12 @@
 				"parametr": {
 					"message": "ValidateSidebarItems::validateItems: $value$"
 				}
+			}
+		},
+
+		"asyncpage": {
+			"duplicate": {
+				"message": "Templatka asynchronicznej strony o podanej nazwie: \"$value$\" już istnieje"
 			}
 		}
 	},

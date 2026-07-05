@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-18 11:33:40
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 12:03:00
+ * @Last Modified time: 2026-06-11 18:24:47
  **/
 
 namespace Opus\view\layout;
@@ -29,6 +29,7 @@ class Layout
 
 	public function __construct(protected mixed $content = null, protected object $layout)
 	{
+		$_SESSION['csrf'] = bin2hex(random_bytes(32));
 		$this->setHeadLibs();
 		$this->opusMainAppScript = $this->buildScript(
 			$this->layout->js,
@@ -60,51 +61,31 @@ class Layout
 	 *
 	 * @return void
 	 */
-	private function setHeadLibs()
+	private function setHeadLibs(): void
 	{
-		$this->layout->stylesheets = (function () {
-			$html = '';
-			$css = preg_grep('/\.css$/i', Config::getConfig()->vendor);
+		$globalVendor = Config::getConfig()->vendor;
+		$appVendor = $this->layout->appVendor;
 
-			foreach ($css as $file) {
-				$html .= <<<HTML
-				<link rel="stylesheet" href="vendor/{$file}"/>
-				HTML;
-			}
+		$cssFiles = array_filter(array_merge(
+			preg_grep('/\.css$/i', $globalVendor),
+			preg_grep('/\.css$/i', $appVendor),
+			[$this->layout->opusCss]
+		));
 
-			if (!is_null($this->layout->opusCss)) {
-				$html .= <<<HTML
-				<link rel="stylesheet" href="{$this->layout->opusCss}"/>
-				HTML;
-			}
+		$jsFiles = array_filter(array_merge(
+			preg_grep('/\.js$/i', $globalVendor),
+			[$this->layout->opusLib],
+			preg_grep('/\.js$/i', $appVendor),
+			[$this->layout->appLib]
+		));
 
-			return $html . PHP_EOL;
-		})();
+		$this->layout->stylesheets = implode(PHP_EOL, array_map(
+			fn($f) => "<link rel=\"stylesheet\" href=\"vendor/{$f}\"/>", $cssFiles
+		)) . PHP_EOL;
 
-		$this->layout->scripts = (function () {
-			$html = '';
-			$js = preg_grep('/\.js$/i', Config::getConfig()->vendor);
-
-			foreach ($js as $file) {
-				$html .= <<<HTML
-				<script type="text/javascript" src="vendor/{$file}"></script>
-				HTML;
-			}
-
-			if (!is_null($this->layout->opusLib)) {
-				$html .= <<<HTML
-				<script type="text/javascript" src="{$this->layout->opusLib}"></script>
-				HTML;
-			}
-
-			if (!is_null($this->layout->appLib)) {
-				$html .= <<<HTML
-				<script type="text/javascript" src="{$this->layout->appLib}"></script>
-				HTML;
-			}
-
-			return $html . PHP_EOL;
-		})();
+		$this->layout->scripts = implode(PHP_EOL, array_map(
+			fn($f) => "<script type=\"text/javascript\" src=\"vendor/{$f}\"></script>", $jsFiles
+		)) . PHP_EOL;
 	}
 
 	/**

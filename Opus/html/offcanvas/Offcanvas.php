@@ -5,17 +5,23 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 18:04:49
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 18:12:13
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-07-05 16:51:08
  **/
 
 namespace Opus\html\offcanvas;
 
 use stdClass;
+use Opus\html\TraitHTML;
+use Opus\controller\lang\Lang;
 use Opus\controller\exception\ControllerException;
+use Opus\html\form\Form;
+use Opus\html\buttons\Buttons;
 
-class Offcanvas		// all CSS class are to be improved as soon as they are created!!!
+class Offcanvas
 {
+	use TraitHTML;
+
 	private array $offcanvas;
 
 	/**
@@ -27,8 +33,8 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 	 *                        - scrollable: Enable body scrolling (bool|array)
 	 *                        - static: Static backdrop configuration (bool|array)
 	 *                        - placement: Position ('start', 'end', 'top', 'bottom')
-	 *                        - shadow: CSS shadow class (string|bool)
-	 *                        - keyboard: Keyboard interaction (bool|array)
+	 *                        - shadow: CSS shadow class ('bs-opus-green-3d', string|bool)
+	 *                        - keyboard: Keyboard interaction (['data-bs-keyboard' => 'true'], bool|array)
 	 *                        - ajax: Enable AJAX loader/alerts (bool)
 	 *                        - form: Enable form wrapper (bool)
 	 *                        - formId: Form element ID (string)
@@ -37,7 +43,7 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 	 *                        - csrf: Enable CSRF token (bool)
 	 *                        - id: Offcanvas element ID (string)
 	 *                        - header: Additional header HTML (string)
-	 *                        - headerClass: Header CSS classes (string)
+	 *                        - headerClass: Header CSS classes ('offcanvas-header-opus-green bs-opus-green', string)
 	 *                        - headerIcon: Bootstrap icon class (string)
 	 *                        - headerText: Header title text (string)
 	 *                        - body: Body content HTML (string)
@@ -62,7 +68,7 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 		$options->scrollable ??= false;
 		$options->static ??= ['data-bs-backdrop' => 'static'];
 		$options->placement ??= 'end';
-		$options->shadow ??= 'bs-happ-green-3d';
+		$options->shadow ??= 'bs-opus-green-3d';
 		$options->keyboard ??= ['data-bs-keyboard' => 'true'];
 		$options->ajax ??= true;
 		$options->form ??= false;
@@ -72,11 +78,24 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 		$options->csrf ??= false;
 		$options->id ??= 'id__' . $name;
 		$options->header ??= null;
-		$options->headerClass ??= 'offcanvas-header-happ-green bs-happ-green';
+		$options->headerClass ??= 'offcanvas-header-opus-green bs-opus-green';
 		$options->headerIcon ??= null;
 		$options->headerText ??= null;
+		$options->headerCloseX ??= (function () use ($name, $options) {
+			$form = new Form();
+			$form->addElement(Buttons::closeButtonX(
+				'offcanvas-' . $name,
+				[
+					'data-bs-dismiss' => 'offcanvas',
+					'aria-label' => 'Close',
+					'data-bs-target' => '#' . $options->id
+				]
+			));
+			return $form->getElement('close-btn-offcanvas-' . $name);
+		})();
 		$options->body ??= null;
 		$options->footer ??= null;
+		$options->footerClasses ??= ($options->ajax === true) ? 'p-3' : '';
 
 		// Create base modal structure
 		$this->offcanvas[$name] = [
@@ -167,20 +186,25 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 			];
 		}
 
+		// Header Text
+		$options->headerText = match (true) {
+			is_null($options->headerText) => null,
+			filter_var($options->headerText, FILTER_VALIDATE_REGEXP, self::VALID_LANG_KEY) !== false => Lang::getInstance()->get($options->headerText),
+			default => $options->headerText
+		};
+
 		// Create offcanvas header
 		$this->offcanvas[$name]['header'] = <<<HTML
 		<div class="offcanvas-header justify-content-between {$name}-header {$options->headerClass}">
 			<h5 class="offcanvas-title" id="{$options->id}-label">
-				<span class="me-1 ms-2 badge bg-happ-black bs-happ-black fs-5">
+				<span class="me-1 ms-2 badge bg-opus-black bs-opus-black fs-5">
 					<i id="id_{$name}-icon-header" class="bi {$options->headerIcon}"></i>
 				</span>
 				<span id="id_{$name}-text-header" class="me-2">{$options->headerText}</span>
 				<span id="id_{$name}-post-header"></span>
 				{$options->header}
 			</h5>
-			<button id="id_close-btn-{$name}-header" type="button" class="btn btn-dark btn-sm bs-happ-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#{$options->id}">
-				<i class="bi bi-x-lg"></i>
-			</button>
+			{$options->headerCloseX}
 		</div>
 		HTML;
 
@@ -191,8 +215,8 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 			<!-- alerts -->
 			<div class="row {$name}-alerts">
 				<div class="col">
-					<div class="alert alert-danger bs-happ-red-3d" style="word-break: normal"></div>
-					<div class="alert alert-success bs-happ-lime-3d" style="word-break: normal"></div>
+					<div class="alert alert-danger bs-opus-red-3d" style="word-break: normal"></div>
+					<div class="alert alert-success bs-opus-lime-3d" style="word-break: normal"></div>
 				</div>
 			</div>
 
@@ -207,7 +231,7 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 
 		// Create offcanvas body
 		$this->offcanvas[$name]['body'] = <<<HTML
-		<div class="offcanvas-body {$name}-body offcanvas-body-happ d-flex flex-align-start flex-column h-100">
+		<div class="offcanvas-body offcanvas-body-opus {$name}-body d-flex flex-align-start flex-column h-100">
 			<div class="container">
 
 				{$this->offcanvas[$name]['ajax']}
@@ -225,7 +249,7 @@ class Offcanvas		// all CSS class are to be improved as soon as they are created
 
 		// Create offcanvas footer
 		$this->offcanvas[$name]['footer'] = <<<HTML
-		<div class="offcanvas-footer offcanvas-footer-happ d-flex d-grid gap-2 justify-content-center {$name}-footer">{$options->footer}</div>
+		<div class="offcanvas-footer offcanvas-footer-opus text-center gap-2 {$options->footerClasses} {$name}-footer">{$options->footer}</div>
 		HTML;
 
 		// Store options for later reference

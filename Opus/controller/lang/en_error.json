@@ -108,6 +108,10 @@
 		},
 
 		"asyncEvent": {
+			"csrf": {
+				"message": "AsyncEvent::doAsyncEvent: $value$."
+			},
+
 			"validateConfig": {
 				"param": {
 					"message": "AsyncEvent::doAsyncEvent: Invalid parameter: '$value$': '$value$'",
@@ -132,13 +136,17 @@
 		},
 
 		"asyncPage": {
+			"csrf": {
+				"message": "AsyncPage::doAsyncPage: $value$."
+			},
+
 			"validateConfig": {
 				"param": {
 					"message": "AsyncPage::doAsyncPage: Invalid parameter: '$value$': '$value$'",
 					"details": "in configuration: $value$\\asyncPage\\$value$."
 				},
 
-				"file": {
+				"view": {
 					"message": "AsyncPage::doAsyncPage: File: '$value$' does not exist!."
 				},
 
@@ -393,6 +401,12 @@
 				"parametr": {
 					"message": "ValidateSidebarItems::validateItems: $value$"
 				}
+			}
+		},
+
+		"asyncpage": {
+			"duplicate": {
+				"message": "An asynchronous page template with the given name: \"$value$\" already exists."
 			}
 		}
 	},

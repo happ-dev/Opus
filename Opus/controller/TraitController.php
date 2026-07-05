@@ -5,8 +5,8 @@
  * @Version: 0.9
  * @Author: Tomasz Ulazowski
  * @Date:   2026-02-19 12:37:37
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-02-19 16:55:08
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-06-28 00:14:57
  **/
 
 namespace Opus\controller;
@@ -22,6 +22,7 @@ trait TraitController
 	const JS_REPLACEMENT_COMMENTS = ['', '', ''];
 	const JS_OPUS_LIBS = [
 		'vendor/Opus/js/global.js',
+		'vendor/Opus/js/asyncpage.js',
 		'vendor/Opus/js/dt.js',
 		'vendor/Opus/js/modal.js',
 		'vendor/Opus/js/chart.js',
