@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-21 19:17:16
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 19:22:27
+ * @Last Modified time: 2026-07-15 20:52:08
  **/
 
 namespace Opus\controller\event;
@@ -106,7 +106,7 @@ class TableEvent
 
 		return match (self::$config->process) {
 			'serverside' => ServerSide::serverSide(self::$config),
-			'query' => TableQuery::tableQuery(self::$config),
+			'query' => TableQuery::tableQuery(),
 			'editor' => TableEditor::tableEditor(self::$config)
 		};
 	}

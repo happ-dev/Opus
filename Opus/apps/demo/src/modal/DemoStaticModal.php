@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-06-06 15:18:03
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-06-26 01:03:25
+ * @Last Modified time: 2026-07-13 12:42:34
  **/
 
 namespace Opus\apps\demo\src\modal;
@@ -74,7 +74,7 @@ class DemoStaticModal
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-bordered',
+				'class' => 'table table-sm table-bordered border-success',
 				'id' => 'id_demo-static-modal-options'
 			],
 			'cname' => ['option', 'type', 'default', 'desc'],
@@ -121,7 +121,7 @@ class DemoStaticModal
 		<ul class="nav nav-tabs nav-tabs-opus" id="id_opus-demo-static-modal-tab" role="tablist">
 			<li class="nav-item" role="presentation">
 				<button class="nav-link nav-link-opus active" id="id_opus-btn-demo-static-modal-tab-info" data-bs-toggle="tab" data-bs-target="#id_opus-demo-static-modal-tab-info" type="button" role="tab" aria-controls="id_opus-demo-static-modal-tab-info" aria-selected="true">
-					<i class="me-1 bi bi-info-circle"></i>{$firstTabText}
+					<i class="me-1 bi bi-card-text"></i>{$firstTabText}
 				</button>
 			</li>
 			<li class="nav-item" role="presentation">

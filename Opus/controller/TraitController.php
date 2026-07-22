@@ -6,7 +6,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-02-19 12:37:37
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-06-28 00:14:57
+ * @Last Modified time: 2026-07-21 22:07:24
  **/
 
 namespace Opus\controller;
@@ -24,6 +24,7 @@ trait TraitController
 		'vendor/Opus/js/global.js',
 		'vendor/Opus/js/asyncpage.js',
 		'vendor/Opus/js/dt.js',
+		'vendor/Opus/js/date.js',
 		'vendor/Opus/js/modal.js',
 		'vendor/Opus/js/chart.js',
 		'vendor/Opus/js/injecthtml.js',

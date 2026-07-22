@@ -353,7 +353,7 @@ abstract class AbstractController
 		self::$index->app = $mainApp === true ? Config::OPUS_MAIN_APP : self::$app;
 		self::$index->index = Config::getConfig(self::$index->app)->view->index;
 		self::$index->js = Config::getConfig(self::$index->app)->js->index;
-		self::$index->vendor = Config::getConfig(self::$index->app)->vendor;
+		self::$index->vendor = Config::getConfig(self::$index->app)->vendor ?? [];
 		self::$index->classes = [];
 		self::$index->indexesModals = [];
 		self::$index->indexesOffcanvas = [];

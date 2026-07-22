@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 17:14:44
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-28 09:41:37
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-07-15 16:42:24
  **/
 
 namespace Opus\html\buttons;
@@ -16,7 +16,6 @@ use Opus\controller\lang\Lang;
 
 class Buttons
 {
-
 	/**
 	 * Creates a cancel button configuration
 	 *

@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 20:59:52
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 21:25:41
+ * @Last Modified time: 2026-07-16 18:02:10
  **/
 
 namespace Opus\controller\event\editor;
@@ -56,13 +56,14 @@ class TableEditorAdd extends AbstractTableEditor
 	{
 		unset($_SESSION['tableEditor']);
 		$this->selectTableDetails();
+		$this->translateComments();
 		$this->getFieldNulls();
 		$this->setFieldValues();
 		$this->prepareSave();
 
 		echo json_encode([
 			'success' => true,
-			'head' => $this->header(),
+			'header' => $this->header(),
 			'body' => $this->body()
 		]);
 	}

@@ -6,13 +6,15 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-24 12:04:04
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 13:26:59
+ * @Last Modified time: 2026-07-15 19:51:24
  **/
 
 namespace Opus\view\view;
 
 use ArrayObject;
+use Opus\config\Config;
 use Opus\controller\Controller;
+use Opus\controller\event\TableEventView;
 
 class View extends ArrayObject
 {
@@ -22,6 +24,9 @@ class View extends ArrayObject
 
 	public function __construct(array $variables = [])
 	{
+		// load event variables
+		$this->viewTableEvent($variables);
+
 		parent::__construct($variables, ArrayObject::ARRAY_AS_PROPS);
 
 		// load main page view
@@ -71,5 +76,26 @@ class View extends ArrayObject
 		ob_start();
 		require_once Controller::getAppIndex()->index;
 		$this->indexAction = ob_get_clean();
+	}
+
+	/**
+	 * Loads and processes table event view component
+	 *
+	 * This method checks if a table event is configured for the current application
+	 * and creates a TableEventView instance if available. The view is added to the
+	 * variables array under the 'dteview' key for use in templates.
+	 *
+	 * @param array &$variables Reference to the variables array that will be passed to the view
+	 * @return void
+	 */
+	private function viewTableEvent(&$variables): void
+	{
+		if (!isset(Config::getConfig(Controller::getApp())->tableEvent)) {
+			return;
+		}
+
+		$variables['dtEvent'] = new TableEventView([
+			'id' => Config::getConfig(Controller::getApp())->idTableEvent
+		]);
 	}
 }

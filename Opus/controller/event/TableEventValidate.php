@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 13:45:47
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-19 20:09:29
+ * @Last Modified time: 2026-07-14 21:39:46
  **/
 
 namespace Opus\controller\event;
@@ -21,17 +21,17 @@ class TableEventValidate
 
 	const VALID_TABLE = ['options' => ['regexp' => '/^[a-z_]+\.[a-z_]+$/']];
 	const VALID_TABLE_ID = ['options' => ['regexp' => '/^(id__)+[^_]+[\w\D]+$/']];
-	const VALID_COLUMN = ['options' => ['regexp' => '/^[\w\.\s\(\)"\',-]+$/i']];
+	const VALID_COLUMN = ['options' => ['regexp' => '/^[\w\.\s\(\)"\',\-\+\*\/]+$/i']];
 	const VALID_JOIN = ['options' => ['regexp' => '/(LEFT\sJOIN\s)+[a-z_]+\.[a-z_]+(\sON\s)+(\()+[a-z_]+\.[a-zA-z0-9\._]+\s\=\s+[a-z_]+\.[a-zA-z0-9\._]+(\))/']];
 	const VALID_SELECT_SQL = ['options' => ['regexp' => '/(SELECT\s)+(id__)+[^_]+[\w\D]+(,\s)+[\w\._\(\)\-\'\s]+(\sFROM\s)+[a-z_]+\.[a-z_;]/']];
 	const VALID_SELECT_TEXT = ['options' => ['regexp' => '/^[\w\d\._@#]+$/']];
 	const VALID_ACCESS_LEVEL = ['options' => ['regexp' => '/^(\d){1}$/']];
 	const VALID_DEFAULT_ACCESS_LEVEL = 9;
 	const VALID_BUTTONS_ATTRIBUTES_KEYS = ['type', 'text', 'attributes'];
-	const VALID_TABLE_BUTTON_ADD = 'data-add';
-	const VALID_TABLE_BUTTON_EDIT = 'data-edit';
-	const VALID_TABLE_BUTTON_SHOW = 'data-show';
-	const VALID_TABLE_BUTTON_DELETE = 'data-delete';
+	const VALID_TABLE_BUTTON_ADD = self::EDITOR_STRATEGY_ADD;
+	const VALID_TABLE_BUTTON_EDIT = self::EDITOR_STRATEGY_EDIT;
+	const VALID_TABLE_BUTTON_SHOW = self::EDITOR_STRATEGY_SHOW;
+	const VALID_TABLE_BUTTON_DELETE = self::EDITOR_STRATEGY_DELETE;
 
 	public function __construct(public object $config)
 	{

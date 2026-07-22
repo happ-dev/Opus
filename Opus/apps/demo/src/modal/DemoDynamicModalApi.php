@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-06-06 18:46:53
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-06-30 10:30:53
+ * @Last Modified time: 2026-07-13 12:42:25
  **/
 
 namespace Opus\apps\demo\src\modal;
@@ -141,14 +141,14 @@ class DemoDynamicModalApi implements InterfaceApiController
 	{
 		$obj = new stdClass();
 		$obj->text = Lang::getInstance()->get('demo.modal.static.tab.info');
-		$obj->icon = 'bi-info-circle';
+		$obj->icon = 'bi-card-text';
 		$agenda = Lang::getInstance()->get('demo.modal.static.tab.agenda');
 		$note = Lang::getInstance()->get('demo.modal.static.tab.note');
 		$lang = Lang::getInstance();
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-bordered',
+				'class' => 'table table-sm table-bordered border-success',
 				'id' => 'id_demo-dynamic-modal-options'
 			],
 			'cname' => ['option', 'type', 'default', 'desc'],

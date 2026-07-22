@@ -3,8 +3,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-06-26 22:57:48
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-05 13:34:39
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-07-20 13:03:05
  **/
 
 /**
@@ -139,11 +139,21 @@ class OpusOffcanvas {
 	 * @returns {void}
 	 */
 	errorHeader() {
+		// Use a constant for the pattern to improve readability and reusability
 		const headerClassPattern = /\b(offcanvas-header-opus-|bs-opus-)\w+\b/g;
 
+		// Use arrow function and chaining for cleaner syntax
 		$(this.headerClass)
 			.removeClass((_, className) => (className.match(headerClassPattern) || []).join(" "))
 			.addClass("offcanvas-header-opus-red bs-opus-red");
+
+		// Set error icon and text
+		$("#id_" + this.name + "-icon-header")
+			.removeClass((_, className) => (className.match(/\b(bi-)[\w-]+\b/g) || []).join(" "))
+			.addClass("bi-exclamation-triangle");
+		$("#id_" + this.name + "-text-header").html(
+			"<?= Opus\controller\lang\Lang::getInstance()->get('demo.table.event.bonuses.header.text') ?>",
+		);
 	}
 
 	/**
@@ -283,13 +293,13 @@ class OpusOffcanvas {
 	/**
 	 * Applies consistent CSS styling to tables within a container
 	 *
-	 * @param {string|Element|jQuery} container - Container selector, element, or jQuery object
+	 * @param {string|Element|jQuery} target - Table ID, container selector, element, or jQuery object
+	 * @param {Object} [options={}] - Options passed to ogl.tableCSS()
 	 */
-	fixTableCSS(container) {
-		const $tables = $(container).find("table");
-		$tables.find("thead th").addClass("align-middle");
-		$tables.find("tbody th").css("font-weight", "normal");
-		$tables.find("tbody tr").addClass("align-middle");
+	fixTableCSS(target, options = {}) {
+		const thead = options.table?.thead || "table-opus-black";
+		const tfoot = options.table?.tfoot || "table-opus-black";
+		ogl.tableCSS(target, { thead, tfoot });
 	}
 
 	/**
@@ -502,8 +512,11 @@ class OpusOffcanvas {
 	 * Binds form submit handler with POST request
 	 *
 	 * @param {Object} options - Configuration options
-	 * @param {Function|null} [options.buildUrl=null] - Callback to build URLSearchParams for the request URL
-	 * @param {Function|null} [options.buildData=null] - Callback to build POST data object
+	 * @param {boolean} [options.json=false] - If true, sends data as JSON with application/json content type
+	 * @param {Function|null} [options.buildUrl=null] - Callback to build URLSearchParams for the request URL.
+	 *     Must return a URLSearchParams instance
+	 * @param {Function|null} [options.buildData=null] - Callback to build POST data object.
+	 *     Receives form element, must return a key-value object (JSON.stringified if options.json is true)
 	 *
 	 * @example
 	 * offcanvas.bindPostOffcanvas({
@@ -516,6 +529,7 @@ class OpusOffcanvas {
 	 * });
 	 */
 	bindPostOffcanvas(options = {}) {
+		const json = options.json ?? false;
 		const buildUrl = options.buildUrl || null;
 		const buildData = options.buildData || null;
 
@@ -523,7 +537,9 @@ class OpusOffcanvas {
 			.off("submit")
 			.on("submit", (submitEvent) => {
 				submitEvent.preventDefault();
+
 				const form = submitEvent.target;
+				form.action = this.link;
 
 				if (form.checkValidity() === false) {
 					submitEvent.stopPropagation();
@@ -537,11 +553,8 @@ class OpusOffcanvas {
 
 				$.post({
 					url: form.action + "&" + url.toString(),
-					data: JSON.stringify(postData),
-					contentType: "application/json",
-					headers: {
-						"X-CSRF-TOKEN": $(this.formId + ' input[name="csrf"]').val(),
-					},
+					data: json ? JSON.stringify(postData) : postData,
+					...(json && { contentType: "application/json" }),
 					cache: false,
 				})
 					.done((result) => {

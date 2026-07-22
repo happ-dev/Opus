@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 21:26:31
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 21:27:58
+ * @Last Modified time: 2026-07-16 18:02:02
  **/
 
 namespace Opus\controller\event\editor;
@@ -57,13 +57,14 @@ class TableEditorDelete extends AbstractTableEditor
 	{
 		unset($_SESSION['tableEditor']);
 		$this->selectTableDetails();
+		$this->translateComments();
 		$this->getFieldValues();
 		$this->getFieldNulls();
 		$this->prepareSave();
 
 		echo json_encode([
 			'success' => true,
-			'head' => $this->header(),
+			'header' => $this->header(),
 			'body' => $this->body()
 		]);
 	}

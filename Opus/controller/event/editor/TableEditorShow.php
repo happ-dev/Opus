@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 21:44:57
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 21:59:58
+ * @Last Modified time: 2026-07-16 17:59:12
  **/
 
 namespace Opus\controller\event\editor;
@@ -59,8 +59,9 @@ class TableEditorShow extends AbstractTableEditor
 
 			// Process field based on type
 			match ($type) {
-				// Integer fields with SELECT configuration
-				'integer' => $this->processIntegerField($index, $value),
+				// Integer, smallint fields with SELECT configuration
+				'integer',
+				'smallint' => $this->processIntegerField($index, $value),
 
 				// Boolean fields
 				'boolean' => $this->tableDetails[$index]['value'] = ((bool) $value['value'] === true)
@@ -132,13 +133,14 @@ class TableEditorShow extends AbstractTableEditor
 	public function doTableEdit(): void
 	{
 		$this->selectTableDetails();
+		$this->translateComments();
 		$this->getFieldValues();
 		$this->getFieldNulls();
 		$this->validateValues();
 
 		echo json_encode([
 			'success' => true,
-			'head' => $this->header(),
+			'header' => $this->header(),
 			'body' => $this->body()
 		]);
 	}

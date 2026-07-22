@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 18:50:48
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 19:05:18
+ * @Last Modified time: 2026-07-22 10:43:42
  **/
 
 namespace Opus\controller\event\editor;
@@ -43,7 +43,7 @@ class TableEditorFieldValues
 		int $index,
 		?array $value,
 		?string &$dataId
-	) {
+	): void {
 		$form = new Form();
 		$element = [
 			'name' => 'input_' . $index,
@@ -248,30 +248,34 @@ class TableEditorFieldValues
 		// Determine display text based on field type
 		$text = self::isBoolValue($value['value'], $type);
 
-		// Add float-end class for button alignment
-		if (isset($config->table->buttons->{$value['attname']}->attributes->class)) {
-			$config->table->buttons->{$value['attname']}->attributes->class .= ' float-end';
-		}
+		$buttonIcon = $config->table->buttons->{$value['attname']}->icon;
+		$buttonText = Lang::getInstance()->get($config->table->buttons->{$value['attname']}->text);
 
 		// Create button element
 		$form->addElement([
 			'name' => 'input_' . $index,
 			'id' => 'id_input_' . $index,
-			'tag' => $config->table->buttons->{$value['attname']}->tag,
-			'text' => $config->table->buttons->{$value['attname']}->text,
+			'tag' => 'button',
+			'text' => <<<HTML
+			<i class="me-1 bi {$buttonIcon}"></i><em>{$buttonText}</em>
+			HTML,
 			'attributes' => array_merge_recursive(
 				(array) $config->table->buttons->{$value['attname']}->attributes,
-				['data-id' => $dataId]
+				[
+					'type' => 'button',
+					'class' => 'mr-sm-1 btn btn-sm btn-dark bs-opus-black-3d float-end',
+					'data-id' => $dataId
+				]
 			)
 		]);
 
 		// Store text and button in tableDetails
 		$tableDetails[$index]['input_name'] = 'input_' . $index;
 		$tableDetails[$index]['value'] = <<<HTML
-			<div style="max-width: 400px;">
-				<span class="d-inline-block text-truncate align-middle" style="max-width: 300px;">{$text}</span>
-				{$form->getElement('input_' .$index)}
-			</div>
+		<div style="max-width: 400px;">
+			<span class="d-inline-block text-truncate align-middle" style="max-width: 300px;">{$text}</span>
+			{$form->getElement('input_' .$index)}
+		</div>
 		HTML;
 		unset($form);
 	}
@@ -432,11 +436,9 @@ class TableEditorFieldValues
 			'id' => 'id_input_' . $index,
 			'tag' => 'input',
 			'attributes' => [
-				'class' => 'tempus-dominus-date-input form-control form-control-sm',
+				'class' => 'form-control form-control-sm date-opus-picker',
 				'style' => 'width: 400px; display: inline; position: relative',
 				'type' => 'text',
-				'data-toggle' => 'datetimepicker',
-				'data-target' => '#id_input_' . $index,
 				'placeholder' => 'YYYY-MM-DD'
 			]
 		];
@@ -480,11 +482,9 @@ class TableEditorFieldValues
 			'id' => 'id_input_' . $index,
 			'tag' => 'input',
 			'attributes' => [
-				'class' => 'tempus-dominus-datetime-input form-control form-control-sm',
+				'class' => 'form-control form-control-sm timestamp-opus-picker',
 				'style' => 'width: 400px; display: inline; position: relative',
 				'type' => 'text',
-				'data-toggle' => 'datetimepicker',
-				'data-target' => '#id_input_' . $index,
 				'placeholder' => 'YYYY-MM-DD HH:mm:ss',
 			]
 		];

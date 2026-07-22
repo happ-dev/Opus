@@ -63,8 +63,8 @@ class Layout
 	 */
 	private function setHeadLibs(): void
 	{
-		$globalVendor = Config::getConfig()->vendor;
-		$appVendor = $this->layout->appVendor;
+		$globalVendor = Config::getConfig()->vendor ?? [];
+		$appVendor = $this->layout->appVendor ?? [];
 
 		$cssFiles = array_filter(array_merge(
 			preg_grep('/\.css$/i', $globalVendor),

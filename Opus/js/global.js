@@ -4,7 +4,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-27 18:51:03
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-06-28 00:17:03
+ * @Last Modified time: 2026-07-21 20:53:21
  **/
 
 "use strict";
@@ -111,4 +111,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Async page loading (event delegation, active link)
 	new OpusAsyncPage();
+
+	// Masking numbers
+	$(".form-control-opus-mask-fiat").mask("# ##0.00", ogl.standardMask());
+	//$(".opus-mask-percent").mask("##0.00", ogl.standardMask());
+	//$(".opus-mask-crypto").mask("# ##0.00 000 000", ogl.standardMask());
 });
+
+// Opus Global Libs
+class ogl {
+	/**
+	 * Applies consistent CSS styling to tables within a container or by table ID
+	 *
+	 * @static
+	 * @param {string|Element|jQuery} target - Table ID (e.g. "#id_table") or container holding tables
+	 * @param {Object} [options={}] - Additional styling options
+	 * @param {string|null} [options.thead=null] - CSS class(es) to add to thead element
+	 * @param {string|null} [options.tfoot=null] - CSS class(es) to add to tfoot element
+	 * @returns {void}
+	 */
+	static tableCSS(target, options = {}) {
+		const thead = options.thead || null;
+		const tfoot = options.tfoot || null;
+
+		const $el = $(target);
+		const $tables = $el.is("table") ? $el : $el.find("table");
+
+		$tables.find("thead th").addClass("align-middle");
+		$tables.find("tbody th").addClass("fw-normal");
+		$tables.find("tbody tr").addClass("align-middle");
+
+		if (thead) $tables.find("thead").addClass(thead);
+		if (tfoot) $tables.find("tfoot").addClass(tfoot);
+	}
+
+	/**
+	 * Returns standard mask configuration for numeric input formatting
+	 *
+	 * @static
+	 * @returns {Object} Mask configuration with reverse mode and digit/negative pattern
+	 */
+	static standardMask() {
+		return {
+			reverse: true,
+			translation: {
+				"#": {
+					pattern: /-|\d/,
+					recursive: true,
+				},
+			},
+		};
+	}
+}

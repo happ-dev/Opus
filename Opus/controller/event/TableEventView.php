@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-21 19:27:54
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-22 20:39:01
+ * @Last Modified time: 2026-07-22 10:29:05
  **/
 
 namespace Opus\controller\event;
@@ -68,7 +68,7 @@ class TableEventView extends ArrayObject
 		$options->scrollable = false;		// if form is true, value must be false because bootstrap issue
 		$options->form = true;
 		$options->body = <<<HTML
-			<div class="table-responsive pt-2 pb-2" id="id_body-table-event"></div>
+			<div class="table-responsive pt-2 pb-2"></div>
 		HTML;
 		$options->footer = $form->getElement('close-btn-table-event')
 			. $form->getElement('save-btn-table-event')
@@ -82,6 +82,108 @@ class TableEventView extends ArrayObject
 		{$modal->getModalByName('table-event')}
 		<script type="text/javascript">
 			$(document).ready(function () {
+				const objTableEvent = new OpusModal({
+					name: "table-event",
+					id: "{$this->id}",
+					api: "tableevent"
+				});
+
+				// Maps input values to their corresponding query exception constants
+				// @param {string} input - The input value to map ('page', '#', '+', or any other string)
+				// @returns {number|string} The corresponding exception constant or the original input
+				function queryInputExceptions(input) {
+					const exceptions = {
+						'page': '{$this->page}',
+						'#': '{$this->hashtag}',
+						'+': '{$this->plus}'
+					};
+
+					return exceptions[input] ?? input;
+				}
+
+				objTableEvent.bindAjaxModal({
+					relatedTarget: (event) => {
+						objTableEvent.setData({
+							app: $(event.relatedTarget).attr('data-app'),
+							event: $(event.relatedTarget).attr('data-event'),
+							process: $(event.relatedTarget).attr('data-process'),
+							strategy: $(event.relatedTarget).attr('data-strategy'),
+							id: $(event.relatedTarget).attr('data-id'),
+							tableId: $(event.relatedTarget).attr('data-table-id')
+						});
+					},
+					onShow: (response) => {
+						// Body input table
+						objTableEvent.tableContainer = $(objTableEvent.bodyRowColClass + " > div");
+						objTableEvent.tableContainer.html(response.body.table);
+						objTableEvent.fixTableCSS(objTableEvent.tableContainer);
+					},
+					onRender: () => {
+						// Cache the table container and get all checkboxes once
+						const table = $(objTableEvent.tableContainer).find("table");
+						const inputs = table.find('[id^="id_input_"]');
+						const checkboxes = table.find('input[type=checkbox]');
+
+						// Handle edit strategy - disable inputs for checked checkboxes
+						if (objTableEvent.strategy === 'edit') {
+							checkboxes.filter(':checked').each(function () {
+								const idChecked = this.id.split('_')[2];
+								inputs.filter('#id_input_' + idChecked).prop('disabled', true);
+							});
+						}
+
+						// Set up click handlers for all checkboxes
+						checkboxes.each(function () {
+							const checkbox = this;
+							const idCheckbox = checkbox.id.split('_')[2];
+							const relatedInput = inputs.filter('#id_input_' + idCheckbox);
+
+							$(checkbox).on('click', function () {
+								relatedInput.prop('disabled', this.checked);
+							});
+						});
+
+						// Select in the future when __OpusSingleSelect__ is created
+
+						// Input date
+						OpusDatePicker.bindDate(objTableEvent.el);
+					},
+					onHide: () => {
+						// Reload DataTable if not undefined
+						const tableId = objTableEvent.data.tableId;
+
+						if (tableId && $.fn.dataTable.isDataTable(tableId)) {
+							$(tableId).DataTable().ajax.reload();
+						}
+					},
+					onSave: () => {
+						objTableEvent.bindPostModal({
+							buildUrl: () => {
+								const url = new URLSearchParams();
+								url.append('app', objTableEvent.data.app);
+								url.append('event', objTableEvent.data.event);
+								url.append('process', 'query');
+								return url;
+							},
+							buildData: (form) => {
+								// Build data object for POST request
+								const postData = {};
+
+								// Add form field values to the data object
+								objTableEvent.tableContainer.find('[id^="id_input_"], input[type=checkbox]:checked').each(function() {
+									const name = $(this).attr('name');
+									const value = this.type === 'checkbox' ? $(this).val() : queryInputExceptions($(this).val());
+
+									if (value) {
+										postData[name] = value;
+									}
+								});
+
+								return postData;
+							}
+						});
+					}
+				});
 
 			});
 		</script>

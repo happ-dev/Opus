@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 17:05:05
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 17:35:17
+ * @Last Modified time: 2026-07-16 15:48:24
  **/
 
 namespace Opus\controller\event\query;

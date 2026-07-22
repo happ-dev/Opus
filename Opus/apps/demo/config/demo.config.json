@@ -13,7 +13,61 @@
 	"js": {
 		"index": "vendor/Opus/apps/demo/js/demo.js"
 	},
-	"vendor": ["highlight/hljs.opus.css", "highlight/highlight.min.js"],
+	"vendor": [
+		"highlight/hljs.opus.css",
+		"highlight/highlight.min.js",
+		"datatables/datatables.min.css",
+		"datatables/datatables.min.js"
+	],
+	"idTableEvent": "id__demo-event-dt",
+	"tableEvent": {
+		"apTableDemo_dt": {
+			"primaryKey": "id__payroll",
+			"table": "demo.payroll",
+			"columns": [
+				{ "db": "id__payroll" },
+				{ "db": "firstname" },
+				{ "db": "lastname" },
+				{ "db": "active" },
+				{ "db": "payroll.department AS dept_id" },
+				{ "db": "departments.name AS dept" },
+				{ "db": "position" },
+				{ "db": "contract" },
+				{ "db": "hire_date" },
+				{ "db": "salary" },
+				{ "db": "granted" },
+				{ "db": "reason" },
+				{ "db": "amount" },
+				{ "db": "percent" },
+				{ "db": "salary + amount AS total" },
+				{ "db": "pay_date" }
+			],
+			"join": "LEFT JOIN demo.departments ON (payroll.department = departments.id__department) LEFT JOIN demo.bonuses ON (payroll.id__payroll = bonuses.id_to_payroll AND DATE_TRUNC('month', bonuses.pay_date) = DATE_TRUNC('month', CURRENT_DATE))",
+			"select": {
+				"department": "SELECT id__department, name FROM demo.departments;"
+			},
+			"buttons": {
+				"lastname": {
+					"text": "demo.table.event.bonuses.header.text",
+					"icon": "bi-bank",
+					"attributes": {
+						"data-bs-toggle": "modal",
+						"data-bs-target": "#id__opus-demo-bonuses-table-edit-modal"
+					}
+				}
+			},
+			"disabled": {
+				"firstname": "true",
+				"lastname": "true"
+			},
+			"access": {
+				"show": 3,
+				"add": 3,
+				"edit": 3,
+				"delete": 9
+			}
+		}
+	},
 	"asyncEvent": {
 		"demoDynamicModal": {
 			"type": "api",
@@ -32,6 +86,12 @@
 			"access": 3,
 			"file": "vendor/Opus/apps/demo/src/collapse/DemoDynamicCollapseApi.php",
 			"class": "Opus\\apps\\demo\\src\\collapse\\DemoDynamicCollapseApi"
+		},
+		"demoTableBonuses": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/demo/src/table/DemoTableBonusesApi.php",
+			"class": "Opus\\apps\\demo\\src\\table\\DemoTableBonusesApi"
 		}
 	},
 	"asyncPage": {
@@ -46,6 +106,24 @@
 			"access": 3,
 			"view": "vendor/Opus/apps/demo/src/collapse/DemoCollapse.php",
 			"class": "Opus\\apps\\demo\\src\\collapse\\DemoCollapse"
+		},
+		"demoButtons": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/buttons/DemoButtons.php",
+			"class": "Opus\\apps\\demo\\src\\buttons\\DemoButtons"
+		},
+		"demoDatePicker": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/datepicker/DemoDatePicker.php",
+			"class": "Opus\\apps\\demo\\src\\datepicker\\DemoDatePicker"
+		},
+		"demoTable": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/table/DemoTable.php",
+			"class": "Opus\\apps\\demo\\src\\table\\DemoTable"
 		}
 	}
 }

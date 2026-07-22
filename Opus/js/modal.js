@@ -3,8 +3,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-06-05 16:30:49
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-05 13:45:47
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-07-20 13:05:01
  **/
 
 /**
@@ -156,6 +156,14 @@ class OpusModal {
 		$(this.headerClass)
 			.removeClass((_, className) => (className.match(headerClassPattern) || []).join(" "))
 			.addClass("modal-header-opus-red bs-opus-red");
+
+		// Set error icon and text
+		$("#id_" + this.name + "-icon-header")
+			.removeClass((_, className) => (className.match(/\b(bi-)[\w-]+\b/g) || []).join(" "))
+			.addClass("bi-exclamation-triangle");
+		$("#id_" + this.name + "-text-header").html(
+			"<?= Opus\controller\lang\Lang::getInstance()->get('event.modal.message.head') ?>",
+		);
 	}
 
 	/**
@@ -329,30 +337,13 @@ class OpusModal {
 	/**
 	 * Applies consistent CSS styling to tables within a container
 	 *
-	 * @description Standardizes table appearance by adding Bootstrap alignment classes
-	 * and normalizing font weights for better visual consistency across the modal.
-	 *
-	 * @param {string|Element|jQuery} container - Container selector, element, or jQuery object containing tables
-	 *
-	 * @example
-	 * // Using with selector
-	 * modal.fixTableCSS('.table-event-body');
-	 *
-	 * // Using with element
-	 * modal.fixTableCSS(document.getElementById('tableContainer'));
-	 *
-	 * // Using with jQuery object
-	 * modal.fixTableCSS($('.modal-body'));
+	 * @param {string|Element|jQuery} target - Table ID, container selector, element, or jQuery object
+	 * @param {Object} [options={}] - Options passed to ogl.tableCSS()
 	 */
-	fixTableCSS(container) {
-		const $tables = $(container).find("table");
-
-		// Apply vertical alignment to header cells
-		$tables.find("thead th").addClass("align-middle");
-
-		// Normalize font weight for body header cells and add alignment
-		$tables.find("tbody th").css("font-weight", "normal");
-		$tables.find("tbody tr").addClass("align-middle");
+	fixTableCSS(target, options = {}) {
+		const thead = options.table?.thead || "table-opus-black";
+		const tfoot = options.table?.tfoot || "table-opus-black";
+		ogl.tableCSS(target, { thead, tfoot });
 	}
 
 	/**
@@ -570,7 +561,7 @@ class OpusModal {
 	 */
 	bindAjaxModal(options = {}) {
 		const relatedTarget = options.relatedTarget || null;
-		const strategy = options.footerStrategy || "show";
+		let strategy = options.footerStrategy || "show";
 		const onShow = options.onShow || null;
 		const onRender = options.onRender || null;
 		const onHide = options.onHide || null;
@@ -602,6 +593,7 @@ class OpusModal {
 								else $(this.bodyRowColClass).html(response.body);
 
 								// footer
+								if (this.data.strategy) strategy = this.data.strategy;
 								this.setFooterButtons(strategy);
 
 								// render
@@ -637,10 +629,11 @@ class OpusModal {
 	 * Should be called in onSave callback of bindAjaxModal, after $.ajax completes.
 	 *
 	 * @param {Object} options - Configuration options
+	 * @param {boolean} [options.json=false] - If true, sends data as JSON with application/json content type
 	 * @param {Function|null} [options.buildUrl=null] - Callback to build URLSearchParams for the request URL.
 	 *     Must return a URLSearchParams instance
 	 * @param {Function|null} [options.buildData=null] - Callback to build POST data object.
-	 *     Receives form element, must return an object to be JSON.stringified
+	 *     Receives form element, must return a key-value object (JSON.stringified if options.json is true)
 	 *
 	 * @example
 	 * modal.bindPostModal({
@@ -663,6 +656,8 @@ class OpusModal {
 	 * });
 	 */
 	bindPostModal(options = {}) {
+		const json = options.json ?? false;
+		const buildUrl = options.buildUrl || null;
 		const buildData = options.buildData || null;
 
 		// Use jQuery to properly remove any existing submit handlers and add a new one
@@ -670,7 +665,9 @@ class OpusModal {
 			.off("submit")
 			.on("submit", (submitEvent) => {
 				submitEvent.preventDefault();
+
 				const form = submitEvent.target;
+				form.action = this.link;
 
 				if (form.checkValidity() === false) {
 					submitEvent.stopPropagation();
@@ -684,11 +681,8 @@ class OpusModal {
 
 				$.post({
 					url: form.action + "&" + url.toString(),
-					data: JSON.stringify(postData),
-					contentType: "application/json",
-					headers: {
-						"X-CSRF-TOKEN": $(this.formId + ' input[name="csrf"]').val(),
-					},
+					data: json ? JSON.stringify(postData) : postData,
+					...(json && { contentType: "application/json" }),
 					cache: false,
 				})
 					.done((result) => {

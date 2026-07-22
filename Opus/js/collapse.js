@@ -187,14 +187,13 @@ class OpusCollapse {
 	/**
 	 * Applies consistent CSS styling to tables within a container
 	 *
-	 * @param {string|Element|jQuery} container - Container selector, element, or jQuery object
-	 * @returns {void}
+	 * @param {string|Element|jQuery} target - Table ID, container selector, element, or jQuery object
+	 * @param {Object} [options={}] - Options passed to ogl.tableCSS()
 	 */
-	fixTableCSS(container) {
-		const $tables = $(container).find("table");
-		$tables.find("thead th").addClass("align-middle");
-		$tables.find("tbody th").css("font-weight", "normal");
-		$tables.find("tbody tr").addClass("align-middle");
+	fixTableCSS(target, options = {}) {
+		const thead = options.table?.thead || "table-opus-black";
+		const tfoot = options.table?.tfoot || "table-opus-black";
+		ogl.tableCSS(target, { thead, tfoot });
 	}
 
 	/**

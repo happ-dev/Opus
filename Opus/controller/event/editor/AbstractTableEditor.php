@@ -6,18 +6,17 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 17:48:45
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-20 19:00:27
+ * @Last Modified time: 2026-07-16 18:03:26
  **/
 
 namespace Opus\controller\event\editor;
 
-use PDO;
 use Opus\html\form\Form;
 use Opus\html\table\Table;
 use Opus\storage\db\Db;
-use Opus\storage\db\AbstractDb;
 use Opus\storage\exception\StorageException;
 use Opus\controller\event\TraitValidEditorStrategy;
+use Opus\controller\lang\Lang;
 
 abstract class AbstractTableEditor implements InterfaceEditor
 {
@@ -26,6 +25,7 @@ abstract class AbstractTableEditor implements InterfaceEditor
 	protected ?array $tableDetails;
 	protected ?string $dataId = null;
 	protected object $config;
+	protected Lang $lang;
 
 	/**
 	 * Retrieves detailed information about the table structure
@@ -51,6 +51,24 @@ abstract class AbstractTableEditor implements InterfaceEditor
 			$this->config->table->db,
 			StorageException::TYPE_API_EXCEPTION
 		);
+	}
+
+	/**
+	 * Translates column comments using the Lang class
+	 *
+	 * This method processes each column in the tableDetails array and:
+	 * 1. Checks if the comment contains a Lang key (format: 'English|lang.key')
+	 * 2. If a valid Lang key is found, replaces the comment with the translated value
+	 * 3. Falls back to the English description if no Lang key is present
+	 *
+	 * @return void
+	 */
+	protected function translateComments(): void
+	{
+		$this->lang = Lang::getInstance();
+		foreach ($this->tableDetails as $key => $value) {
+			$this->tableDetails[$key]['comment'] = $this->lang->get($value['comment']);
+		}
 	}
 
 	/**
@@ -215,6 +233,7 @@ abstract class AbstractTableEditor implements InterfaceEditor
 
 				// Select value
 				$this->config->table->select !== false &&
+					isset($this->config->table->select->{$value['attname']}) &&
 					(isset($this->config->table->select->{$value['attname']}->value) ||
 						is_string($this->config->table->select->{$value['attname']})) =>
 				TableEditorFieldValues::selectValue($this->tableDetails, $this->config, $index, $value),
@@ -288,7 +307,7 @@ abstract class AbstractTableEditor implements InterfaceEditor
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-hover table-happ-black',
+				'class' => 'table table-sm table-hover',
 				'id' => 'id_table-event-dt'
 			],
 			'cname' => $columns['cname'],

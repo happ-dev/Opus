@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-07-04 10:47:26
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-05 18:54:57
+ * @Last Modified time: 2026-07-13 12:41:54
  **/
 
 namespace Opus\apps\demo\src\collapse;
@@ -67,11 +67,22 @@ class DemoCollapse implements InterfacePageController
 	{
 		$this->collapseStatic();
 		$this->collapseDynamic();
-		$info = $this->bodyTabInfo();
-		$php = $this->bodyTabPHP();
-		$phpApi = $this->bodyTabPHPApi();
-		$js = $this->bodyTabJS();
-		$config = $this->bodyTabConfig();
+
+		$tabs = [
+			$this->bodyTabInfo(),
+			$this->bodyTabPHP(),
+			$this->bodyTabPHPApi(),
+			$this->bodyTabJS(),
+			$this->bodyTabConfig(),
+		];
+
+		$buttons = '';
+		$contents = '';
+
+		foreach ($tabs as $tab) {
+			$buttons .= "<li class=\"nav-item\" role=\"presentation\">{$tab->button}</li>";
+			$contents .= $tab->content;
+		}
 
 		return <<<HTML
 		<div class="row mb-3">
@@ -89,28 +100,10 @@ class DemoCollapse implements InterfacePageController
 		<div class="row">
 			<div class="col">
 				<ul class="nav nav-tabs nav-tabs-opus" id="id_opus-demo-collapse-tab" role="tablist">
-					<li class="nav-item" role="presentation">
-						{$info->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$php->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$phpApi->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$js->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$config->button}
-					</li>
+					{$buttons}
 				</ul>
 				<div class="tab-content" id="id_opus-demo-collapse-tab-content">
-					{$info->content}
-					{$php->content}
-					{$phpApi->content}
-					{$js->content}
-					{$config->content}
+					{$contents}
 				</div>
 			</div>
 		</div>
@@ -131,6 +124,7 @@ class DemoCollapse implements InterfacePageController
 		$options->buttonColor = 'btn-dark';
 		$options->headerIcon = 'bi-arrows-collapse';
 		$options->headerText = 'demo.collapse.button.static';
+		$options->additionalClasses = 'mb-4';
 		$options->body = <<<HTML
 		<div class="alert alert-info mt-3" role="alert">
 			{$this->lang->get('demo.collapse.static.content.info')}
@@ -157,6 +151,7 @@ class DemoCollapse implements InterfacePageController
 		$options->buttonColor = 'btn-dark';
 		$options->headerIcon = 'bi-arrows-collapse';
 		$options->headerText = 'demo.collapse.button.dynamic';
+		$options->additionalClasses = 'mb-4';
 		$this->collapse->addCollapse('opus-demo-dynamic-collapse', $options);
 	}
 
@@ -172,7 +167,7 @@ class DemoCollapse implements InterfacePageController
 			'name' => 'opus-btn-demo-collapse-tab-info',
 			'id' => 'id_opus-btn-demo-collapse-tab-info',
 			'tag' => 'button',
-			'text' => '<i class="me-1 bi "></i><em>' . $this->lang->get('demo.collapse.tab.info') . '</em>',
+			'text' => '<i class="me-1 bi bi-card-text"></i><em>' . $this->lang->get('demo.collapse.tab.info') . '</em>',
 			'attributes' => [
 				'type' => 'button',
 				'class' => 'nav-link nav-link-opus active',
@@ -190,7 +185,7 @@ class DemoCollapse implements InterfacePageController
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-bordered',
+				'class' => 'table table-sm table-bordered border-success',
 				'id' => 'id_demo-collapse-options-table'
 			],
 			'cname' => ['option', 'type', 'default', 'desc'],
@@ -396,7 +391,7 @@ class DemoCollapse implements InterfacePageController
 		$obj->button = $this->form->getElement('opus-btn-demo-collapse-tab-config');
 		$obj->content = <<<HTML
 		<div class="tab-pane fade" id="id_opus-demo-collapse-tab-config" role="tabpanel" aria-labelledby="id_opus-btn-demo-collapse-tab-config" tabindex="0">
-			<pre><code class="mt-3 language-javascript">{$content}</code></pre>
+			<pre><code class="mt-3 language-json">{$content}</code></pre>
 		</div>
 		HTML;
 

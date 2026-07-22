@@ -115,7 +115,7 @@ Please do not use it for any projects because it is very likely to be full of ho
 			> setting a row limit
 			> search in all available options
 		- [ ] add the ability to search data
-	- [ ] write my own DatePicker proposed name __OpusDatePicker__
+	- [x] write my own DatePicker proposed name __OpusDatePicker__
 	- [x] add the ability to change the light/dark view from the navbar
 
 - [ ] Layout class
@@ -169,11 +169,12 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [x] Modal
 	- [x] Offcanvas
 	- [x] Collapse
-	- [ ] Buttons
+	- [X] Buttons
+	- [x] sql for table event
 	- [ ] Table with asyncTable event
 	- [ ] __OpusMultipleSelect__
 	- [ ] __OpusSingleSelect__ - write your own interpretation replacing Select2
-	- [ ] __OpusDatePicker__ - write your own interpretation replacing TempusDominus
+	- [x] __OpusDatePicker__ - write your own interpretation replacing TempusDominus
 
 - [ ] known issues:
 	- [x] icon in the header disappears when you click on the modal again
@@ -182,6 +183,8 @@ Please do not use it for any projects because it is very likely to be full of ho
 	- [x] Config::loadIconConfig, if the icon is not given it should be a standard one
 	- [ ] navbar incorrectly displays icons in resolutions other than the default browser resolution
 	- [ ] offcanvas-header - after changing the theme to dark, the text color remains black
+	- [x] modal/offcanvas-header - when loading a modal via Ajax and at the same time the API returns an error,
+		the icon and text in the header are not displayed.
 
 ## Hello World application
 > [!IMPORTANT]
@@ -363,11 +366,9 @@ Create file _apps/app_name/config/app_name.config.json_.
 			},
 			"buttons": {
 				"button": {
-					"type": "button",
-					"text": "<i class=\"me-1 bi bi-person-x\"></i><em>Button</em>",
+					"text": "demo.bonus" || "Button",
+					"icon": "bi-person-x",
 					"attributes": {
-						"type": "button",
-						"class": "mr-sm-1 btn btn-warning btn-sm",
 						"data-bs-toggle": "modal",
 						"data-bs-target": "#id__hello-dt"
 					}

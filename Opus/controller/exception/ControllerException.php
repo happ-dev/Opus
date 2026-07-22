@@ -5,14 +5,15 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-07 15:46:44
- * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 13:45:32
+ * @Last Modified by:   Tomasz Ulazowski
+ * @Last Modified time: 2026-07-20 13:03:19
  **/
 
 namespace Opus\controller\exception;
 
 use Exception;
 use Opus\view\view\View;
+use Opus\controller\lang\Lang;
 
 class ControllerException extends AbstractException
 {

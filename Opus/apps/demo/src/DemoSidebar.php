@@ -6,7 +6,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-05-30 14:10:28
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-04 10:44:15
+ * @Last Modified time: 2026-07-22 11:34:55
  **/
 
 namespace Opus\apps\demo\src;
@@ -50,6 +50,27 @@ class DemoSidebar
 			'text' => 'demo.sidebar.collapse',
 			'data-apage' => 'demo',
 			'data-event' => 'demoCollapse'
+		],
+		[
+			'href' => '#',
+			'icon' => 'bi-type-bold',
+			'text' => 'demo.sidebar.buttons',
+			'data-apage' => 'demo',
+			'data-event' => 'demoButtons'
+		],
+		[
+			'href' => '#',
+			'icon' => 'bi-calendar-event',
+			'text' => 'demo.sidebar.datepicker',
+			'data-apage' => 'demo',
+			'data-event' => 'demoDatePicker'
+		],
+		[
+			'href' => '#',
+			'icon' => 'bi-table',
+			'text' => 'demo.table.buttons',
+			'data-apage' => 'demo',
+			'data-event' => 'demoTable'
 		]
 	];
 

@@ -42,12 +42,19 @@ class Lang
 	/**
 	 * Retrieves a translation for the given key
 	 *
-	 * @param string|null $key The translation key (e.g., 'controller.login.user')
-	 * @return string The translated string or the key itself if translation not found
+	 * Supports DB comment format: 'English description|lang.key'
+	 * If the input contains '|' and the part after '|' matches a valid Lang key pattern,
+	 * it attempts translation using the Lang key. Falls back to the English description.
+	 *
+	 * @param string|null $key The translation key or DB comment string
+	 * @return string The translated string, fallback description, or the key itself
 	 */
 	public function get(?string $key): string
 	{
-		return self::$translations[$key] ?? $key;
+		return match (true) {
+			$key && preg_match('/^(.+)\|([a-z][a-z0-9_.]+)$/s', $key, $m) === 1 => self::$translations[$m[2]] ?? $m[1],
+			default => self::$translations[$key] ?? $key
+		};
 	}
 
 	/**

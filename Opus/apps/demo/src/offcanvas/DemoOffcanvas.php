@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-06-27 03:33:22
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-04 10:16:09
+ * @Last Modified time: 2026-07-13 12:42:59
  **/
 
 namespace Opus\apps\demo\src\offcanvas;
@@ -66,40 +66,33 @@ class DemoOffcanvas implements InterfacePageController
 	 */
 	private function body(): string
 	{
-		$buttons = $this->offcanvasButtons();
-		$info = $this->bodyTabInfo();
-		$php = $this->bodyTabPHP();
-		$phpApi = $this->bodyTabPHPApi();
-		$js = $this->bodyTabJS();
-		$config = $this->bodyTabConfig();
+		$tabs = [
+			$this->bodyTabInfo(),
+			$this->bodyTabPHP(),
+			$this->bodyTabPHPApi(),
+			$this->bodyTabJS(),
+			$this->bodyTabConfig(),
+		];
+
+		$buttons = '';
+		$contents = '';
+
+		foreach ($tabs as $tab) {
+			$buttons .= "<li class=\"nav-item\" role=\"presentation\">{$tab->button}</li>";
+			$contents .= $tab->content;
+		}
+
+		$triggerButtons = $this->offcanvasButtons();
 
 		return <<<HTML
-		{$buttons}
+		{$triggerButtons}
 		<div class="row">
 			<div class="col">
 				<ul class="nav nav-tabs nav-tabs-opus" id="id_opus-demo-offcanvas-tab" role="tablist">
-					<li class="nav-item" role="presentation">
-						{$info->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$php->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$phpApi->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$js->button}
-					</li>
-					<li class="nav-item" role="presentation">
-						{$config->button}
-					</li>
+					{$buttons}
 				</ul>
 				<div class="tab-content" id="id_opus-demo-offcanvas-tab-content">
-					{$info->content}
-					{$php->content}
-					{$phpApi->content}
-					{$js->content}
-					{$config->content}
+					{$contents}
 				</div>
 			</div>
 		</div>
@@ -217,7 +210,7 @@ class DemoOffcanvas implements InterfacePageController
 			'name' => 'opus-btn-demo-offcanvas-tab-info',
 			'id' => 'id_opus-btn-demo-offcanvas-tab-info',
 			'tag' => 'button',
-			'text' => '<i class="me-1 bi "></i><em>' . $this->lang->get('demo.offcanvas.tab.info') . '</em>',
+			'text' => '<i class="me-1 bi bi-card-text"></i><em>' . $this->lang->get('demo.offcanvas.tab.info') . '</em>',
 			'attributes' => [
 				'type' => 'button',
 				'class' => 'nav-link nav-link-opus active',
@@ -235,7 +228,7 @@ class DemoOffcanvas implements InterfacePageController
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-bordered',
+				'class' => 'table table-sm table-bordered border-success',
 				'id' => 'id_demo-offcanvas-options-table'
 			],
 			'cname' => ['option', 'type', 'default', 'desc'],
