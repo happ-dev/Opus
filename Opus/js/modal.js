@@ -3,8 +3,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-06-05 16:30:49
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-07-20 13:05:01
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-08-16 19:44:53
  **/
 
 /**
@@ -50,6 +50,7 @@ class OpusModal {
 	 * @param {string} [options.header.text] - Header text for the modal
 	 * @param {string} [options.header.icon] - Bootstrap icon
 	 * @param {string} [options.header.class] - CSS class representing the header color
+	 * @param {string} [options.header.shadow] - CSS class representing
 	 *
 	 * @example
 	 * const loginModal = new OpusModal({
@@ -85,12 +86,14 @@ class OpusModal {
 	 * @param {string} [options.text] - Header text content
 	 * @param {string} [options.icon] - Bootstrap icon class
 	 * @param {string} [options.class] - CSS class for header styling
+	 * @param {string} [options.shadow] - CSS class for modal-content box-shadow
 	 *
 	 * @example
 	 * modal.setHeader({
 	 *     text: 'Edit User',
 	 *     icon: 'bi-pencil',
-	 *     class: 'text-warning'
+	 *     class: 'modal-header-opus-orange bs-opus-orange',
+	 *     shadow: 'bs-opus-orange-3d'
 	 * });
 	 */
 	setHeader(options) {
@@ -98,16 +101,23 @@ class OpusModal {
 		if (options.text !== undefined) this.header.text = options.text;
 		if (options.icon !== undefined) this.header.icon = options.icon;
 		if (options.class !== undefined) this.header.class = options.class;
+		if (options.shadow !== undefined) this.header.shadow = options.shadow;
 		if (options.additionalText !== undefined) this.header.additionalText = options.additionalText;
 
 		// Apply header class if set
 		if (this.header.class) {
+			const pattern = /\b(modal-header-opus-|bs-opus-)[\w-]+\b/g;
 			$(this.headerClass)
-				.removeClass(function (index, className) {
-					let matchedClasses = className.match(/\b(modal-header-opus-|bs-opus-)[\w-]+\b/g);
-					return (matchedClasses || []).join(" ");
-				})
+				.removeClass((_, className) => (className.match(pattern) || []).join(" "))
 				.addClass(this.header.class);
+		}
+
+		// Apply modal shadow class if set
+		if (this.header.shadow) {
+			$(this.el)
+				.find(".modal-content")
+				.removeClass((_, className) => (className.match(/\b(bs-opus-)[\w-]+\b/g) || []).join(" "))
+				.addClass(this.header.shadow);
 		}
 
 		// Set icon and text
@@ -119,7 +129,11 @@ class OpusModal {
 		// Set additional text
 		if (this.header.additionalText) {
 			const h5 = this.el?.querySelector(".modal-header h5");
-			if (h5) h5.insertAdjacentHTML("afterend", this.header.additionalText);
+			if (h5) {
+				const existing = h5.parentNode.querySelector(".opus-modal-additional-text");
+				if (existing) existing.remove();
+				h5.insertAdjacentHTML("afterend", `<span class="opus-modal-additional-text">${this.header.additionalText}</span>`);
+			}
 		}
 	}
 

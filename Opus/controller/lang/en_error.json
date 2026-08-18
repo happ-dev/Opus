@@ -104,6 +104,10 @@
 					"message": "Event::uploadFile: Cannot move file to target directory!",
 					"details": "$value$"
 				}
+			},
+
+			"UnknownType": {
+				"message": "Unknown event type: $value$."
 			}
 		},
 
@@ -153,6 +157,31 @@
 				"class": {
 					"message": "AsyncPage::AsyncPage: Missing object declaration in file: '$value$'",
 					"details": "in configuration: $value$\\AsyncPage\\$value$."
+				}
+			}
+		},
+
+		"asyncSelect": {
+			"csrf": {
+				"message": "asyncSelect::doAsyncSelect: $value$."
+			},
+
+			"validate": {
+				"label": {
+					"message": "AsyncSelect::validate: Key 'label' is required and must be a non-empty string.",
+					"details": "asyncSelect\\$value$, element at index $value$."
+				},
+				"text": {
+					"message": "AsyncSelect::validate: Key 'text' is required and must be a non-empty array.",
+					"details": "asyncSelect\\$value$, element at index $value$."
+				},
+				"value": {
+					"message": "AsyncSelect::validate: Array 'value' must have the same length as 'text'.",
+					"details": "asyncSelect\\$value$, element at index $value$."
+				},
+				"scenario": {
+					"message": "AsyncSelect::validate: Cannot determine scenario for configuration.",
+					"details": "asyncSelect\\$value$."
 				}
 			}
 		},
@@ -298,6 +327,24 @@
 
 			"csrf": {
 				"message": "Form::csrfToken:: $value$."
+			},
+
+			"standardForm": {
+				"type": {
+					"message": "StandardForm::validate: Invalid column type: '$value$'.",
+					"details": "Allowed types: smallint, integer, bigint, numeric, decimal, real, double, float, serial, bigserial, boolean, date, timestamp, character, text."
+				},
+				"template": {
+					"message": "StandardForm::validate: Invalid template attribute: '$value$'.",
+					"details": "Allowed values: readonly | select | select-opus | default."
+				},
+				"message": "StandardForm::validate: Required key '$value$' is empty or not a string."
+			},
+
+			"standardFormElements": {
+				"validateData": {
+					"message": "StandardFormElements: Missing required key '$value$' in $data array."
+				}
 			}
 		},
 
@@ -505,6 +552,14 @@
 			"empty": {
 				"message": "Curl::fetch: $value$",
 				"details": "Error fetching data from:<br><em>$value$</em>"
+			}
+		}
+	},
+
+	"apps": {
+		"settings": {
+			"resetPassword": {
+				"message": "Settings::resetPassword: Error when changing password, user id: <em>$value$</em>."
 			}
 		}
 	}

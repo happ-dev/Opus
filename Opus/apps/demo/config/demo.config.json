@@ -119,11 +119,98 @@
 			"view": "vendor/Opus/apps/demo/src/datepicker/DemoDatePicker.php",
 			"class": "Opus\\apps\\demo\\src\\datepicker\\DemoDatePicker"
 		},
+		"demoSelect": {
+			"type": "apage",
+			"access": 3,
+			"view": "vendor/Opus/apps/demo/src/select/DemoSelect.php",
+			"class": "Opus\\apps\\demo\\src\\select\\DemoSelect"
+		},
 		"demoTable": {
 			"type": "apage",
 			"access": 3,
 			"view": "vendor/Opus/apps/demo/src/table/DemoTable.php",
 			"class": "Opus\\apps\\demo\\src\\table\\DemoTable"
+		}
+	},
+	"asyncSelect": {
+		"demoSelectText": {
+			"type": "api",
+			"access": 3,
+			"text": ["Kowalska", "Wiśniewska", "Dąbrowska", "Wójcik"]
+		},
+		"demoSelectValue": {
+			"type": "api",
+			"access": 3,
+			"text": ["Kowalska", "Wiśniewska", "Dąbrowska", "Wójcik"],
+			"value": ["1", "3", "5", "7"]
+		},
+		"demoSelectTextSql": {
+			"type": "api",
+			"access": 3,
+			"text": "SELECT firstname FROM demo.payroll;"
+		},
+		"demoSelectValueSql": {
+			"type": "api",
+			"access": 3,
+			"text": "SELECT id__payroll, CONCAT(lastname, ' ', firstname) AS name FROM demo.payroll;"
+		},
+		"demoSelectOptText": {
+			"type": "api",
+			"access": 3,
+			"opt": [
+				{
+					"label": "demo.select.event.opt-1.label",
+					"text": ["Kowalska", "Wiśniewska", "Dąbrowska", "Wójcik"]
+				},
+				{
+					"label": "demo.select.event.opt-2.label",
+					"text": ["Nowak", "Zieliński", "Lewandowski", "Kamiński"]
+				}
+			]
+		},
+		"demoSelectOptValue": {
+			"type": "api",
+			"access": 3,
+			"opt": [
+				{
+					"label": "demo.select.event.opt-1.label",
+					"text": ["Kowalska", "Wiśniewska", "Dąbrowska", "Wójcik"],
+					"value": ["1", "3", "5", "7"]
+				},
+				{
+					"label": "demo.select.event.opt-2.label",
+					"text": ["Nowak", "Zieliński", "Lewandowski", "Kamiński"],
+					"value": ["2", "4", "6", "8"]
+				}
+			]
+		},
+		"demoSelectOptTextSql": {
+			"type": "api",
+			"access": 3,
+			"opt": [
+				{
+					"label": "demo.select.event.opt-1.label",
+					"text": "SELECT firstname FROM demo.payroll WHERE id__payroll % 2 = 0;"
+				},
+				{
+					"label": "demo.select.event.opt-2.label",
+					"text": "SELECT firstname FROM demo.payroll WHERE id__payroll % 2 = 1;"
+				}
+			]
+		},
+		"demoSelectOptValueSql": {
+			"type": "api",
+			"access": 3,
+			"opt": [
+				{
+					"label": "demo.select.event.opt-1.label",
+					"text": "SELECT id__payroll, CONCAT(lastname, ' ', firstname) AS name FROM demo.payroll WHERE id__payroll % 2 = 0;"
+				},
+				{
+					"label": "demo.select.event.opt-2.label",
+					"text": "SELECT id__payroll, CONCAT(lastname, ' ', firstname) AS name FROM demo.payroll WHERE id__payroll % 2 = 1;"
+				}
+			]
 		}
 	}
 }

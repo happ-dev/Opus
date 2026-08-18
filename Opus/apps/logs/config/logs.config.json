@@ -12,5 +12,30 @@
 	},
 	"js": {
 		"index": "vendor/Opus/apps/logs/js/logs.js"
+	},
+	"vendor": ["datatables/datatables.min.css", "datatables/datatables.min.js"],
+	"idTableEvent": "id__logs-event-dt",
+	"tableEvent": {
+		"logs_dt": {
+			"primaryKey": "id__logs",
+			"table": "logs.logs",
+			"columns": [
+				{ "db": "id__logs" },
+				{ "db": "logtime" },
+				{ "db": "logtype" },
+				{ "db": "logpath" },
+				{ "db": "logmessage" },
+				{ "db": "logdetails" }
+			],
+			"join": false,
+			"disabled": {
+				"logtime": "true",
+				"logtype": "true",
+				"logpath": "true"
+			},
+			"access": {
+				"show": 0
+			}
+		}
 	}
 }

@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ułazowski
  * @Date:   2026-07-10 16:02:19
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-07-20 17:08:39
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-08-15 13:18:40
  **/
 
 namespace Opus\apps\demo\src\table;
@@ -18,16 +18,30 @@ use Opus\controller\event\TableEventValidate;
 use Opus\html\asyncpage\AsyncPage;
 use Opus\controller\lang\Lang;
 use Opus\html\form\Form;
+use Opus\html\form\StandardFormElements;
 use Opus\html\modal\Modal;
 use Opus\html\buttons\Buttons;
 use Opus\html\table\Table;
 
+/**
+ * Demo page controller for Table with asyncTable event
+ *
+ * Demonstrates Table class usage with DataTables integration,
+ * tableEvent configuration, authorization-based editor buttons,
+ * and modal form for bonus management via DemoTableBonusesApi.
+ * Content loaded asynchronously via AsyncPage.
+ *
+ * @package Opus\apps\demo\src\table
+ */
 class DemoTable implements InterfacePageController
 {
 	private object $form;
 	private object $lang;
 	private object $table;
 
+	/**
+	 * Initializes Form, Lang and Table instances
+	 */
 	public function __construct()
 	{
 		$this->form = new Form();
@@ -35,6 +49,11 @@ class DemoTable implements InterfacePageController
 		$this->table = new Table();
 	}
 
+	/**
+	 * Renders async page with table demo content
+	 *
+	 * @return void Outputs AsyncPage HTML
+	 */
 	public function asyncAction(): void
 	{
 		$options = new stdClass();
@@ -45,12 +64,18 @@ class DemoTable implements InterfacePageController
 		echo $apageTemplate->addAsyncPage('demo-table', $options)->get();
 	}
 
+	/**
+	 * Builds the full body HTML with nav-tabs layout
+	 *
+	 * @return string Complete body HTML with tabs: Table, Info, PHP, PHP-Api, JS, SQL, Config
+	 */
 	private function body(): string
 	{
 		$tabs = [
 			$this->bodyTabTableDemo(),
 			$this->bodyTabInfo(),
 			$this->bodyTabPHP(),
+			$this->bodyTabPHPApi(),
 			$this->bodyTabJS(),
 			$this->bodyTabSQL(),
 			$this->bodyTabConfig()
@@ -78,9 +103,15 @@ class DemoTable implements InterfacePageController
 		HTML;
 	}
 
+	/**
+	 * Builds the Table demo tab with DataTable and authorization attributes
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabTableDemo(): object
 	{
 		$obj = new stdClass();
+		$theadOptions = new stdClass();
 		$this->form->addElement([
 			'name' => 'opus-btn-demo-table-tab-table-demo',
 			'id' => 'id_opus-btn-demo-table-tab-table-demo',
@@ -96,6 +127,13 @@ class DemoTable implements InterfacePageController
 				'aria-selected' => 'true'
 			]
 		]);
+
+		$theadOptions->margin = '';
+		$theadOptions->required = false;
+		$theadOptions->floating = false;
+		$theadOptions->class = 'search-filter';
+		$theadOptions->size = 'sm';
+		$theadOptions->placeholder = true;
 
 		$this->table->addTable([
 			'attributes' => [
@@ -126,19 +164,51 @@ class DemoTable implements InterfacePageController
 				'id__payroll',													//  0 id__payroll
 				$this->lang->get('demo.table.db.payroll.firstname'),			//  1 firstname
 				$this->lang->get('demo.table.db.payroll.lastname'),				//  2 lastname
-				$this->lang->get('demo.table.db.payroll.active'),				//  3 active
+				(function () use ($theadOptions) {								//  3 active
+					$data = [
+						'attname' => 'active',
+						'comment' => 'demo.table.db.payroll.active'
+					];
+					StandardFormElements::booleanValue($data, $theadOptions);
+					return $data['el'];
+				})(),
+
+				//$this->lang->get('demo.table.db.payroll.active'),				//  3 active
 				'dept_id',														//  4 dept_id
 				$this->lang->get('demo.table.db.payroll.department'),			//  5 dept
 				$this->lang->get('demo.table.db.payroll.position'),				//  6 position
 				'contract',														//  7 contract
-				$this->lang->get('demo.table.db.payroll.hire_date'),			//  8 hire_date
+				(function () use ($theadOptions) {								//  8 hire_date
+					$data = [
+						'attname' => 'hire_date',
+						'comment' => 'demo.table.db.payroll.hire_date'
+					];
+					StandardFormElements::standardTypeValue($data, $theadOptions);
+					return $data['el'];
+				})(),
 				$this->lang->get('demo.table.db.payroll.salary'),				//  9 salary
-				$this->lang->get('demo.table.db.bonuses.granted'),				// 10 granted
+
+				(function () use ($theadOptions) {								// 10 granted
+					$data = [
+						'attname' => 'granted',
+						'comment' => 'demo.table.db.bonuses.granted'
+					];
+					StandardFormElements::booleanValue($data, $theadOptions);
+					return $data['el'];
+				})(),
 				$this->lang->get('demo.table.db.bonuses.reason'),				// 11 reason
 				$this->lang->get('demo.table.db.bonuses.amount'),				// 12 amount
 				$this->lang->get('demo.table.db.bonuses.percent'),				// 13 percent
 				$this->lang->get('demo.table.db.bonuses.total'),				// 14 total
-				$this->lang->get('demo.table.db.bonuses.pay_date')				// 15 pay_date
+
+				(function () use ($theadOptions) {								// 15 pay_date
+					$data = [
+						'attname' => 'pay_date',
+						'comment' => 'demo.table.db.bonuses.pay_date'
+					];
+					StandardFormElements::standardTypeValue($data, $theadOptions);
+					return $data['el'];
+				})()
 			],
 			'tfoot' => [
 				'',		//  0 id__payroll
@@ -172,6 +242,11 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Builds the Info tab with table options documentation
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabInfo(): object
 	{
 		$obj = new stdClass();
@@ -238,6 +313,11 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Builds the PHP tab displaying DemoTable.php source code
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabPHP(): object
 	{
 		$obj = new stdClass();
@@ -273,6 +353,51 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Builds the PHP-Api tab displaying DemoTableBonusesApi.php source code
+	 *
+	 * @return object{button: string, content: string}
+	 */
+	private function bodyTabPHPApi(): object
+	{
+		$obj = new stdClass();
+		$this->form->addElement([
+			'name' => 'opus-btn-demo-table-tab-php-api',
+			'id' => 'id_opus-btn-demo-table-tab-php-api',
+			'tag' => 'button',
+			'text' => '<i class="me-1 bi bi-filetype-php"></i><em>PHP-Api</em>',
+			'attributes' => [
+				'type' => 'button',
+				'class' => 'nav-link nav-link-opus',
+				'data-bs-toggle ' => 'tab',
+				'data-bs-target' => '#id_opus-demo-table-tab-php-api',
+				'role' => 'tab',
+				'aria-controls' => 'id_opus-demo-table-tab-php-api',
+				'aria-selected' => 'false'
+			]
+		]);
+
+		$content = htmlspecialchars(
+			file_get_contents('vendor/Opus/apps/demo/src/table/DemoTableBonusesApi.php'),
+			ENT_QUOTES | ENT_SUBSTITUTE,
+			'UTF-8'
+		);
+
+		$obj->button = $this->form->getElement('opus-btn-demo-table-tab-php-api');
+		$obj->content = <<<HTML
+		<div class="tab-pane fade" id="id_opus-demo-table-tab-php-api" role="tabpanel" aria-labelledby="id_opus-btn-demo-table-tab-php-api" tabindex="0">
+			<pre><code class="mt-3 language-php">{$content}</code></pre>
+		</div>
+		HTML;
+
+		return $obj;
+	}
+
+	/**
+	 * Builds the JS tab displaying objTable region from demo.js
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabJS(): object
 	{
 		$obj = new stdClass();
@@ -316,6 +441,11 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Builds the SQL tab displaying demo.sql schema
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabSQL(): object
 	{
 		$obj = new stdClass();
@@ -351,6 +481,11 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Builds the Config tab displaying relevant demo.config.json sections
+	 *
+	 * @return object{button: string, content: string}
+	 */
 	private function bodyTabConfig(): object
 	{
 		$obj = new stdClass();
@@ -400,6 +535,11 @@ class DemoTable implements InterfacePageController
 		return $obj;
 	}
 
+	/**
+	 * Creates modal instance for table row edit/bonus form
+	 *
+	 * @return Modal Configured modal with submit, cancel and close buttons
+	 */
 	public static function tableEditModal(): Modal
 	{
 		$buttons = new Buttons();

@@ -5,8 +5,8 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-28 20:27:19
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-04-01 11:32:23
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-08-10 11:23:07
  **/
 
 namespace Opus\html\form;
@@ -38,10 +38,11 @@ abstract class AbstractForm
 	 *     ],
 	 *
 	 *     'option' => [            // array required if tag is 'select', validated if tag is 'select'
+	 *         'empty' => '',       // boolean, if true skips text/value validation and renders empty select
 	 *         'all' => '',         // boolean, if not provided it defaults to false
 	 *         'ftext' => '',       // string|null, if not provided it defaults to null
 	 *         'value' => [],       // array with value select HTML tag, optional, if exists must have the same number of elements as 'text'
-	 *         'text' => [],        // array with option select HTML tag, required
+	 *         'text' => [],        // array with option select HTML tag, required (unless empty=true or optgroups present)
 	 *         'selected' => '',    // integer not required, text/value array element number
 	 *         'disabled' => []     // array of integers not required, text/value array element number
 	 *     ],
@@ -247,13 +248,13 @@ abstract class AbstractForm
 
 		// Add special options if configured
 		$html .= $element['option']['all'] === false ? null : '<option value="All">All</option>' . PHP_EOL;
-		$html .= !is_null($element['option']['ftext']) ? '<option value="">'
+		$html .= !is_null($element['option']['ftext']) ? '<option value="" data-ftext>'
 			. htmlspecialchars($element['option']['ftext'], ENT_QUOTES)
 			. '</option>' . PHP_EOL : null;
 
 		// Add regular options or option groups
 		$html .= match (isset($element['optgroups'])) {
-			true => $this->selectOptGroupType($element['optgroups']),
+			true => $this->selectOptGroupType($element['optgroups'], $element['option']['selected'] ?? null),
 			default => $this->selectOptionType($element['option'])
 		};
 
@@ -268,6 +269,7 @@ abstract class AbstractForm
 	 * handling selected and disabled states.
 	 *
 	 * @param array $option The options configuration containing:
+	 *                     - 'empty': if true, returns empty string (no options rendered)
 	 *                     - 'text': array of option text values
 	 *                     - 'value': array of option values (uses text as fallback)
 	 *                     - 'selected': index of the selected option (optional)
@@ -276,12 +278,20 @@ abstract class AbstractForm
 	 */
 	private function selectOptionType(array $option): string
 	{
+		if (($option['empty'] ?? false) === true) {
+			return '';
+		}
+
 		$html = '';
 
 		// Process each option
 		foreach ($option['text'] as $key => $text) {
 			// Handle selected and disabled attributes
-			$selected = isset($option['selected']) && $option['selected'] === $key ? ' selected' : null;
+			$selected = match (true) {
+				is_array($option['selected'] ?? null) => in_array($key, $option['selected']) ? ' selected' : null,
+				isset($option['selected']) && $option['selected'] === $key => ' selected',
+				default => null
+			};
 			$disabled = isset($option['disabled']) && in_array($key, $option['disabled']) ? ' disabled' : null;
 
 			// Get value (use text as fallback)
@@ -303,17 +313,26 @@ abstract class AbstractForm
 	 * based on the provided configuration.
 	 *
 	 * @param array $optgroups The option groups configuration
+	 * @param int|array|null $selected Selected value(s) to mark as selected
 	 * @return string The generated HTML markup for option groups
 	 */
-	private function selectOptGroupType(array $optgroups): string
+	private function selectOptGroupType(array $optgroups, int|array|null $selected = null): string
 	{
+		$selectedValues = match (true) {
+			is_array($selected) => $selected,
+			is_int($selected) => [$selected],
+			default => []
+		};
+
 		// Define the function to handle option in optgroup
-		$processOption = function ($option) {
+		$processOption = function ($option) use ($selectedValues) {
 			$html = '';
 
 			foreach ($option['text'] as $key => $text) {
 				$value = $option['value'][$key] ?? $text;
-				$html .= '<option value="' . htmlspecialchars($value, ENT_QUOTES) . '">' . htmlspecialchars($text, ENT_QUOTES) . '</option>' . PHP_EOL;
+				$sel = in_array($value, $selectedValues, true) ? ' selected' : '';
+				$html .= '<option value="' . htmlspecialchars($value, ENT_QUOTES) . '"' . $sel . '>'
+					. htmlspecialchars($text, ENT_QUOTES) . '</option>' . PHP_EOL;
 			}
 
 			return $html;

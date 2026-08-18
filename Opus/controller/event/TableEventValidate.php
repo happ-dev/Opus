@@ -24,6 +24,7 @@ class TableEventValidate
 	const VALID_COLUMN = ['options' => ['regexp' => '/^[\w\.\s\(\)"\',\-\+\*\/]+$/i']];
 	const VALID_JOIN = ['options' => ['regexp' => '/(LEFT\sJOIN\s)+[a-z_]+\.[a-z_]+(\sON\s)+(\()+[a-z_]+\.[a-zA-z0-9\._]+\s\=\s+[a-z_]+\.[a-zA-z0-9\._]+(\))/']];
 	const VALID_SELECT_SQL = ['options' => ['regexp' => '/(SELECT\s)+(id__)+[^_]+[\w\D]+(,\s)+[\w\._\(\)\-\'\s]+(\sFROM\s)+[a-z_]+\.[a-z_;]/']];
+	const VALID_SELECT_SQL_LIST = ['options' => ['regexp' => '/^SELECT\s[\w\.,\s\(\)\-\']+\sFROM\s[a-z_]+\.[a-z_]+(\s(ORDER BY|WHERE)\s[\w\s,]+(ASC|DESC)?)?;$/']];
 	const VALID_SELECT_TEXT = ['options' => ['regexp' => '/^[\w\d\._@#]+$/']];
 	const VALID_ACCESS_LEVEL = ['options' => ['regexp' => '/^(\d){1}$/']];
 	const VALID_DEFAULT_ACCESS_LEVEL = 9;
@@ -196,14 +197,15 @@ class TableEventValidate
 
 			if (is_string($value)) {
 				filter_var($value, FILTER_VALIDATE_REGEXP, self::VALID_SELECT_SQL)
-					?: throw new ControllerException(
-						'controller\tableEvent\validateConfig\param',
-						[
-							'message' => ['select', $value],
-							'details' => [$this->config->app, $this->config->event]
-						],
-						ControllerException::TYPE_API_EXCEPTION
-					);
+					?: filter_var($value, FILTER_VALIDATE_REGEXP, self::VALID_SELECT_SQL_LIST)
+						?: throw new ControllerException(
+							'controller\tableEvent\validateConfig\param',
+							[
+								'message' => ['select', $value],
+								'details' => [$this->config->app, $this->config->event]
+							],
+							ControllerException::TYPE_API_EXCEPTION
+						);
 				continue;
 			}
 

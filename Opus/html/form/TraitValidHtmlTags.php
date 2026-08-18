@@ -5,15 +5,14 @@
  * @Version: 1.0
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-28 20:32:57
- * @Last Modified by:   Tomasz Ulazowski
- * @Last Modified time: 2026-03-28 20:34:50
+ * @Last Modified by:   Tomasz Ułazowski
+ * @Last Modified time: 2026-07-26 15:21:55
  **/
 
 namespace Opus\html\form;
 
 trait TraitValidHtmlTags
 {
-
 	const HTML_TAGS_REQUIRING_CLOSING = [
 		// Document structure
 		'html',

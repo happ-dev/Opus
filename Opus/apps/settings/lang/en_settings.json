@@ -1,1 +1,10 @@
-{}
+{
+	"settings.table.thead.phone": "Contact number",
+	"settings.table.event.reset.password": "Reset",
+	"settings.modal.text.reset.password": "Reset password by Admin",
+	"settings.modal.groups.button": "Access groups",
+	"settings.alert.password.changed": "The password has been changed!!!",
+	"settings.alert.password.user.id": "User ID:",
+	"settings.alert.password.not.equal": "Passwords do not match",
+	"settings.alert.password.requirements": "Min. 8 characters, uppercase letter and digit"
+}

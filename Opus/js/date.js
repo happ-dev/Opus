@@ -92,6 +92,10 @@ class OpusDatePicker {
 				OpusDatePicker.close();
 			});
 
+			window.addEventListener("scroll", function () {
+				if (OpusDatePicker.activeInput) OpusDatePicker.close();
+			}, true);
+
 			OpusDatePicker._globalClose = true;
 		}
 	}

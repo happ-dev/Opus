@@ -6,7 +6,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 18:13:37
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-05 15:25:20
+ * @Last Modified time: 2026-08-09 09:34:18
  **/
 
 namespace Opus\html\sidebar;
@@ -123,7 +123,7 @@ class Sidebar		// all CSS class are to be improved as soon as they are created!!
 			<i class="is-opus-black {$size} bi {$item['icon']}"></i>
 			HTML
 			: <<<HTML
-			<div class="d-flex align-items-center justify-content-end">
+			<div class="d-flex align-items-center justify-content-end" style="margin-left: auto">
 				<i class="is-opus-black {$size} bi {$item['icon']}"></i>
 				<i class="is-opus-black bi bi-chevron-compact-right"></i>
 			</div>

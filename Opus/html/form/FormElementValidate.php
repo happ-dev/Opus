@@ -186,6 +186,7 @@ class FormElementValidate
 	 *
 	 * This method validates the option configuration for select HTML elements,
 	 * ensuring that required fields are present and all values are valid.
+	 * When option['empty'] is true, text validation is skipped (empty select).
 	 *
 	 * @param array &$option The option parameters to validate (passed by reference)
 	 * @param string $tag The HTML tag these options belong to
@@ -201,11 +202,12 @@ class FormElementValidate
 		}
 
 		$rules = [
-			'required' => match ($optGroups) {
-				true => [],
-				false => ['text']
+			'required' => match (true) {
+				$optGroups => [],
+				($option['empty'] ?? false) === true => [],
+				default => ['text']
 			},
-			'optional' => ['all', 'ftext', 'value', 'selected', 'disabled'],
+			'optional' => ['all', 'ftext', 'value', 'selected', 'disabled', 'empty'],
 			'defaults' => [
 				'all' => false,			// boolean, if not provided it defaults to false
 				'ftext' => null			// string|null, if not provided it defaults to null
@@ -217,7 +219,16 @@ class FormElementValidate
 				'value' => function ($value, $data) {
 					return is_array($value) && count($value) === count($data['text']) ? $value : false;
 				},
-				'selected' => fn($value, $data) => is_int($value) && $value >= 0 && $value < count($data['text']) ? $value : false,
+				'selected' => function ($value, $data) {
+					if (is_null($value)) return true;
+					if (is_array($value)) {
+						foreach ($value as $v) {
+							if (!is_int($v) && !is_string($v)) return false;
+						}
+						return true;
+					}
+					return is_int($value) && $value >= 0 && $value < count($data['text']) ? $value : false;
+				},
 				'disabled' => function ($value, $data) {
 
 					if (!is_array($value)) {

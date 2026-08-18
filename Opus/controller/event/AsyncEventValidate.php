@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-19 16:29:06
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 21:46:19
+ * @Last Modified time: 2026-07-29 20:12:50
  **/
 
 namespace Opus\controller\event;
@@ -44,7 +44,7 @@ class AsyncEventValidate
 					'message' => ['access', $this->config->async->access],
 					'details' => [$this->config->app, $this->config->event]
 				],
-				ControllerException::TYPE_API_EXCEPTION
+				$this->config->async->type
 			);
 	}
 
@@ -69,7 +69,7 @@ class AsyncEventValidate
 					'message' => ['file', $this->config->async->file],
 					'details' => [$this->config->app, $this->config->event]
 				],
-				ControllerException::TYPE_API_EXCEPTION
+				$this->config->async->type
 			);
 		}
 
@@ -77,7 +77,7 @@ class AsyncEventValidate
 			?: throw new ControllerException(
 				'controller\asyncEvent\validateConfig\file',
 				['message' => $this->config->async->file],
-				ControllerException::TYPE_API_EXCEPTION
+				$this->config->async->type
 			);
 	}
 
@@ -102,7 +102,7 @@ class AsyncEventValidate
 					'message' => ['class', $this->config->async->class],
 					'details' => [$this->config->app, $this->config->event]
 				],
-				ControllerException::TYPE_API_EXCEPTION
+				$this->config->async->type
 			);
 		}
 
@@ -120,7 +120,7 @@ class AsyncEventValidate
 					'message' => $this->config->async->file,
 					'details' => [$this->config->app, $this->config->event]
 				],
-				ControllerException::TYPE_API_EXCEPTION
+				$this->config->async->type
 			);
 		}
 

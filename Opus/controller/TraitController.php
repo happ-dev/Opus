@@ -6,7 +6,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-02-19 12:37:37
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-21 22:07:24
+ * @Last Modified time: 2026-07-27 17:17:01
  **/
 
 namespace Opus\controller;
@@ -29,8 +29,7 @@ trait TraitController
 		'vendor/Opus/js/chart.js',
 		'vendor/Opus/js/injecthtml.js',
 		'vendor/Opus/js/offcanvas.js',
-		'vendor/Opus/js/multiple.js',
-		'vendor/Opus/js/single.js',
+		'vendor/Opus/js/select.js',
 		'vendor/Opus/js/collapse.js'
 	];
 }

@@ -2,6 +2,7 @@
 	"controller.login.user": "Username:",
 	"controller.login.password": "Password:",
 	"controller.login.lang": "Profile language",
+	"controller.login.confirm.password": "Confirm password",
 	"event.message.save": "Data saved.",
 	"event.message.true": "True",
 	"event.message.false": "False",
@@ -10,6 +11,8 @@
 	"event.table.editor.header.add": "New entry",
 	"event.table.editor.header.edit": "Edit entry",
 	"event.table.editor.header.delete": "Delete entry",
+	"event.table.editor.select.ftext": "Choose...",
+	"html.buttons.standard": "Button",
 	"html.buttons.cancel": "Cancel",
 	"html.buttons.close": "Close",
 	"html.buttons.submit": "Submit",
@@ -93,5 +96,10 @@
 	"opus.datepicker.day.short.fri": "Fr",
 	"opus.datepicker.day.short.sat": "Sa",
 	"opus.datepicker.btn.today": "Today",
-	"opus.datepicker.btn.clear": "Clear"
+	"opus.datepicker.btn.clear": "Clear",
+	"opus.select.multi.trigger.singular": "chosen",
+	"opus.select.multi.trigger.plural": "selected",
+	"opus.select.load.button": "Load more...",
+	"opus.select.search.input": "Search...",
+	"opus.select.error": "Failed to load data."
 }

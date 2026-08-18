@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-20 18:50:48
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-22 10:43:42
+ * @Last Modified time: 2026-08-15 21:24:14
  **/
 
 namespace Opus\controller\event\editor;
@@ -176,8 +176,8 @@ class TableEditorFieldValues
 					$selectText[$i] = isset($keys[1]) ? $valueSelect[$keys[1]] : $valueSelect[$keys[0]];
 				}
 
-				$selectValue = array_merge([null], $selectValue);
-				$selectText = array_merge([null], $selectText);
+				//$selectValue = array_merge([null], $selectValue);
+				//$selectText = array_merge([null], $selectText);
 			})(),
 
 			// Default case: do nothing
@@ -191,9 +191,10 @@ class TableEditorFieldValues
 			'tag' => 'select',
 			'attributes' => [
 				'style' => 'width: 400px',
-				'class' => 'form-select form-select-sm'
+				'class' => 'form-select form-select-sm form-select-opus'
 			],
 			'option' => [
+				'ftext' => Lang::getInstance()->get('event.table.editor.select.ftext'),
 				'all' => false,
 				'value' => $selectValue,
 				'text' => $selectText

@@ -104,6 +104,10 @@
 					"message": "Event::uploadFile: Nie można przenieść pliku do katalogu docelowego!",
 					"details": "$value$"
 				}
+			},
+
+			"UnknownType": {
+				"message": "Nieznany typ zdarzenia: $value$."
 			}
 		},
 
@@ -153,6 +157,31 @@
 				"class": {
 					"message": "AsyncPage::AsyncPage: Brak deklaracji obiektu w pliku: '$value$'",
 					"details": "w konfiguracji: $value$\\AsyncPage\\$value$."
+				}
+			}
+		},
+
+		"asyncSelect": {
+			"csrf": {
+				"message": "asyncSelect::doAsyncSelect: $value$."
+			},
+
+			"validate": {
+				"label": {
+					"message": "AsyncSelect::validate: Klucz 'label' jest wymagany i musi być niepustym ciągiem znaków.",
+					"details": "asyncSelect\\$value$, element o indeksie $value$."
+				},
+				"text": {
+					"message": "AsyncSelect::validate: Klucz 'text' jest wymagany i musi być niepustą tablicą.",
+					"details": "asyncSelect\\$value$, element o indeksie $value$."
+				},
+				"value": {
+					"message": "AsyncSelect::validate: Tablica 'value' musi mieć taką samą długość jak 'text'.",
+					"details": "asyncSelect\\$value$, element o indeksie $value$."
+				},
+				"scenario": {
+					"message": "AsyncSelect::validate: Nie można określić scenariusza dla konfiguracji.",
+					"details": "asyncSelect\\$value$."
 				}
 			}
 		},
@@ -298,6 +327,24 @@
 
 			"csrf": {
 				"message": "Form::csrfToken:: $value$."
+			},
+
+			"standardForm": {
+				"type": {
+					"message": "StandardForm::validate: Nieprawidłowy typ kolumny: '$value$'.",
+					"details": "Dozwolone typy: smallint, integer, bigint, numeric, decimal, real, double, float, serial, bigserial, boolean, date, timestamp, character, text."
+				},
+				"template": {
+					"message": "StandardForm::validate: Nieprawidłowy atrybut template: '$value$'.",
+					"details": "Dozwolone wartości: readonly | select | select-opus | default."
+				},
+				"message": "StandardForm::validate: Wymagany klucz '$value$' jest pusty lub nie jest ciągiem znaków."
+			},
+
+			"standardFormElements": {
+				"validateData": {
+					"message": "StandardFormElements: Brak wymaganego klucza '$value$' w tablicy $data."
+				}
 			}
 		},
 
@@ -505,6 +552,14 @@
 			"empty": {
 				"message": "Curl::fetch: $value$",
 				"details": "Błąd pobierania danych z:<br><em>$value$</em>"
+			}
+		}
+	},
+
+	"apps": {
+		"settings": {
+			"resetPassword": {
+				"message": "Settings::resetPassword: Błąd podczas zmiany hasła, identyfikator użytkownika: <em>$value$</em>."
 			}
 		}
 	}

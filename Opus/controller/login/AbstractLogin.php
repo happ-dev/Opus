@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-13 08:31:06
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-24 13:24:16
+ * @Last Modified time: 2026-08-18 16:54:24
  **/
 
 namespace Opus\controller\login;
@@ -491,7 +491,7 @@ abstract class AbstractLogin
 				'prepare' => <<<SQL
 					SELECT login FROM users.users WHERE id__users = :id__users AND password = :pass
 				SQL,
-				':user' => $id,
+				':id__users' => $id,
 				':pass' => hash('sha256', $pass)
 			]
 		);

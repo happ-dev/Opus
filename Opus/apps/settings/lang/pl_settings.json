@@ -1,1 +1,10 @@
-{}
+{
+	"settings.table.thead.phone": "Numer kontaktowy",
+	"settings.table.event.reset.password": "Reset",
+	"settings.modal.text.reset.password": "Resetowanie hasła przez Administratora",
+	"settings.modal.groups.button": "Grupy dostępu",
+	"settings.alert.password.changed": "Hasło zostało zmienione!!!",
+	"settings.alert.password.user.id": "ID Użytkownika:",
+	"settings.alert.password.not.equal": "Hasła nie są zgodne",
+	"settings.alert.password.requirements": "Min. 8 znaków, wielka litera i cyfra"
+}

@@ -97,6 +97,7 @@ class TableEditorShow extends AbstractTableEditor
 
 		// Prepare and execute the query
 		$query = trim($this->config->table->select->{$value['attname']}, ';');
+		$query = preg_replace('/\sORDER BY\s.+$/i', '', $query);
 		$queryArray = explode(' ', $query);
 
 		$selectResult = match (!is_null($value['value'])) {

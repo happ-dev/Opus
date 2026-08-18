@@ -12,5 +12,79 @@
 	},
 	"js": {
 		"index": "vendor/Opus/apps/settings/js/settings.js"
+	},
+	"vendor": ["datatables/datatables.min.css", "datatables/datatables.min.js"],
+	"idTableEvent": "id__settings-event-dt",
+	"tableEvent": {
+		"users_dt": {
+			"primaryKey": "id__users",
+			"table": "users.users",
+			"columns": [
+				{ "db": "id__users" },
+				{ "db": "login" },
+				{ "db": "active" },
+				{ "db": "ulevel" },
+				{ "db": "gname" },
+				{ "db": "password" },
+				{ "db": "lastname" },
+				{ "db": "firstname" },
+				{ "db": "email" },
+				{ "db": "homephone" },
+				{ "db": "cellphone" },
+				{ "db": "lang" }
+			],
+			"join": "LEFT JOIN groups.groups ON (groups.glevel = users.ulevel)",
+			"select": {
+				"ulevel": "SELECT glevel, gname FROM groups.groups ORDER BY glevel ASC;",
+				"lang": {
+					"value": ["pl", "en"],
+					"text": ["Polski", "English"]
+				}
+			},
+			"buttons": {
+				"password": {
+					"text": "settings.table.event.reset.password",
+					"icon": "bi-braces-asterisk",
+					"attributes": {
+						"data-bs-toggle": "modal",
+						"data-bs-target": "#id__opus-settings-reset-password-by-admin"
+					}
+				}
+			},
+			"disabled": {
+				"password": "true"
+			},
+			"access": {
+				"show": 3,
+				"add": 9,
+				"edit": 9,
+				"delete": 9
+			}
+		},
+		"groups_dt": {
+			"primaryKey": "id__groups",
+			"table": "groups.groups",
+			"columns": [{ "db": "id__groups" }, { "db": "gname" }, { "db": "glevel" }],
+			"access": {
+				"show": 3,
+				"add": 9,
+				"edit": 9,
+				"delete": 9
+			}
+		}
+	},
+	"asyncEvent": {
+		"resetPasswordByAdmin": {
+			"type": "api",
+			"access": 9,
+			"file": "vendor/Opus/apps/settings/src/ResetPasswordByAdminApi.php",
+			"class": "Opus\\apps\\settings\\src\\ResetPasswordByAdminApi"
+		},
+		"groups": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/settings/src/GroupsApi.php",
+			"class": "Opus\\apps\\settings\\src\\GroupsApi"
+		}
 	}
 }

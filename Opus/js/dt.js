@@ -4,7 +4,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-07-13 21:33:02
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-16 19:12:14
+ * @Last Modified time: 2026-08-15 10:44:45
  **/
 
 /**
@@ -88,7 +88,7 @@ class OpusDataTable {
 	 *   @param {number} start - Start index of current page
 	 *   @param {number} end - End index of current page
 	 *   @param {Array} display - Display indexes
-	 * @param {Function|null} [options.fnDrawCallback] - Called after every table draw
+	 * @param {Function|null} [options.fnDrawCallback] - Called after every table draw; `this` = jQuery table element
 	 *   @callback fnDrawCallback
 	 *   @param {Object} oSettings - DataTables settings object
 	 * @param {Function|null} [options.initComplete] - Called once after first DataTable draw; `this` = OpusDataTable instance
@@ -97,6 +97,7 @@ class OpusDataTable {
 	 *   @param {Object} json - Ajax response (null if client-side)
 	 * @param {Array|null} [options.drawBySelectMenu] - Column indexes with <select> filters in thead
 	 * @param {Array|null} [options.drawByInputText] - Column indexes with <input> filters in thead
+	 * @param {Array|null} [options.hideColumns] - Column indexes to hide initially
 	 * @param {Object|null} [options.headerSlot] - Additional slot in the top bar
 	 * @param {string} options.headerSlot.id - ID for the slot div
 	 * @param {number} [options.headerSlot.columns=7] - Bootstrap grid columns (1-12)
@@ -122,6 +123,7 @@ class OpusDataTable {
 		const initComplete = options.initComplete || null;
 		const drawBySelectMenu = options.drawBySelectMenu || null;
 		const drawByInputText = options.drawByInputText || null;
+		const hideColumns = options.hideColumns || null;
 		const headerSlot = options.headerSlot || null;
 
 		// CSS styling to table
@@ -144,7 +146,7 @@ class OpusDataTable {
 			columnDefs,
 			...(footerCallback && { footerCallback }),
 			fnDrawCallback: (oSettings) => {
-				if (fnDrawCallback) fnDrawCallback(oSettings);
+				if (fnDrawCallback) fnDrawCallback.call($(this.table), oSettings);
 			},
 			initComplete: (settings, json) => {
 				$(this.table)
@@ -166,17 +168,20 @@ class OpusDataTable {
 					this.additionalHeaderSlot(headerSlot.id, headerSlot.columns);
 				}
 
+				// Draw by select menu
+				if (drawBySelectMenu) this.drawBySelectMenu(drawBySelectMenu);
+
+				// Draw by input text
+				if (drawByInputText) this.drawByInputText(drawByInputText);
+
+				// Hide columns
+				if (hideColumns) this.hideColumns(hideColumns);
+
 				if (initComplete) {
 					initComplete.call(this, settings, json);
 				}
 			},
 		});
-
-		// Draw by select menu
-		if (drawBySelectMenu) this.drawBySelectMenu(drawBySelectMenu);
-
-		// Draw by input text
-		if (drawByInputText) this.drawByInputText(drawByInputText);
 
 		// Reload table
 		serverSide ? this.reloadTable() : this.reloadBody();
@@ -358,7 +363,10 @@ class OpusDataTable {
 		$(this.tableWrapper).on("click", ".dt-clear-filter", () => {
 			oSettings.api.columns().every(function () {
 				$("input", this.header()).val(null);
-				$("select", this.header()).val(null);
+				$("select", this.header()).each(function () {
+					this.selectedIndex = 0;
+					this.dispatchEvent(new Event("change"));
+				});
 			});
 
 			$(this.tableWrapper).find('.dt-search > input[type="search"]').val(null);

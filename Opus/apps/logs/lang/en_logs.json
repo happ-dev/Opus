@@ -1,1 +1,7 @@
-{}
+{
+	"logs.table.thead.time": "Date, time",
+	"logs.table.thead.type": "Type",
+	"logs.table.thead.path": "Application",
+	"logs.table.thead.message": "Log",
+	"logs.table.thead.details": "Details"
+}

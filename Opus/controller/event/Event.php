@@ -6,13 +6,14 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-09 13:24:42
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 21:33:29
+ * @Last Modified time: 2026-08-01 14:15:49
  **/
 
 namespace Opus\controller\event;
 
 use Opus\config\Config;
 use Opus\controller\request\Request;
+use Opus\controller\exception\ControllerException;
 
 class Event
 {
@@ -33,7 +34,8 @@ class Event
 			'asyncevent',	// EventException -> AsyncEvent::doAsyncEvent()
 			'tableevent',	// EventException -> TableEvent::doTableEvent()
 			'injectevent',	// EventException -> InjectEvent::doInjectEvent()
-			'uploadevent'	// EventException -> UploadEvent::doUploadEvent()
+			'uploadevent',	// EventException -> UploadEvent::doUploadEvent()
+			'asyncselect'	// EventException -> AsyncSelect::doAsyncSelect()
 		],
 		self::TYPE_ASYNC_PAGE => [
 			'asyncpage'		// EventException -> AsyncPage::doAsyncPage()
@@ -97,7 +99,10 @@ class Event
 				self::TYPE_PAGE => $obj->indexAction(),
 				self::TYPE_API => $obj->apiAction(),
 				self::TYPE_CLI => $obj->cliAction(),
-				self::TYPE_ASYNC_PAGE => $obj->asyncAction()
+				default => throw new ControllerException(
+					'controller\event\UnknownType',
+					['message' => $type]
+				)
 			};
 		} catch (EventException $eventException) {
 			return match ($type) {

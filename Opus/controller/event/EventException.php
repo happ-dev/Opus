@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-15 15:24:12
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-05-21 21:37:18
+ * @Last Modified time: 2026-08-01 14:22:13
  **/
 
 namespace Opus\controller\event;
@@ -48,7 +48,8 @@ class EventException extends Exception implements InterfaceController
 			'asyncevent' => AsyncEvent::doAsyncEvent(),
 			'tableevent' => TableEvent::doTableEvent(),
 			'injectevent' => InjectEventHtml::doInjectEvent(),
-			'uploadevent' => UploadEvent::doUploadEvent()
+			'uploadevent' => UploadEvent::doUploadEvent(),
+			'asyncselect' => AsyncSelect::doAsyncSelect()
 		};
 	}
 

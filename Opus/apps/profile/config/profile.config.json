@@ -10,7 +10,21 @@
 	"view": {
 		"index": "vendor/Opus/apps/profile/view/profile.phtml"
 	},
-	"js":{
+	"js": {
 		"index": "vendor/Opus/apps/profile/js/profile.js"
+	},
+	"asyncEvent": {
+		"editProfile": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/profile/src/EditProfileApi.php",
+			"class": "Opus\\apps\\profile\\src\\EditProfileApi"
+		},
+		"changePassword": {
+			"type": "api",
+			"access": 3,
+			"file": "vendor/Opus/apps/profile/src/ChangePasswordApi.php",
+			"class": "Opus\\apps\\profile\\src\\ChangePasswordApi"
+		}
 	}
 }

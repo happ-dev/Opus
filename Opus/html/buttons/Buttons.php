@@ -6,16 +6,75 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-04-01 17:14:44
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-15 16:42:24
+ * @Last Modified time: 2026-08-11 12:37:46
  **/
 
 namespace Opus\html\buttons;
 
 use Opus\html\form\Form;
 use Opus\controller\lang\Lang;
+use stdClass;
 
 class Buttons
 {
+	/**
+	 * Creates a configurable standard button configuration
+	 *
+	 * Generates an array configuration for a general-purpose button with customizable
+	 * text, icon, Bootstrap variant, inline style, and disabled state.
+	 * The text is resolved via Lang class. Contains a <span> placeholder for spinner integration.
+	 *
+	 * @param string $name Base name for the button (used in ID and name attributes)
+	 * @param object|null $options Configuration object with optional properties:
+	 *   - text       (string) Lang key for button label, default 'html.buttons.standard'
+	 *   - icon       (string) Bootstrap icon class, default 'bi-square'
+	 *   - variant    (string) Bootstrap button variant (primary|danger|dark|...), default 'primary'
+	 *   - style      (string|false) Inline CSS style, default false (not added)
+	 *   - disabled   (bool) Whether button is disabled, default false
+	 *   - attributes (array|null) Additional HTML attributes to merge (e.g. ['data-bs-toggle' => 'modal', 'class' => 'extra-class'])
+	 * @return array Button configuration array compatible with Form::addElement()
+	 */
+	public static function standardButton(string $name, ?object $options = new stdClass()): array
+	{
+		$options->text ??= 'html.buttons.standard';
+		$options->icon ??= 'bi-square';
+		$options->variant ??= 'primary';
+		$options->style ??= false;
+		$options->disabled ??= false;
+		$options->attributes ??= null;
+
+		// Create base button configuration
+		$button = [
+			'name' => 'standard-btn-' . $name,
+			'id' => 'id_standard-btn-' . $name,
+			'tag' => 'button',
+			'text' => '<span></span><i class="me-1 bi '
+				. $options->icon
+				. '"></i><em>'
+				. Lang::getInstance()->get($options->text)
+				. '</em>',
+			'attributes' => [
+				'type' => 'button',
+				'class' => 'btn btn-sm btn-' . $options->variant . ' bs-opus-black-3d'
+			]
+		];
+
+		// Add attribute if specified
+		if ($options->style !== false) {
+			$button['attributes']['style'] = $options->style;
+		}
+
+		if ($options->disabled === true) {
+			$button['attributes'][] = 'disabled';
+		}
+
+		if ($options->attributes !== null) {
+			$button['attributes'] = array_merge_recursive($button['attributes'], $options->attributes);
+		}
+
+		return $button;
+	}
+
 	/**
 	 * Creates a cancel button configuration
 	 *

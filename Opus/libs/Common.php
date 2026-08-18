@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-02-01 20:27:50
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-02-07 17:01:17
+ * @Last Modified time: 2026-08-16 20:23:51
  **/
 
 namespace Opus\libs;
@@ -137,5 +137,41 @@ class Common
 			},
 			$array
 		);
+	}
+
+	/**
+	 * Detects if string is a SQL query and determines column mode
+	 *
+	 * @param string $sql Input string to check
+	 * @return string|false 'text' if single column, 'value' if two columns, false if not a query
+	 */
+	final public static function isQuery(string|array|null $sql): string|false
+	{
+		if (is_null($sql)) return false;
+		if (is_array($sql)) return false;
+
+		$sql = trim($sql);
+		$match = preg_match(
+			'/^\s*(?:WITH\b[\s\S]+?)?\bSELECT\s+(.+?)\s+FROM\b/i',
+			$sql,
+			$matches
+		);
+
+		if ($match !== 1) return false;
+
+		// count commas outside parentheses
+		$depth = 0;
+		$hasComma = false;
+		for ($i = 0, $len = strlen($matches[1]); $i < $len; $i++) {
+			match ($matches[1][$i]) {
+				'(' => $depth++,
+				')' => $depth--,
+				',' => $depth === 0 ? $hasComma = true : null,
+				default => null
+			};
+			if ($hasComma) break;
+		}
+
+		return $hasComma ? 'value' : 'text';
 	}
 }

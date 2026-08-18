@@ -1,1 +1,12 @@
-{}
+{
+	"profile.table.title": "Profil użytkownika",
+	"profile.button.edit": "Edytuj profil",
+	"profile.button.change.password": "Zmień hasło",
+	"profile.modal.edit.header": "Edytuj profil",
+	"profile.modal.password.header": "Zmień hasło",
+	"profile.form.current.password": "Aktualne hasło",
+	"profile.alert.edit.success": "Twoje dane zostały zaktualizowane.",
+	"profile.alert.password.success": "Twoje hasło zostało zaktualizowane.",
+	"profile.alert.password.not.equal": "Hasła nie są identyczne!",
+	"profile.alert.password.requirements": "Min. 8 znaków, wielka litera i cyfra."
+}

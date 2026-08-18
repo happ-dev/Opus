@@ -1,0 +1,16 @@
+<!-- main -->
+<main class="flex-grow-1 overflow-auto p-2">
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col col-md-4">
+				<?= $this->userProfile->getTableById('id_profile-dt') ?>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- id__opus-profile-edit -->
+<?= $this->modals->edit->getModalByName('opus-profile-edit') ?>
+
+<!-- id__opus-profile-change-password -->
+<?= $this->modals->changePassword->getModalByName('opus-profile-change-password') ?>

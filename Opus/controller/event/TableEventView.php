@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-05-21 19:27:54
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-22 10:29:05
+ * @Last Modified time: 2026-08-15 20:57:48
  **/
 
 namespace Opus\controller\event;
@@ -124,11 +124,16 @@ class TableEventView extends ArrayObject
 						const inputs = table.find('[id^="id_input_"]');
 						const checkboxes = table.find('input[type=checkbox]');
 
+						// Select inputs
+						OpusSelect.bindSelect(objTableEvent.el);
+
 						// Handle edit strategy - disable inputs for checked checkboxes
-						if (objTableEvent.strategy === 'edit') {
+						if (objTableEvent.data.strategy === 'edit') {
 							checkboxes.filter(':checked').each(function () {
 								const idChecked = this.id.split('_')[2];
-								inputs.filter('#id_input_' + idChecked).prop('disabled', true);
+								const input = inputs.filter('#id_input_' + idChecked);
+								input.prop('disabled', true);
+								input.prev('.opus-select-wrapper').addClass('disabled');
 							});
 						}
 
@@ -137,13 +142,13 @@ class TableEventView extends ArrayObject
 							const checkbox = this;
 							const idCheckbox = checkbox.id.split('_')[2];
 							const relatedInput = inputs.filter('#id_input_' + idCheckbox);
+							const relatedWrapper = relatedInput.prev('.opus-select-wrapper');
 
 							$(checkbox).on('click', function () {
 								relatedInput.prop('disabled', this.checked);
+								relatedWrapper.toggleClass('disabled', this.checked);
 							});
 						});
-
-						// Select in the future when __OpusSingleSelect__ is created
 
 						// Input date
 						OpusDatePicker.bindDate(objTableEvent.el);
@@ -155,6 +160,8 @@ class TableEventView extends ArrayObject
 						if (tableId && $.fn.dataTable.isDataTable(tableId)) {
 							$(tableId).DataTable().ajax.reload();
 						}
+
+						OpusSelect.destroy(objTableEvent.el);
 					},
 					onSave: () => {
 						objTableEvent.bindPostModal({
