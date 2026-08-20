@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-08-18 16:00:00
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-08-18 16:48:51
+ * @Last Modified time: 2026-08-20 19:35:17
  **/
 
 namespace Opus\apps\profile\src;
@@ -143,7 +143,7 @@ class UserProfile
 		$table = new Table();
 		$table->addTable([
 			'attributes' => [
-				'class' => 'table table-sm table-hover table-striped table-borderless',
+				'class' => 'table table-hover table-striped',
 				'id' => 'id_profile-dt'
 			],
 			'cname' => ['comment', 'value'],

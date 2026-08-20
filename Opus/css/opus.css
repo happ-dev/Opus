@@ -3,7 +3,7 @@
  * @Author: Tomasz Ulazowski
  * @Date:   2026-03-28 15:47:02
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-08-18 19:05:41
+ * @Last Modified time: 2026-08-20 20:36:56
  */
 
 :root,
@@ -228,6 +228,12 @@
 	--bs-offcanvas-brand-padding-y: 0.2825rem;
 	--bs-offcanvas-brand-margin-end: 1rem;
 	--bs-offcanvas-brand-font-size: 1.25rem;
+	--bs-offcanvas-color: var(--bs-body-color);
+}
+
+.offcanvas-header.bg-opus-green {
+	--bs-offcanvas-color: var(--bs-white);
+	color: var(--bs-white);
 }
 
 .nav-link-opus {
@@ -266,12 +272,18 @@
 @media (max-width: 1399.98px) {
 	.offcanvas-body .nav-link-opus {
 		font-size: var(--bs-body-font-size) !important;
-		color: var(--bs-gray-900) !important;
+		color: var(--bs-body-color) !important;
+		text-shadow: none;
 		text-align: center;
 	}
 
 	.offcanvas-body .nav-link-opus:hover {
-		filter: brightness(0) saturate(50%) invert(0) drop-shadow(3px 3px 6px rgba(50, 205, 50, 0.9));
+		filter: none;
+		color: var(--bs-success) !important;
+	}
+
+	.offcanvas-body hr {
+		color: var(--bs-secondary-color) !important;
 	}
 
 	.dashboard-sm-opus {
@@ -546,19 +558,22 @@
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.table-opus-thead-green {
+.table-opus-thead-green,
+.table > thead.table-opus-thead-green > tr > th {
 	color: var(--bs-white) !important;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 	background-image: var(--bi-opus-green);
 	border-style: none !important;
 }
 
-.table-opus-tfoot-green {
+.table-opus-tfoot-green,
+.table > tfoot.table-opus-tfoot-green > tr > th {
 	color: var(--bs-white) !important;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 	background-image: var(--bi-opus-inverted-green);
 	border-style: none !important;
 }
+
 
 .table-opus-dt-row-0 {
 	border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;

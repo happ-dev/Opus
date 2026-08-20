@@ -4,14 +4,14 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-08-18 16:00:00
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-08-18 18:34:06
+ * @Last Modified time: 2026-08-20 20:00:42
  **/
 
 /**
  * Profile page — edit profile modal, change password modal.
  */
 
-ogl.tableCSS("#id_profile-dt");
+ogl.tableCSS("#id_profile-dt", { thead: "table-opus-thead-green" });
 
 /** @type {OpusModal} Edit profile modal */
 const objProfileEdit = new OpusModal({
