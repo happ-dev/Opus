@@ -1,4 +1,4 @@
 Opus.code-workspace
-Opus/sql/role.sql
-Opus/sql/scheme/users.sql
+Opus/sql/role-private.sql
+Opus/sql/scheme/users-private.sql
 docs/*PLAN*
