@@ -281,7 +281,7 @@ abstract class AbstractLogin
 		$_SESSION['cellphone'] = $result[0]['cellphone'];
 		$_SESSION['lang'] = $result[0]['lang'];
 		$_SESSION['id'] = hash('sha256', $result[0]['login'] . date('Y-m-d H:i:s'));
-		$_SESSION['csrf'] = bin2hex(random_bytes(32));
+		$_SESSION['csrf'] = [bin2hex(random_bytes(32))];
 	}
 
 	/**
@@ -540,6 +540,7 @@ abstract class AbstractLogin
 		$_SESSION['homephone'] = $result[0]['homephone'];
 		$_SESSION['cellphone'] = $result[0]['cellphone'];
 		$_SESSION['lang'] = $result[0]['lang'];
-		$_SESSION['csrf'] = bin2hex(random_bytes(32));
+		$_SESSION['csrf'][] = bin2hex(random_bytes(32));
+		$_SESSION['csrf'] = array_slice($_SESSION['csrf'], -5);
 	}
 }

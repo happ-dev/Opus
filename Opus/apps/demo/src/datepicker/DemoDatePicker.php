@@ -361,7 +361,7 @@ class DemoDatePicker implements InterfacePageController
 		preg_match('/^(\/\*\*.*?\*\*\/)/s', $file, $header);
 
 		// Fragment between markers
-		preg_match('/\/\/ #region OpusDatePicker\n(.*?)\/\/ #endregion OpusDatePicker/s', $file, $block);
+		preg_match('/\/\/ #region OpusDatePicker\r?\n(.*?)\/\/ #endregion OpusDatePicker/s', $file, $block);
 
 		$content = htmlspecialchars(
 			trim(($header[1] ?? '') . "\n\n" . ($block[1] ?? '')),

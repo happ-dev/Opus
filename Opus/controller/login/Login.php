@@ -48,7 +48,7 @@ class Login extends AbstractLogin
 		$_SESSION['logged'] = false;
 		$_SESSION['level'] = '0';
 		$_SESSION['lang'] = Config::getConfig()->langs[0];
-		$_SESSION['csrf'] = bin2hex(random_bytes(32));
+		$_SESSION['csrf'] = [bin2hex(random_bytes(32))];
 
 		if ($logoutType === self::TYPE_LOGIN_PAGE) {
 			header('Location: ' . Request::url('index.php?page=main'));

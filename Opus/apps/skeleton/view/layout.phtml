@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?= $this->layout->title ?></title>
 	<link rel="shortcut icon" href="<?= $this->layout->icon ?>">
-	<meta name="csrf-token" content="<?= $_SESSION['csrf'] ?>">
+	<meta name="csrf-token" content="<?= end($_SESSION['csrf']) ?>">
 	<?= $this->layout->stylesheets ?>
 	<?= $this->layout->scripts ?>
 	<script type="text/javascript">

@@ -229,7 +229,7 @@ class Request
 			return 'CSRF token missing';
 		}
 
-		if (!hash_equals($_SESSION['csrf'], $token)) {
+		if (!in_array($token, $_SESSION['csrf'], true)) {
 			return 'CSRF token validation failed';
 		}
 

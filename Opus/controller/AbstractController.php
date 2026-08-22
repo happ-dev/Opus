@@ -117,7 +117,7 @@ abstract class AbstractController
 			$_SESSION['logged'] = false;
 			$_SESSION['level'] = '0';
 			$_SESSION['lang'] = 'en';
-			$_SESSION['csrf'] = bin2hex(random_bytes(32));
+			$_SESSION['csrf'] = [bin2hex(random_bytes(32))];
 		}
 	}
 

@@ -6,7 +6,7 @@
  * @Author: Tomasz Ułazowski
  * @Date:   2026-06-06 18:46:53
  * @Last Modified by:   Tomasz Ułazowski
- * @Last Modified time: 2026-07-13 12:42:25
+ * @Last Modified time: 2026-08-22 16:59:51
  **/
 
 namespace Opus\apps\demo\src\modal;
@@ -242,7 +242,7 @@ class DemoDynamicModalApi implements InterfaceApiController
 		preg_match('/^(\/\*\*.*?\*\*\/)/s', $file, $header);
 
 		// Fragment between markers
-		preg_match('/\/\/ #region objDynamicModal\n(.*?)\/\/ #endregion objDynamicModal/s', $file, $block);
+		preg_match('/\/\/ #region objDynamicModal\r?\n(.*?)\/\/ #endregion objDynamicModal/s', $file, $block);
 
 		$obj->content = htmlspecialchars(
 			trim(($header[1] ?? '') . "\n\n" . ($block[1] ?? '')),

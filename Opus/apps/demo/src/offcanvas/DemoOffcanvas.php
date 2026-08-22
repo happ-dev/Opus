@@ -385,7 +385,7 @@ class DemoOffcanvas implements InterfacePageController
 		preg_match('/^(\/\*\*.*?\*\*\/)/s', $file, $header);
 
 		// Fragment between markers
-		preg_match('/\/\/ #region objDynamicOffcanvas\n(.*?)\/\/ #endregion objDynamicOffcanvas/s', $file, $block);
+		preg_match('/\/\/ #region objDynamicOffcanvas\r?\n(.*?)\/\/ #endregion objDynamicOffcanvas/s', $file, $block);
 
 		$content = htmlspecialchars(
 			trim(($header[1] ?? '') . "\n\n" . ($block[1] ?? '')),

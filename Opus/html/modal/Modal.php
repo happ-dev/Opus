@@ -72,7 +72,6 @@ class Modal
 		$options->formId ??= 'id__' . $name . '-form';
 		$options->method ??= 'post';
 		$options->action ??= null;
-		$options->csrf ??= false;
 		$options->id ??= 'id__' . $name;
 		$options->static ??= ['data-bs-backdrop' => 'static'];
 		$options->keyboard ??= ['data-bs-keyboard' => 'true'];
@@ -141,16 +140,6 @@ class Modal
 			];
 		}
 
-		// Create csrf token
-		if ($options->csrf === true) {
-
-			// Generate a unique token for this specific form
-			$_SESSION['csrf'] = bin2hex(random_bytes(32));
-
-			$this->modals[$name]['csrf'] = [
-				'value' => $_SESSION['csrf']
-			];
-		}
 
 		// Header Text
 		$options->headerText = match (true) {
@@ -257,7 +246,7 @@ class Modal
 
 		foreach ($this->modals[$name] as $key => $value) {
 			// Skip nested elements that will be processed separately
-			if (in_array($key, ['child-div', 'form', 'header', 'body', 'footer', 'options', 'ajax', 'csrf']) || !is_scalar($value)) {
+			if (in_array($key, ['child-div', 'form', 'header', 'body', 'footer', 'options', 'ajax']) || !is_scalar($value)) {
 				continue;
 			}
 
@@ -293,10 +282,6 @@ class Modal
 			$html .= $form;
 		}
 
-		// Add input hidden csrf
-		if ($this->modals[$name]['options']->csrf !== false) {
-			$html .= '<input type="hidden" name="csrf" value="' . $this->modals[$name]['csrf']['value'] . '">';
-		}
 
 		// Add body
 		$html .= $this->modals[$name]['body'];

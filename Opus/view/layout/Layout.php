@@ -29,7 +29,6 @@ class Layout
 
 	public function __construct(protected mixed $content = null, protected object $layout)
 	{
-		$_SESSION['csrf'] = bin2hex(random_bytes(32));
 		$this->setHeadLibs();
 		$this->opusMainAppScript = $this->buildScript(
 			$this->layout->js,

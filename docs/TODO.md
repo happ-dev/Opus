@@ -18,4 +18,4 @@
 - [x] ~~Form::addElement, if there is no data in text, value add the message no data~~ (exception is correct behavior — empty select indicates a bug)
 - [x] Navbar incorrectly displays icons in resolutions other than the default browser resolution
 - [x] Offcanvas-header - after changing the theme to dark, the text color remains black
-- [ ] Opening the second page in the browser changes csrf token, which causes an error in the first page opened
+- [x] Opening the second page in the browser changes csrf token, which causes an error in the first page opened

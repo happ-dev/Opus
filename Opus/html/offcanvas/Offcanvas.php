@@ -75,7 +75,6 @@ class Offcanvas
 		$options->formId ??= 'id__' . $name . '-form';
 		$options->method ??= 'post';
 		$options->action ??= null;
-		$options->csrf ??= false;
 		$options->id ??= 'id__' . $name;
 		$options->header ??= null;
 		$options->headerClass ??= 'offcanvas-header-opus-green bs-opus-green';
@@ -175,16 +174,6 @@ class Offcanvas
 			];
 		}
 
-		// Create csrf token
-		if ($options->csrf === true) {
-
-			// Generate a unique token for this specific form
-			$_SESSION['csrf'] = bin2hex(random_bytes(32));
-
-			$this->offcanvas[$name]['csrf'] = [
-				'value' => $_SESSION['csrf']
-			];
-		}
 
 		// Header Text
 		$options->headerText = match (true) {
@@ -280,7 +269,7 @@ class Offcanvas
 
 		foreach ($this->offcanvas[$name] as $key => $value) {
 			// Skip nested elements that will be processed separately
-			if (in_array($key, ['form', 'header', 'body', 'footer', 'options', 'ajax', 'csrf']) || !is_scalar($value)) {
+			if (in_array($key, ['form', 'header', 'body', 'footer', 'options', 'ajax']) || !is_scalar($value)) {
 				continue;
 			}
 
@@ -304,10 +293,6 @@ class Offcanvas
 			$html .= $form;
 		}
 
-		// Add input hidden csrf
-		if ($this->offcanvas[$name]['options']->csrf !== false) {
-			$html .= '<input type="hidden" name="csrf" value="' . $this->offcanvas[$name]['csrf']['value'] . '">';
-		}
 
 		// Add body
 		$html .= $this->offcanvas[$name]['body'];

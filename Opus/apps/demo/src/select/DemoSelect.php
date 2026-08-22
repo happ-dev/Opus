@@ -741,7 +741,7 @@ class DemoSelect implements InterfacePageController
 		preg_match('/^(\/\*\*.*?\*\*\/)/s', $file, $header);
 
 		// Fragment between markers
-		preg_match('/\/\/ #region OpusSelect\n(.*?)\/\/ #endregion OpusSelect/s', $file, $block);
+		preg_match('/\/\/ #region OpusSelect\r?\n(.*?)\/\/ #endregion OpusSelect/s', $file, $block);
 
 		$content = htmlspecialchars(
 			trim(($header[1] ?? '') . "\n\n" . ($block[1] ?? '')),

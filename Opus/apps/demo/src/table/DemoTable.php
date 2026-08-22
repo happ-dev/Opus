@@ -423,7 +423,7 @@ class DemoTable implements InterfacePageController
 		preg_match('/^(\/\*\*.*?\*\*\/)/s', $file, $header);
 
 		// Fragment between markers
-		preg_match('/\/\/ #region objTable\n(.*?)\/\/ #endregion objTable/s', $file, $block);
+		preg_match('/\/\/ #region objTable\r?\n(.*?)\/\/ #endregion objTable/s', $file, $block);
 
 		$content = htmlspecialchars(
 			trim(($header[1] ?? '') . "\n\n" . ($block[1] ?? '')),
